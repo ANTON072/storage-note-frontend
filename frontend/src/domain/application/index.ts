@@ -2,4 +2,4 @@
 export { RootRoutes } from "./routes/RootRoutes";
 
 /** Components */
-export { AppProvider } from "./components/AppProvider";
+export { AppProviderContainer } from "./containers/AppProviderContainer";

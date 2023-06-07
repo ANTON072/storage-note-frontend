@@ -1,4 +1,4 @@
-import { AppProvider } from "@/domain/application";
+import { AppProviderContainer } from "@/domain/application";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { RootRoutes } from "@/domain/application";
@@ -44,9 +44,9 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <AppProvider>
+    <AppProviderContainer>
       <RouterProvider router={router} />
-    </AppProvider>
+    </AppProviderContainer>
   );
 }
 

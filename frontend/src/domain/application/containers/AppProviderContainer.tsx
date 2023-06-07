@@ -2,7 +2,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { Provider as ReduxProvider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "react-query";
 
-import { store } from "../../redux/store";
+import { store } from "../redux/store";
 
 type Props = {
   children: React.ReactNode;
@@ -10,7 +10,7 @@ type Props = {
 
 const queryClient = new QueryClient();
 
-export const AppProvider = ({ children }: Props) => {
+export const AppProviderContainer = ({ children }: Props) => {
   return (
     <ChakraProvider>
       <QueryClientProvider client={queryClient}>
