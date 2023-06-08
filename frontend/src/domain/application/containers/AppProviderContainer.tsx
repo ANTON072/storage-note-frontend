@@ -1,4 +1,4 @@
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { Provider as ReduxProvider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -11,8 +11,23 @@ type Props = {
 const queryClient = new QueryClient();
 
 export const AppProviderContainer = ({ children }: Props) => {
+  const theme = extendTheme({
+    styles: {
+      global: {
+        "html, body": {
+          height: "100%",
+        },
+        "#root": {
+          display: "grid",
+          gridTemplateRows: "auto 1fr auto",
+          height: "100%",
+        },
+      },
+    },
+  });
+
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <ReduxProvider store={store}>{children}</ReduxProvider>
       </QueryClientProvider>
