@@ -9,11 +9,17 @@ import {
 
 type Props = {
   title?: string;
-  description: string;
-  status: AlertStatus;
+  description?: string;
+  status?: AlertStatus;
 };
 
-export const FlashMessage = ({ title, description, status }: Props) => {
+export const FlashMessage = ({
+  title,
+  description,
+  status = "info",
+}: Props) => {
+  if (!description) return null;
+
   return (
     <Alert status={status}>
       <AlertIcon />

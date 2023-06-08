@@ -3,5 +3,13 @@ export const localizeFirebaseErrorMessage = (errorMessage: string) => {
     return "このメールアドレスはすでに登録されています";
   }
 
+  if (errorMessage.includes("user-not-found")) {
+    return "このメールアドレスは登録されていません";
+  }
+
+  if (errorMessage.includes("wrong-password")) {
+    return "パスワードに誤りがあります";
+  }
+
   return errorMessage;
 };

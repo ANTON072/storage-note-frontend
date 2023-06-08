@@ -13,7 +13,7 @@ import {
   FormErrorMessage,
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, UseFormReturn } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { PasswordLoginValues, passwordLoginSchema } from "../types";
