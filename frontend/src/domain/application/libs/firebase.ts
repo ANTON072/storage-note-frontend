@@ -1,4 +1,5 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
+import { getAuth, Auth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -15,3 +16,13 @@ const apps = getApps();
 export const firebaseApp = !apps.length
   ? initializeApp(firebaseConfig)
   : getApp();
+
+let authInstance: Auth;
+
+// シングルトンパターン
+export const firebaseGetAuth = () => {
+  if (!authInstance) {
+    authInstance = getAuth(firebaseApp);
+  }
+  return authInstance;
+};
