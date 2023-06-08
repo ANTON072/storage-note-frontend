@@ -82,7 +82,7 @@ export const RegisterFormContainer = () => {
 
   return (
     <>
-      <FormTitle title="新規アカウント登録" />
+      <FormTitle title="新規会員登録" />
       <FormBody>
         <RegisterForm
           onSubmit={(values: PasswordLoginValues) => {
