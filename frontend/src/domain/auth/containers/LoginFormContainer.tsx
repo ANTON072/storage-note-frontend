@@ -27,7 +27,7 @@ export const LoginFormContainer = () => {
 
   const [isShowResendMail, setShowResendMail] = useState(false);
 
-  const loginForm = useForm<PasswordLoginValues>({
+  const form = useForm<PasswordLoginValues>({
     defaultValues: {
       email: "",
       password: "",
@@ -67,6 +67,13 @@ export const LoginFormContainer = () => {
     }
   }, [auth.currentUser, setFlashMessageState]);
 
+  const handleSubmit = useCallback(
+    (values: PasswordLoginValues) => {
+      mutate(values);
+    },
+    [mutate]
+  );
+
   useEffect(() => {
     if (error instanceof Error) {
       setFlashMessageState({
@@ -86,15 +93,14 @@ export const LoginFormContainer = () => {
     <>
       <FormTitle title="ログイン" />
       <FormBody>
-        <LoginForm
-          form={loginForm}
-          onSubmit={(values: PasswordLoginValues) => {
-            mutate(values);
-          }}
-          isLoading={isLoading}
-          flashComponent={<FlashMessage />}
-          reSendMailComponent={renderReSendMailComponent}
-        />
+        <form onSubmit={form.handleSubmit(handleSubmit)}>
+          <LoginForm
+            form={form}
+            isLoading={isLoading}
+            flashComponent={<FlashMessage />}
+            reSendMailComponent={renderReSendMailComponent}
+          />
+        </form>
       </FormBody>
     </>
   );

@@ -11,25 +11,22 @@ import { Controller, UseFormReturn } from "react-hook-form";
 
 type Props = {
   form: UseFormReturn<{ email: string }>;
-  isLoading?: boolean;
-  onSubmit: (data: { email: string }) => void;
+  isLoading: boolean;
   flashComponent: React.ReactNode;
 };
 
 export const PasswordReminderForm = ({
   form,
   isLoading,
-  onSubmit,
   flashComponent,
 }: Props) => {
   const {
     control,
-    handleSubmit,
     formState: { errors },
   } = form;
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <>
       {flashComponent && <Box mb={4}>{flashComponent}</Box>}
       <Text fontSize={`sm`}>
         アカウントに登録されたメールアドレスを入力してください
@@ -57,6 +54,6 @@ export const PasswordReminderForm = ({
           再発行
         </Button>
       </Stack>
-    </form>
+    </>
   );
 };

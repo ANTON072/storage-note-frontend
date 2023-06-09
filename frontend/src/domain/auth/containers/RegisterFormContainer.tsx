@@ -25,7 +25,7 @@ export const RegisterFormContainer = () => {
 
   const { FlashMessage, setFlashMessageState } = useFlashMessage();
 
-  const registerForm = useForm<PasswordLoginValues>({
+  const form = useForm<PasswordLoginValues>({
     defaultValues: {
       email: "",
       password: "",
@@ -77,6 +77,14 @@ export const RegisterFormContainer = () => {
     return <Button onClick={handleReSendMail}>確認メールを再送信する</Button>;
   }, [handleReSendMail, isShowResendMail]);
 
+  const handleSubmit = useCallback(
+    (values: PasswordLoginValues) => {
+      setShowResendMail(false);
+      mutate(values);
+    },
+    [mutate]
+  );
+
   useEffect(() => {
     if (error instanceof Error) {
       setFlashMessageState({
@@ -90,16 +98,14 @@ export const RegisterFormContainer = () => {
     <>
       <FormTitle title="新規会員登録" />
       <FormBody>
-        <RegisterForm
-          form={registerForm}
-          onSubmit={(values: PasswordLoginValues) => {
-            setShowResendMail(false);
-            mutate(values);
-          }}
-          isLoading={isLoading}
-          flashComponent={<FlashMessage />}
-          reSendMailComponent={renderReSendMailComponent}
-        />
+        <form onSubmit={form.handleSubmit(handleSubmit)}>
+          <RegisterForm
+            form={form}
+            isLoading={isLoading}
+            flashComponent={<FlashMessage />}
+            reSendMailComponent={renderReSendMailComponent}
+          />
+        </form>
       </FormBody>
     </>
   );

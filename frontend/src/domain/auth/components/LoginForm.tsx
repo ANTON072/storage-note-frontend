@@ -19,7 +19,6 @@ import { PasswordLoginValues } from "../types";
 
 type Props = {
   form: UseFormReturn<PasswordLoginValues>;
-  onSubmit: (data: PasswordLoginValues) => void;
   isLoading: boolean;
   flashComponent?: React.ReactNode;
   reSendMailComponent?: React.ReactNode;
@@ -27,21 +26,19 @@ type Props = {
 
 export const LoginForm = ({
   form,
-  onSubmit,
   isLoading,
   flashComponent,
   reSendMailComponent,
 }: Props) => {
   const {
     control,
-    handleSubmit,
     formState: { errors },
   } = form;
 
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <>
       <Stack spacing={4}>
         {flashComponent}
         {reSendMailComponent}
@@ -108,6 +105,6 @@ export const LoginForm = ({
           </Text>
         </Stack>
       </Stack>
-    </form>
+    </>
   );
 };

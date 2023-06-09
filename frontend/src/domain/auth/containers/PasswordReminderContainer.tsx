@@ -10,14 +10,14 @@ import {
   localizeFirebaseErrorMessage,
   useFlashMessage,
 } from "@/domain/application";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
 export const PasswordReminderContainer = () => {
   const auth = firebaseGetAuth();
 
   const { FlashMessage, setFlashMessageState } = useFlashMessage();
 
-  const reminderForm = useForm<{ email: string }>({
+  const form = useForm<{ email: string }>({
     defaultValues: {
       email: "",
     },
@@ -35,6 +35,13 @@ export const PasswordReminderContainer = () => {
     },
   });
 
+  const handleSubmit = useCallback(
+    (values: { email: string }) => {
+      mutate(values);
+    },
+    [mutate]
+  );
+
   useEffect(() => {
     if (error instanceof Error) {
       setFlashMessageState({
@@ -48,14 +55,13 @@ export const PasswordReminderContainer = () => {
     <>
       <FormTitle title="パスワード再発行" />
       <FormBody>
-        <PasswordReminderForm
-          onSubmit={(values) => {
-            mutate(values);
-          }}
-          form={reminderForm}
-          isLoading={isLoading}
-          flashComponent={<FlashMessage />}
-        />
+        <form onSubmit={form.handleSubmit(handleSubmit)}>
+          <PasswordReminderForm
+            form={form}
+            isLoading={isLoading}
+            flashComponent={<FlashMessage />}
+          />
+        </form>
       </FormBody>
     </>
   );
