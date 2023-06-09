@@ -4,8 +4,7 @@ import {
   AuthError,
 } from "firebase/auth";
 import { useMutation } from "react-query";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { Button } from "@chakra-ui/react";
+import { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 import {
@@ -19,11 +18,10 @@ import { RegisterForm } from "../components/RegisterForm";
 import { PasswordLoginValues, passwordLoginSchema } from "../types";
 import { FormTitle } from "../components/FormTitle";
 import { FormBody } from "../components/FormBody";
+import { useReSendMail } from "../hooks/useReSendMail";
 
 export const RegisterFormContainer = () => {
   const auth = firebaseGetAuth();
-
-  const { FlashMessage, setFlashMessageState } = useFlashMessage();
 
   const form = useForm<PasswordLoginValues>({
     defaultValues: {
@@ -33,7 +31,23 @@ export const RegisterFormContainer = () => {
     resolver: yupResolver(passwordLoginSchema),
   });
 
-  const [isShowResendMail, setShowResendMail] = useState(false);
+  const { FlashMessage, setFlashMessageState } = useFlashMessage();
+
+  const { ResendMailButton, setShowResendMailButton } = useReSendMail({
+    auth,
+    onSuccess: () => {
+      setFlashMessageState({
+        description: "確認メールを送信しました",
+        status: "success",
+      });
+    },
+    onError: () => {
+      setFlashMessageState({
+        description: "確認メールの送信に失敗しました",
+        status: "error",
+      });
+    },
+  });
 
   const { mutate, isLoading, error } = useMutation({
     mutationFn: (values: PasswordLoginValues) => {
@@ -55,34 +69,17 @@ export const RegisterFormContainer = () => {
       console.log(error.message);
       // ユーザーがすでに存在する場合
       if (auth.currentUser) {
-        setShowResendMail(true);
+        setShowResendMailButton(true);
       }
     },
   });
 
-  const handleReSendMail = useCallback(async () => {
-    if (auth.currentUser) {
-      await sendEmailVerification(auth.currentUser);
-      setFlashMessageState({
-        description: "確認メールを再送信しました",
-        status: "success",
-      });
-      setShowResendMail(false);
-    }
-  }, [auth.currentUser, setFlashMessageState]);
-
-  const renderReSendMailComponent = useMemo(() => {
-    if (!isShowResendMail) return null;
-
-    return <Button onClick={handleReSendMail}>確認メールを再送信する</Button>;
-  }, [handleReSendMail, isShowResendMail]);
-
   const handleSubmit = useCallback(
     (values: PasswordLoginValues) => {
-      setShowResendMail(false);
+      setShowResendMailButton(false);
       mutate(values);
     },
-    [mutate]
+    [mutate, setShowResendMailButton]
   );
 
   useEffect(() => {
@@ -103,7 +100,7 @@ export const RegisterFormContainer = () => {
             form={form}
             isLoading={isLoading}
             flashComponent={<FlashMessage />}
-            reSendMailComponent={renderReSendMailComponent}
+            reSendMailComponent={<ResendMailButton />}
           />
         </form>
       </FormBody>
