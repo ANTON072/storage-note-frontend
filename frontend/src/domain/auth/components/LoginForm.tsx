@@ -45,7 +45,7 @@ export const LoginForm = ({
       <Stack spacing={4}>
         {flashComponent}
         {reSendMailComponent}
-        <FormControl id="email" isRequired isInvalid={false}>
+        <FormControl id="email" isRequired isInvalid={!!errors.email}>
           <FormLabel>メールアドレス</FormLabel>
           <Controller
             name="email"

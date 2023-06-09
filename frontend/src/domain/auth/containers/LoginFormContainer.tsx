@@ -43,6 +43,7 @@ export const LoginFormContainer = () => {
     onSuccess: ({ user }) => {
       if (user.emailVerified) {
         // ログイン成功
+        console.log("user", user);
       } else {
         setFlashMessage("メールアドレスが認証されていません");
         setAlertStatus("error");
