@@ -6,18 +6,16 @@ import { useMutation } from "react-query";
 import { sendPasswordResetEmail } from "firebase/auth";
 
 import {
-  FlashMessage,
   firebaseGetAuth,
   localizeFirebaseErrorMessage,
+  useFlashMessage,
 } from "@/domain/application";
-import { AlertStatus } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export const PasswordReminderContainer = () => {
   const auth = firebaseGetAuth();
 
-  const [flashMessage, setFlashMessage] = useState("");
-  const [alertStatus, setAlertStatus] = useState<AlertStatus | undefined>();
+  const { FlashMessage, setFlashMessageState } = useFlashMessage();
 
   const reminderForm = useForm<{ email: string }>({
     defaultValues: {
@@ -30,17 +28,21 @@ export const PasswordReminderContainer = () => {
       return sendPasswordResetEmail(auth, values.email);
     },
     onSuccess: () => {
-      setFlashMessage("再設定の手続きをメールしました");
-      setAlertStatus("success");
+      setFlashMessageState({
+        description: "再設定の手続きをメールしました",
+        status: "success",
+      });
     },
   });
 
   useEffect(() => {
     if (error instanceof Error) {
-      setFlashMessage(localizeFirebaseErrorMessage(error.message));
-      setAlertStatus("error");
+      setFlashMessageState({
+        description: localizeFirebaseErrorMessage(error.message),
+        status: "error",
+      });
     }
-  }, [error, isError]);
+  }, [error, isError, setFlashMessageState]);
 
   return (
     <>
@@ -52,9 +54,7 @@ export const PasswordReminderContainer = () => {
           }}
           form={reminderForm}
           isLoading={isLoading}
-          flashComponent={
-            <FlashMessage status={alertStatus} description={flashMessage} />
-          }
+          flashComponent={<FlashMessage />}
         />
       </FormBody>
     </>
