@@ -9,18 +9,24 @@ import {
   RegisterRoutes,
 } from "@/domain/auth";
 import { HomeRoutes } from "@/domain/home";
+import { DashboardRoute } from "@/domain/dashboard";
 
 const router = createBrowserRouter([
   {
     element: <RootRoutes />,
     children: [
+      // 公開ページ
       {
-        // 認証が必要なページ
+        path: "/",
+        element: <HomeRoutes />,
+      },
+      // 認証が必要なページ
+      {
         element: <AuthRoutes />,
         children: [
           {
-            path: "/",
-            element: <HomeRoutes />,
+            path: "/app",
+            element: <DashboardRoute />,
           },
         ],
       },
