@@ -5,13 +5,13 @@ import {
 } from "firebase/auth";
 import { useMutation } from "react-query";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { AlertStatus, Button } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 
 import {
-  FlashMessage,
   firebaseGetAuth,
   localizeFirebaseErrorMessage,
+  useFlashMessage,
 } from "@/domain/application";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -23,6 +23,8 @@ import { FormBody } from "../components/FormBody";
 export const RegisterFormContainer = () => {
   const auth = firebaseGetAuth();
 
+  const { FlashMessage, setFlashMessageState } = useFlashMessage();
+
   const registerForm = useForm<PasswordLoginValues>({
     defaultValues: {
       email: "",
@@ -31,8 +33,6 @@ export const RegisterFormContainer = () => {
     resolver: yupResolver(passwordLoginSchema),
   });
 
-  const [flashMessage, setFlashMessage] = useState("");
-  const [alertStatus, setAlertStatus] = useState<AlertStatus | undefined>();
   const [isShowResendMail, setShowResendMail] = useState(false);
 
   const { mutate, isLoading, error } = useMutation({
@@ -46,8 +46,10 @@ export const RegisterFormContainer = () => {
     onSuccess: ({ user }) => {
       // 確認メールの送信
       sendEmailVerification(user);
-      setFlashMessage("確認メールを送信しました");
-      setAlertStatus("success");
+      setFlashMessageState({
+        description: "確認メールを送信しました",
+        status: "success",
+      });
     },
     onError: (error: AuthError) => {
       console.log(error.message);
@@ -61,19 +63,13 @@ export const RegisterFormContainer = () => {
   const handleReSendMail = useCallback(async () => {
     if (auth.currentUser) {
       await sendEmailVerification(auth.currentUser);
-      setFlashMessage("確認メールを再送信しました");
-      setAlertStatus("success");
+      setFlashMessageState({
+        description: "確認メールを再送信しました",
+        status: "success",
+      });
       setShowResendMail(false);
     }
-  }, [auth.currentUser]);
-
-  const renderFlashComponent = useMemo(() => {
-    if (alertStatus && flashMessage) {
-      return <FlashMessage status={alertStatus} description={flashMessage} />;
-    }
-
-    return null;
-  }, [alertStatus, flashMessage]);
+  }, [auth.currentUser, setFlashMessageState]);
 
   const renderReSendMailComponent = useMemo(() => {
     if (!isShowResendMail) return null;
@@ -83,10 +79,12 @@ export const RegisterFormContainer = () => {
 
   useEffect(() => {
     if (error instanceof Error) {
-      setFlashMessage(localizeFirebaseErrorMessage(error.message));
-      setAlertStatus("error");
+      setFlashMessageState({
+        description: localizeFirebaseErrorMessage(error.message),
+        status: "error",
+      });
     }
-  }, [error]);
+  }, [error, setFlashMessageState]);
 
   return (
     <>
@@ -99,7 +97,7 @@ export const RegisterFormContainer = () => {
             mutate(values);
           }}
           isLoading={isLoading}
-          flashComponent={renderFlashComponent}
+          flashComponent={<FlashMessage />}
           reSendMailComponent={renderReSendMailComponent}
         />
       </FormBody>

@@ -15,3 +15,9 @@ export { FlashMessage } from "./components/FlashMessage";
 /** libs */
 export { firebaseApp, firebaseGetAuth } from "./libs/firebase";
 export { localizeFirebaseErrorMessage } from "./libs/localizeFirebaseErrorMessage";
+
+/** hooks */
+export { useFlashMessage } from "./hooks/useFlashMessage";
+
+/** types */
+export type { FlashMessageState } from "./hooks/useFlashMessage";
