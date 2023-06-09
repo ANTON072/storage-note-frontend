@@ -59,11 +59,11 @@ export const LoginFormContainer = () => {
   const handleReSendMail = useCallback(async () => {
     if (auth.currentUser) {
       await sendEmailVerification(auth.currentUser);
-      setShowResendMail(false);
       setFlashMessageState({
         description: "確認メールを送信しました",
         status: "success",
       });
+      setShowResendMail(false);
     }
   }, [auth.currentUser, setFlashMessageState]);
 
