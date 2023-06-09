@@ -7,6 +7,7 @@ import {
   AuthFormRootRoutes,
   LoginRoutes,
   RegisterRoutes,
+  PasswordReminderRoutes,
 } from "@/domain/auth";
 import { HomeRoutes } from "@/domain/home";
 import { DashboardRoute } from "@/domain/dashboard";
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
           {
             path: "/auth/register",
             element: <RegisterRoutes />,
+          },
+          {
+            path: "/auth/password-reminder",
+            element: <PasswordReminderRoutes />,
           },
         ],
       },
