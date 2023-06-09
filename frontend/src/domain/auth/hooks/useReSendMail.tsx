@@ -32,13 +32,20 @@ export const useReSendMail = ({ auth, onSuccess, onError }: Props) => {
   const ResendMailButton: React.FC = () => {
     if (!isShowResendMailButton) return <></>;
 
-    return <Button onClick={() => mutate()}>確認メールを再送信する</Button>;
+    return (
+      <Button
+        onClick={() => mutate()}
+        isLoading={isLoading}
+        loadingText="送信中"
+      >
+        確認メールを再送信する
+      </Button>
+    );
   };
 
   return {
     isShowResendMailButton,
     setShowResendMailButton,
     ResendMailButton,
-    isSendingMail: isLoading,
   };
 };
