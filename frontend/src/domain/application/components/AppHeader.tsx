@@ -11,6 +11,7 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import { Link as RouterLink } from "react-router-dom";
 
 import { APP_NAME } from "../constants";
 
@@ -51,7 +52,7 @@ export const AppHeader = () => {
             as="h1"
             fontWeight="bold"
           >
-            {APP_NAME}
+            <RouterLink to="/">{APP_NAME}</RouterLink>
           </Text>
           {/* メニュー */}
           {/* <Flex display={{ base: "none", md: "flex" }} ml={10}>
@@ -66,22 +67,22 @@ export const AppHeader = () => {
           spacing={6}
         >
           <Button
-            as={"a"}
+            as={RouterLink}
             fontSize={"sm"}
             fontWeight={400}
             variant={"link"}
-            href={"#"}
+            to={"/auth/login"}
           >
             ログイン
           </Button>
           <Button
-            as={"a"}
+            as={RouterLink}
             display={{ base: "none", md: "inline-flex" }}
             fontSize={"sm"}
             fontWeight={600}
             color={"white"}
             bg={"pink.400"}
-            href={"#"}
+            to={"/auth/register"}
             _hover={{
               bg: "pink.300",
             }}
