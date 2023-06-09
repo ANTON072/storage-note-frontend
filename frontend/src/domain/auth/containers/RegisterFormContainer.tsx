@@ -4,27 +4,38 @@ import {
   AuthError,
 } from "firebase/auth";
 import { useMutation } from "react-query";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { AlertStatus, Button } from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
 
 import {
   FlashMessage,
   firebaseGetAuth,
   localizeFirebaseErrorMessage,
 } from "@/domain/application";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import { RegisterForm } from "../components/RegisterForm";
-import { PasswordLoginValues } from "../types";
+import { PasswordLoginValues, passwordLoginSchema } from "../types";
 import { FormTitle } from "../components/FormTitle";
 import { FormBody } from "../components/FormBody";
 
 export const RegisterFormContainer = () => {
   const auth = firebaseGetAuth();
 
-  const [isAlreadyExist, setAlreadyExist] = useState(false);
-  const [isResendMail, setResendMail] = useState(false);
+  const registerForm = useForm<PasswordLoginValues>({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    resolver: yupResolver(passwordLoginSchema),
+  });
 
-  const { mutate, isLoading, isError, isSuccess, error } = useMutation({
+  const [flashMessage, setFlashMessage] = useState("");
+  const [alertStatus, setAlertStatus] = useState<AlertStatus | undefined>();
+  const [isShowResendMail, setShowResendMail] = useState(false);
+
+  const { mutate, isLoading, error } = useMutation({
     mutationFn: (values: PasswordLoginValues) => {
       return createUserWithEmailAndPassword(
         auth,
@@ -35,12 +46,14 @@ export const RegisterFormContainer = () => {
     onSuccess: ({ user }) => {
       // 確認メールの送信
       sendEmailVerification(user);
+      setFlashMessage("確認メールを送信しました");
+      setAlertStatus("success");
     },
     onError: (error: AuthError) => {
       console.log(error.message);
       // ユーザーがすでに存在する場合
       if (auth.currentUser) {
-        setAlreadyExist(true);
+        setShowResendMail(true);
       }
     },
   });
@@ -48,45 +61,41 @@ export const RegisterFormContainer = () => {
   const handleReSendMail = useCallback(async () => {
     if (auth.currentUser) {
       await sendEmailVerification(auth.currentUser);
-      setResendMail(true);
-      setAlreadyExist(false);
+      setFlashMessage("確認メールを再送信しました");
+      setAlertStatus("success");
+      setShowResendMail(false);
     }
   }, [auth.currentUser]);
 
-  const resultStatus: AlertStatus | undefined = useMemo(() => {
-    if (isSuccess || isResendMail) return "success";
-    if (isError) return "error";
-    return undefined;
-  }, [isError, isResendMail, isSuccess]);
-
-  const flashMessage = useMemo(() => {
-    if (isSuccess || isResendMail) return "確認メールを送信しました";
-    if (error instanceof Error)
-      return localizeFirebaseErrorMessage(error.message);
-    return undefined;
-  }, [error, isResendMail, isSuccess]);
-
   const renderFlashComponent = useMemo(() => {
-    if (resultStatus && flashMessage) {
-      return <FlashMessage status={resultStatus} description={flashMessage} />;
+    if (alertStatus && flashMessage) {
+      return <FlashMessage status={alertStatus} description={flashMessage} />;
     }
 
     return null;
-  }, [flashMessage, resultStatus]);
+  }, [alertStatus, flashMessage]);
 
   const renderReSendMailComponent = useMemo(() => {
-    if (!isAlreadyExist) return null;
+    if (!isShowResendMail) return null;
 
     return <Button onClick={handleReSendMail}>確認メールを再送信する</Button>;
-  }, [handleReSendMail, isAlreadyExist]);
+  }, [handleReSendMail, isShowResendMail]);
+
+  useEffect(() => {
+    if (error instanceof Error) {
+      setFlashMessage(localizeFirebaseErrorMessage(error.message));
+      setAlertStatus("error");
+    }
+  }, [error]);
 
   return (
     <>
       <FormTitle title="新規会員登録" />
       <FormBody>
         <RegisterForm
+          form={registerForm}
           onSubmit={(values: PasswordLoginValues) => {
-            setResendMail(false);
+            setShowResendMail(false);
             mutate(values);
           }}
           isLoading={isLoading}

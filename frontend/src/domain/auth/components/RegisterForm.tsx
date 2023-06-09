@@ -13,12 +13,12 @@ import {
   FormErrorMessage,
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
-import { useForm, Controller, UseFormReturn } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { Controller, UseFormReturn } from "react-hook-form";
 
-import { PasswordLoginValues, passwordLoginSchema } from "../types";
+import { PasswordLoginValues } from "../types";
 
 type Props = {
+  form: UseFormReturn<PasswordLoginValues>;
   onSubmit: (data: PasswordLoginValues) => void;
   isLoading: boolean;
   flashComponent?: React.ReactNode;
@@ -30,18 +30,13 @@ export const RegisterForm = ({
   isLoading,
   flashComponent,
   reSendMailComponent,
+  form,
 }: Props) => {
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<PasswordLoginValues>({
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-    resolver: yupResolver(passwordLoginSchema),
-  });
+  } = form;
 
   const [showPassword, setShowPassword] = useState(false);
 
