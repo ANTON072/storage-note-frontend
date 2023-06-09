@@ -6,7 +6,7 @@ type Props<T extends FieldValues> = {
   fieldName: Path<T>;
 };
 
-export const MailField = <T extends FieldValues>({
+export const MailField = <T extends FieldValues = FieldValues>({
   form: {
     control,
     formState: { errors },

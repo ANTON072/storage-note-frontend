@@ -46,7 +46,9 @@ export const PasswordField = <T extends FieldValues>({
         </InputRightElement>
       </InputGroup>
       {errors.password && (
-        <FormErrorMessage>{errors.password.message as string}</FormErrorMessage>
+        <FormErrorMessage>
+          <>{errors.password.message}</>
+        </FormErrorMessage>
       )}
     </FormControl>
   );
