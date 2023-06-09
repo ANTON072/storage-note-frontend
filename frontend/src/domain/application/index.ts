@@ -10,8 +10,13 @@ export { AppHeaderContainer } from "./containers/AppHeaderContainer";
 
 /** Components */
 export { AppFooter } from "./components/AppFooter";
-export { FlashMessage } from "./components/FlashMessage";
 
 /** libs */
 export { firebaseApp, firebaseGetAuth } from "./libs/firebase";
 export { localizeFirebaseErrorMessage } from "./libs/localizeFirebaseErrorMessage";
+
+/** hooks */
+export { useFlashMessage } from "./hooks/useFlashMessage";
+
+/** types */
+export type { FlashMessageState } from "./hooks/useFlashMessage";

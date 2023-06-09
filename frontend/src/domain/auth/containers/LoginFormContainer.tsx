@@ -1,39 +1,48 @@
-import {
-  signInWithEmailAndPassword,
-  sendEmailVerification,
-  AuthError,
-} from "firebase/auth";
+import { signInWithEmailAndPassword, AuthError } from "firebase/auth";
 import { useMutation } from "react-query";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useCallback, useEffect } from "react";
+import { useForm } from "react-hook-form";
 
 import {
-  FlashMessage,
   firebaseGetAuth,
   localizeFirebaseErrorMessage,
+  useFlashMessage,
 } from "@/domain/application";
 
 import { FormBody } from "../components/FormBody";
 import { FormTitle } from "../components/FormTitle";
 import { LoginForm } from "../components/LoginForm";
 import { PasswordLoginValues, passwordLoginSchema } from "../types";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { AlertStatus, Button } from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
+import { useReSendMail } from "../hooks/useReSendMail";
 
 export const LoginFormContainer = () => {
   const auth = firebaseGetAuth();
 
-  const [isShowResendMail, setShowResendMail] = useState(false);
-
-  const [flashMessage, setFlashMessage] = useState("");
-  const [alertStatus, setAlertStatus] = useState<AlertStatus | undefined>();
-
-  const loginForm = useForm<PasswordLoginValues>({
+  const form = useForm<PasswordLoginValues>({
     defaultValues: {
       email: "",
       password: "",
     },
     resolver: yupResolver(passwordLoginSchema),
+  });
+
+  const { FlashMessage, setFlashMessageState } = useFlashMessage();
+
+  const { ResendMailButton, setShowResendMailButton } = useReSendMail({
+    auth,
+    onSuccess: () => {
+      setFlashMessageState({
+        description: "確認メールを送信しました",
+        status: "success",
+      });
+    },
+    onError: () => {
+      setFlashMessageState({
+        description: "確認メールの送信に失敗しました",
+        status: "error",
+      });
+    },
   });
 
   const { mutate, isLoading, isError, error } = useMutation({
@@ -45,9 +54,11 @@ export const LoginFormContainer = () => {
         // ログイン成功
         console.log("user", user);
       } else {
-        setFlashMessage("メールアドレスが認証されていません");
-        setAlertStatus("error");
-        setShowResendMail(true);
+        setFlashMessageState({
+          description: "メールアドレスが認証されていません",
+          status: "error",
+        });
+        setShowResendMailButton(true);
       }
     },
     onError: (error: AuthError) => {
@@ -55,43 +66,35 @@ export const LoginFormContainer = () => {
     },
   });
 
-  const handleReSendMail = useCallback(async () => {
-    if (auth.currentUser) {
-      await sendEmailVerification(auth.currentUser);
-      setShowResendMail(false);
-      setFlashMessage("確認メールを送信しました");
-      setAlertStatus("success");
-    }
-  }, [auth.currentUser]);
+  const handleSubmit = useCallback(
+    (values: PasswordLoginValues) => {
+      setShowResendMailButton(false);
+      mutate(values);
+    },
+    [mutate, setShowResendMailButton]
+  );
 
   useEffect(() => {
     if (error instanceof Error) {
-      setFlashMessage(localizeFirebaseErrorMessage(error.message));
-      setAlertStatus("error");
+      setFlashMessageState({
+        description: localizeFirebaseErrorMessage(error.message),
+        status: "error",
+      });
     }
-  }, [error, isError]);
-
-  const renderReSendMailComponent = useMemo(() => {
-    if (!isShowResendMail) return null;
-
-    return <Button onClick={handleReSendMail}>確認メールを再送信する</Button>;
-  }, [handleReSendMail, isShowResendMail]);
+  }, [error, isError, setFlashMessageState]);
 
   return (
     <>
       <FormTitle title="ログイン" />
       <FormBody>
-        <LoginForm
-          form={loginForm}
-          onSubmit={(values: PasswordLoginValues) => {
-            mutate(values);
-          }}
-          isLoading={isLoading}
-          flashComponent={
-            <FlashMessage status={alertStatus} description={flashMessage} />
-          }
-          reSendMailComponent={renderReSendMailComponent}
-        />
+        <form onSubmit={form.handleSubmit(handleSubmit)}>
+          <LoginForm
+            form={form}
+            isLoading={isLoading}
+            flashComponent={<FlashMessage />}
+            reSendMailComponent={<ResendMailButton />}
+          />
+        </form>
       </FormBody>
     </>
   );
