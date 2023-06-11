@@ -85,7 +85,10 @@ export const LoginFormContainer = () => {
 
   return (
     <>
-      <FormTitle title="ログイン" />
+      <FormTitle
+        title="ログイン"
+        description="メールアドレスとパスワードを入力してください"
+      />
       <FormBody>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
           <LoginForm

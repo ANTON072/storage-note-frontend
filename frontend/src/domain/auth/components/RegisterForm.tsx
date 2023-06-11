@@ -29,10 +29,10 @@ export const RegisterForm = ({
       <Stack spacing={10} pt={2}>
         <SubmitButton isLoading={isLoading}>アカウントを作成</SubmitButton>
       </Stack>
-      <Stack pt={6}>
-        <Text align={"center"} fontSize="xs">
+      <Stack pt={3}>
+        <Text align={"center"}>
           すでにアカウントをお持ちの方{" "}
-          <Link as={RouterLink} to="/auth/login" color={"blue.400"}>
+          <Link as={RouterLink} to="/auth/login" color={"blue.500"}>
             ログイン
           </Link>
         </Text>

@@ -93,7 +93,10 @@ export const RegisterFormContainer = () => {
 
   return (
     <>
-      <FormTitle title="新規会員登録" />
+      <FormTitle
+        title="新規登録"
+        description="メールアドレスとパスワードを入力してください"
+      />
       <FormBody>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
           <RegisterForm

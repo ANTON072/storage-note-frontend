@@ -1,5 +1,7 @@
-import { Stack, Text } from "@chakra-ui/react";
+import { Link, Stack, Text } from "@chakra-ui/react";
 import { UseFormReturn } from "react-hook-form";
+import { Link as RouterLink } from "react-router-dom";
+
 import { MailField } from "./MailField";
 import { SubmitButton } from "./SubmitButton";
 
@@ -22,6 +24,11 @@ export const PasswordReminderForm = ({
       </Text>
       <MailField form={form} fieldName="email" />
       <SubmitButton isLoading={isLoading}>再発行</SubmitButton>
+      <Text mt={3} align={`center`}>
+        <Link as={RouterLink} to="/auth/login" color={"blue.500"}>
+          ログインに戻る
+        </Link>
+      </Text>
     </Stack>
   );
 };
