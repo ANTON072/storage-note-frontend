@@ -1,9 +1,17 @@
-import { Outlet } from "react-router-dom";
+import { Suspense } from "react";
+import { Await, Outlet, useLoaderData } from "react-router-dom";
 
 export const AuthRoutes = () => {
+  const data = useLoaderData() as any;
+
+  console.log("----->>>");
+
+  console.log("data", data);
   return (
-    <>
-      <Outlet />
-    </>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Await resolve={data.idToken}>
+        <Outlet />
+      </Await>
+    </Suspense>
   );
 };

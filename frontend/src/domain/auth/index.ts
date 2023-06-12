@@ -7,3 +7,6 @@ export { PasswordReminderRoutes } from "./routes/PasswordReminderRoutes";
 
 /** Redux */
 export { authReducer } from "./redux/authReducer";
+
+/** Loader */
+export { authLoader } from "./loader/authLoader";

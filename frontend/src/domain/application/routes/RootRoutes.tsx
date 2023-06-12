@@ -5,9 +5,11 @@ export const RootRoutes = () => {
   return (
     <>
       <AppHeaderContainer />
-      <Outlet />
-      <ScrollRestoration />
+      <main>
+        <Outlet />
+      </main>
       <AppFooter />
+      <ScrollRestoration />
     </>
   );
 };
