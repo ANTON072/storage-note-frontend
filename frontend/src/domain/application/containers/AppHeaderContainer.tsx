@@ -1,6 +1,10 @@
 import { useSelector } from "react-redux";
 
-import { firebaseSignOut, type AppState } from "@/domain/application";
+import {
+  firebaseSignOut,
+  type AppState,
+  useLogout,
+} from "@/domain/application";
 
 import { AppHeader } from "../components/AppHeader";
 import { useCallback } from "react";
@@ -12,14 +16,14 @@ export const AppHeaderContainer = () => {
 
   const toast = useToast();
 
+  const { onLogout } = useLogout();
+
   const firebaseUserState = useSelector(
     (state: AppState) => state.user.firebase
   );
 
   const handleLogout = useCallback(async () => {
-    await firebaseSignOut().catch((error) => {
-      console.error(error);
-    });
+    await onLogout();
     navigate("/auth/login");
     toast({
       title: "ログアウトしました",

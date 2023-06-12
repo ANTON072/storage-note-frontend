@@ -19,6 +19,7 @@ export { AuthError } from "./libs/AppError";
 
 /** hooks */
 export { useFlashMessage } from "./hooks/useFlashMessage";
+export { useLogout } from "./hooks/useLogout";
 
 /** types */
 export type { FlashMessageState } from "./hooks/useFlashMessage";
