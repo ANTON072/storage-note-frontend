@@ -4,8 +4,6 @@ import { Await, Outlet, useLoaderData } from "react-router-dom";
 export const AuthRoutes = () => {
   const data = useLoaderData() as any;
 
-  console.log("----->>>");
-
   console.log("data", data);
   return (
     <Suspense fallback={<div>Loading...</div>}>

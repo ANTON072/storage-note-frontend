@@ -6,7 +6,7 @@ export { RegisterRoutes } from "./routes/RegisterRoutes";
 export { PasswordReminderRoutes } from "./routes/PasswordReminderRoutes";
 
 /** Redux */
-export { authReducer } from "./redux/authReducer";
+export { authReducer, setIdToken } from "./redux/authReducer";
 
 /** Loader */
 export { authLoader } from "./loader/authLoader";
