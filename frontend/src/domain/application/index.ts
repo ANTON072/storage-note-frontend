@@ -13,7 +13,7 @@ export { AppHeaderContainer } from "./containers/AppHeaderContainer";
 export { AppFooter } from "./components/AppFooter";
 
 /** libs */
-export { firebaseApp, firebaseGetAuth } from "./libs/firebase";
+export { firebaseApp, firebaseGetAuth, firebaseSignOut } from "./libs/firebase";
 export { localizeFirebaseErrorMessage } from "./libs/localizeFirebaseErrorMessage";
 export { AuthError } from "./libs/AppError";
 
@@ -28,3 +28,4 @@ export { setCookie, getCookie } from "./utils/cookie";
 
 /** Redux */
 export { store } from "./redux/store";
+export type { AppState } from "./redux/store";

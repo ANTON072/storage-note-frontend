@@ -2,12 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { User } from "firebase/auth";
 
-type UserMeta = {
+export type UserMeta = {
   createdAt: User["metadata"]["creationTime"];
   lastLoginAt: User["metadata"]["lastSignInTime"];
 };
 
-type FirebaseUser = {
+export type FirebaseUser = {
   displayName: User["displayName"];
   email: User["email"];
   emailVerified: User["emailVerified"];

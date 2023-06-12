@@ -60,7 +60,6 @@ export const LoginFormContainer = () => {
         // ログイン成功
         toast({
           title: "ログインしました",
-          status: "success",
         });
         navigate("/app");
       } else {

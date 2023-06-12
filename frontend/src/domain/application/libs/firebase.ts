@@ -1,5 +1,5 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
-import { getAuth, Auth } from "firebase/auth";
+import { getAuth, Auth, signOut } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -25,4 +25,9 @@ export const firebaseGetAuth = () => {
     authInstance = getAuth(firebaseApp);
   }
   return authInstance;
+};
+
+export const firebaseSignOut = () => {
+  const auth = firebaseGetAuth();
+  return signOut(auth);
 };

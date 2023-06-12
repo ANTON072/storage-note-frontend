@@ -9,14 +9,30 @@ import {
   useColorModeValue,
   useDisclosure,
   useBreakpointValue,
+  Avatar,
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuItem,
+  MenuList,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { Link as RouterLink } from "react-router-dom";
+import { FirebaseUser } from "@/domain/user";
 
-import { APP_NAME } from "../constants";
+import { APP_NAME } from "../../constants";
+import { LoginStack } from "./LoginStack";
+import { AvatarMenu } from "./AvatarMenu";
 
-export const AppHeader = () => {
+type Props = {
+  user: FirebaseUser | null;
+  onLogout: () => Promise<void>;
+};
+
+export const AppHeader = ({ user, onLogout }: Props) => {
   // const { isOpen, onToggle } = useDisclosure();
+
+  const isLoggedIn = !!user;
 
   return (
     <Box as="header">
@@ -52,43 +68,28 @@ export const AppHeader = () => {
             as="h1"
             fontWeight="bold"
           >
-            <RouterLink to="/">{APP_NAME}</RouterLink>
+            <RouterLink to={isLoggedIn ? `/app` : `/`}>{APP_NAME}</RouterLink>
           </Text>
           {/* メニュー */}
+          {/* See: https://chakra-templates.dev/navigation/navbar */}
           {/* <Flex display={{ base: "none", md: "flex" }} ml={10}>
-            <div>Desktop Nav</div>
+            <div>ストレージ</div>
+            <div>ストレージ</div>
           </Flex> */}
         </Flex>
 
+        {/* 右メニュー */}
         <Stack
           flex={{ base: 1, md: 0 }}
           justify={"flex-end"}
           direction={"row"}
           spacing={6}
         >
-          <Button
-            as={RouterLink}
-            fontSize={"sm"}
-            fontWeight={400}
-            variant={"link"}
-            to={"/auth/login"}
-          >
-            ログイン
-          </Button>
-          <Button
-            as={RouterLink}
-            display={{ base: "none", md: "inline-flex" }}
-            fontSize={"sm"}
-            fontWeight={600}
-            color={"white"}
-            bg={"pink.400"}
-            to={"/auth/register"}
-            _hover={{
-              bg: "pink.300",
-            }}
-          >
-            新規登録
-          </Button>
+          {isLoggedIn ? (
+            <AvatarMenu photoURL={user.photoURL} onLogout={onLogout} />
+          ) : (
+            <LoginStack />
+          )}
         </Stack>
       </Flex>
     </Box>
