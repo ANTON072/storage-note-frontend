@@ -8,6 +8,7 @@ export const AuthFormRootRoutes = () => {
       align={"center"}
       justify={"center"}
       bg={useColorModeValue("gray.50", "gray.800")}
+      height={`100%`}
     >
       <Stack
         spacing={8}
