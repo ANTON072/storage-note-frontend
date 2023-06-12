@@ -1,10 +1,6 @@
 import { useSelector } from "react-redux";
 
-import {
-  firebaseSignOut,
-  type AppState,
-  useLogout,
-} from "@/domain/application";
+import { type AppState, useLogout } from "@/domain/application";
 
 import { AppHeader } from "../components/AppHeader";
 import { useCallback } from "react";

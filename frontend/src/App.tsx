@@ -9,6 +9,7 @@ import {
   RegisterRoutes,
   PasswordReminderRoutes,
   authLoader,
+  nonAuthLoader,
 } from "@/domain/auth";
 import { HomeRoutes } from "@/domain/home";
 import { DashboardRoute } from "@/domain/dashboard";
@@ -42,6 +43,7 @@ const router = createBrowserRouter([
       {
         // 認証フォーム系
         element: <AuthFormRootRoutes />,
+        loader: nonAuthLoader,
         children: [
           {
             path: "/auth/login",

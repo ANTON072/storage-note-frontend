@@ -1,4 +1,4 @@
-type AuthErrorTypes = "USER_NOT_FOUND" | "EMAIL_NOT_VERIFIED";
+type AuthErrorTypes = "USER_NOT_FOUND" | "EMAIL_NOT_VERIFIED" | "LOGGED_IN";
 
 class AppBaseError extends Error {
   constructor(message: string) {

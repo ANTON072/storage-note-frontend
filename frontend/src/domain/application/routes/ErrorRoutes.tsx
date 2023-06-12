@@ -13,16 +13,12 @@ export const ErrorRoutes = () => {
 
   const navigate = useNavigate();
 
-  const redirect = () => {
-    navigate("/auth/login");
-  };
-
   // Mounted
   useEffect(() => {
     if (error instanceof AuthError) {
       if (error.type === "EMAIL_NOT_VERIFIED") {
         if (!toast.isActive(TOAST_ID)) {
-          redirect();
+          navigate("/auth/login");
           toast({
             title: "ユーザー認証に失敗しました",
             status: "error",
@@ -30,13 +26,15 @@ export const ErrorRoutes = () => {
           });
         }
         return;
+      } else if (error.type === "LOGGED_IN") {
+        navigate("/app");
+        return;
       } else {
-        redirect();
+        navigate("/auth/login");
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.error(error);
   return null;
 };
