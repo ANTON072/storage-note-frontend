@@ -30,7 +30,6 @@ export const LoginForm = ({
         <SubmitButton isLoading={isLoading}>ログイン</SubmitButton>
       </Stack>
       <VStack>
-        <Checkbox>次回から自動でログインする</Checkbox>
         <Link as={RouterLink} to="/auth/password-reminder" color={"blue.500"}>
           パスワードをお忘れの方
         </Link>
