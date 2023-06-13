@@ -1,2 +1,4 @@
 export const APP_NAME = "Storage Note";
-export const APP_API_TOKEN_COOKIE_KEY = "app_api_token";
+
+export const API_BASE_URL = import.meta.env.VITE_APP_API_BASE_URL as string;
+export const MOCK_API_BASE_URL = "https://mock.api.storage-note.com";

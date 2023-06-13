@@ -1,5 +1,5 @@
 /**Constants */
-export { APP_NAME, APP_API_TOKEN_COOKIE_KEY } from "./constants";
+export { APP_NAME, API_BASE_URL, MOCK_API_BASE_URL } from "./constants";
 
 /** Routes */
 export { RootRoutes } from "./routes/RootRoutes";

@@ -1,25 +1,24 @@
 import axios from "axios";
 
+import { MOCK_API_BASE_URL, store } from "@/domain/application";
+
 import { camelcaseKeys, snakecaseKeys } from "../utils/convertKeys";
-import { getCookie } from "../utils/cookie";
-import { APP_API_TOKEN_COOKIE_KEY } from "..";
 
-const BASE_URL = import.meta.env.VITE_APP_API_BASE_URL;
-
-const appApi = axios.create({
-  baseURL: BASE_URL,
-});
+const appApi = axios.create();
 
 appApi.defaults.headers.common["Content-Type"] = "application/json";
 
 // 共通リクエスト処理
 appApi.interceptors.request.use(
   (config) => {
-    const token = getCookie(APP_API_TOKEN_COOKIE_KEY);
-    if (!token) {
+    const {
+      auth: { idToken },
+    } = store.getState();
+
+    if (!idToken) {
       throw new Error("トークンがありません");
     }
-    config.headers.common["Authorization"] = `bearer ${token}`;
+    config.headers["Authorization"] = `Bearer ${idToken}`;
 
     // リクエストデータをスネークケースにキー変換
     if (config.data) {
@@ -44,7 +43,8 @@ appApi.interceptors.response.use(
   }
 );
 
-// export const signUpUserFn = async (user: RegisterInput) => {
-//   const response = await authApi.post<GenericResponse>('auth/register', user);
-//   return response.data;
-// };
+export const getUsers = async () => {
+  const response = await appApi.get(`${MOCK_API_BASE_URL}/v1/users`);
+
+  return response.data;
+};
