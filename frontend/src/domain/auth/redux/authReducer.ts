@@ -1,23 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
-// import type { PayloadAction } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface AuthState {
-  name: string;
-  userId: string;
+  idToken: string;
 }
 
 const initialState: AuthState = {
-  name: "",
-  userId: "",
+  idToken: "",
 };
 
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    setIdToken: (state, action: PayloadAction<string>) => {
+      state.idToken = action.payload;
+    },
+  },
 });
 
-// Action creators are generated for each case reducer function
-// export const { increment, decrement, incrementByAmount } = counterSlice.actions;
+export const { setIdToken } = authSlice.actions;
 
 export const authReducer = authSlice.reducer;

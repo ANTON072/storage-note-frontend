@@ -1,9 +1,8 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLoaderData } from "react-router-dom";
 
 export const AuthRoutes = () => {
-  return (
-    <>
-      <Outlet />
-    </>
-  );
+  const data = useLoaderData() as any;
+
+  console.log("data", data);
+  return <Outlet />;
 };

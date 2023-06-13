@@ -3,6 +3,8 @@ import { useMutation } from "react-query";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useToast } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 import {
   firebaseGetAuth,
@@ -18,6 +20,10 @@ import { useReSendMail } from "../hooks/useReSendMail";
 
 export const LoginFormContainer = () => {
   const auth = firebaseGetAuth();
+
+  const toast = useToast();
+
+  const navigate = useNavigate();
 
   const form = useForm<PasswordLoginValues>({
     defaultValues: {
@@ -52,7 +58,10 @@ export const LoginFormContainer = () => {
     onSuccess: ({ user }) => {
       if (user.emailVerified) {
         // ログイン成功
-        console.log("user", user);
+        toast({
+          title: "ログインしました",
+        });
+        navigate("/app");
       } else {
         setFlashMessageState({
           description: "メールアドレスが認証されていません",
@@ -85,7 +94,10 @@ export const LoginFormContainer = () => {
 
   return (
     <>
-      <FormTitle title="ログイン" />
+      <FormTitle
+        title="ログイン"
+        description="メールアドレスとパスワードを入力してください"
+      />
       <FormBody>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
           <LoginForm

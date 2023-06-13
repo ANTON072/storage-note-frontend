@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLoaderData } from "react-router-dom";
 import { Flex, useColorModeValue } from "@chakra-ui/react";
 import { Stack, useBreakpointValue } from "@chakra-ui/react";
 
@@ -8,6 +8,7 @@ export const AuthFormRootRoutes = () => {
       align={"center"}
       justify={"center"}
       bg={useColorModeValue("gray.50", "gray.800")}
+      height={`100%`}
     >
       <Stack
         spacing={8}

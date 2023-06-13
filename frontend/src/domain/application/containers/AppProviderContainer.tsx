@@ -1,6 +1,7 @@
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { Provider as ReduxProvider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { HelmetProvider } from "react-helmet-async";
 
 import { store } from "../redux/store";
 
@@ -29,7 +30,9 @@ export const AppProviderContainer = ({ children }: Props) => {
   return (
     <ChakraProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        <ReduxProvider store={store}>{children}</ReduxProvider>
+        <ReduxProvider store={store}>
+          <HelmetProvider>{children}</HelmetProvider>
+        </ReduxProvider>
       </QueryClientProvider>
     </ChakraProvider>
   );

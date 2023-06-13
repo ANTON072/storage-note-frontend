@@ -1,4 +1,4 @@
-import { Link, Stack, Text } from "@chakra-ui/react";
+import { VStack, Link, Stack, Text } from "@chakra-ui/react";
 import { UseFormReturn } from "react-hook-form";
 import { Link as RouterLink } from "react-router-dom";
 
@@ -29,18 +29,17 @@ export const LoginForm = ({
       <Stack spacing={10} pt={2}>
         <SubmitButton isLoading={isLoading}>ログイン</SubmitButton>
       </Stack>
-      <Stack pt={6}>
-        <Text fontSize="xs">
-          <Link as={RouterLink} to="/auth/register" color={"blue.400"}>
-            新規会員登録はこちら
+      <VStack>
+        <Link as={RouterLink} to="/auth/password-reminder" color={"blue.500"}>
+          パスワードをお忘れの方
+        </Link>
+        <Text>
+          アカウントをお持ちでない方{" "}
+          <Link as={RouterLink} to="/auth/register" color={"blue.500"}>
+            アカウントを作成する
           </Link>
         </Text>
-        <Text fontSize="xs">
-          <Link as={RouterLink} to="/auth/password-reminder" color={"blue.400"}>
-            パスワードをお忘れの方
-          </Link>
-        </Text>
-      </Stack>
+      </VStack>
     </Stack>
   );
 };
