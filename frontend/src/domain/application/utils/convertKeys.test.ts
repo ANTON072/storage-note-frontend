@@ -7,7 +7,7 @@ import {
 
 describe("camelcaseKeys", () => {
   test("アンダースコアをキャメルケースに変換する", () => {
-    expect(camelcase("foo_bar")).toBe("fooBar");
+    expect(camelcase("foo_bar")).toBe("fooBarr");
   });
 
   test("複数アンダースコアがあっても変換する", () => {
