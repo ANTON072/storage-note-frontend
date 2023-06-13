@@ -11,6 +11,7 @@ export { AppHeaderContainer } from "./containers/AppHeaderContainer";
 
 /** Components */
 export { AppFooter } from "./components/AppFooter";
+export { PageHead } from "./components/PageHead";
 
 /** libs */
 export { firebaseApp, firebaseGetAuth, firebaseSignOut } from "./libs/firebase";

@@ -1,5 +1,11 @@
 import { RegisterFormContainer } from "../containers/RegisterFormContainer";
+import { PageHead } from "@/domain/application";
 
 export const RegisterRoutes = () => {
-  return <RegisterFormContainer />;
+  return (
+    <>
+      <PageHead title={`アカウント登録`} />
+      <RegisterFormContainer />
+    </>
+  );
 };
