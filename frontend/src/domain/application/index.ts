@@ -14,7 +14,12 @@ export { AppFooter } from "./components/AppFooter";
 export { PageHead } from "./components/PageHead";
 
 /** libs */
-export { firebaseApp, firebaseGetAuth, firebaseSignOut } from "./libs/firebase";
+export {
+  firebaseApp,
+  firebaseGetAuth,
+  firebaseSignOut,
+  refreshIdToken,
+} from "./libs/firebase";
 export { localizeFirebaseErrorMessage } from "./libs/localizeFirebaseErrorMessage";
 export { AuthError } from "./libs/AppError";
 
@@ -24,6 +29,7 @@ export { useLogout } from "./hooks/useLogout";
 
 /** types */
 export type { FlashMessageState } from "./hooks/useFlashMessage";
+export type { ApiError } from "./types";
 
 /** utils */
 export { setCookie, getCookie } from "./utils/cookie";

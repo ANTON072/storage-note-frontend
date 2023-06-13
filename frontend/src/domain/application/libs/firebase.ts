@@ -1,5 +1,7 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth, Auth, signOut } from "firebase/auth";
+import { store } from "@/domain/application";
+import { setIdToken } from "@/domain/auth";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -30,4 +32,18 @@ export const firebaseGetAuth = () => {
 export const firebaseSignOut = () => {
   const auth = firebaseGetAuth();
   return signOut(auth);
+};
+
+export const refreshIdToken = async () => {
+  const auth = firebaseGetAuth();
+  const currentUser = auth.currentUser;
+  if (!currentUser) {
+    throw new Error(`ユーザーが存在しません`);
+  }
+  const idToken = await currentUser?.getIdToken(true);
+
+  return new Promise((resolve) => {
+    store.dispatch(setIdToken(idToken));
+    resolve(idToken);
+  });
 };
