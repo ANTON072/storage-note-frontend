@@ -1,4 +1,4 @@
-import { VStack, Checkbox, Link, Stack, Text } from "@chakra-ui/react";
+import { VStack, Link, Stack, Text } from "@chakra-ui/react";
 import { UseFormReturn } from "react-hook-form";
 import { Link as RouterLink } from "react-router-dom";
 
