@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // See: https://chakra-templates.dev/navigation/navbar
 import {
   Box,
