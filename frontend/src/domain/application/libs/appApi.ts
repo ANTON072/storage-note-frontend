@@ -1,6 +1,11 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
-import { MOCK_API_BASE_URL, store } from "@/domain/application";
+import {
+  MOCK_API_BASE_URL,
+  store,
+  ApiError,
+  refreshIdToken,
+} from "@/domain/application";
 
 import { camelcaseKeys, snakecaseKeys } from "../utils/convertKeys";
 
@@ -38,7 +43,23 @@ appApi.interceptors.response.use(
 
     return response;
   },
-  (error) => {
+  async (error: AxiosError<ApiError>) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const originalRequest = error.config as any;
+    const statusCode = error.response?.status;
+    const title = error.response?.data?.title || "";
+
+    // トークンの期限切れ
+    if (
+      statusCode === 401 &&
+      title?.includes("expired") &&
+      !originalRequest._retry
+    ) {
+      originalRequest._retry = true;
+      await refreshIdToken();
+      return appApi(originalRequest);
+    }
+
     return Promise.reject(error);
   }
 );
