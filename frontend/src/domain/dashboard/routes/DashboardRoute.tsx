@@ -15,7 +15,7 @@ export const DashboardRoute = () => {
       <PageHead title={`ダッシュボード`} />
       <Box>
         <h1>ダッシュボード</h1>
-        <Link to={`/app/mypage`}>マイページ</Link>
+        <Link to={`/app/settings`}>マイページ</Link>
       </Box>
     </>
   );

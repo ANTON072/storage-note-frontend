@@ -1,4 +1,4 @@
-import { FirebaseUser } from "@/domain/user";
+import { FirebaseUser } from "@/domain/users";
 import {
   Flex,
   Menu,

@@ -19,7 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { Link as RouterLink } from "react-router-dom";
-import { FirebaseUser } from "@/domain/user";
+import { FirebaseUser } from "@/domain/users";
 
 import { APP_NAME } from "../../constants";
 import { LoginStack } from "./LoginStack";

@@ -2,7 +2,7 @@ import { onAuthStateChanged } from "firebase/auth";
 
 import { firebaseGetAuth, AuthError, store } from "@/domain/application";
 import { setIdToken } from "..";
-import { setFirebaseUser } from "@/domain/user";
+import { setFirebaseUser } from "@/domain/users";
 
 export const authLoader = async () => {
   const auth = firebaseGetAuth();
