@@ -1,5 +1,6 @@
-import { RegisterFormContainer } from "../containers/RegisterFormContainer";
 import { PageHead } from "@/domain/application";
+
+import { RegisterFormContainer } from "../containers/RegisterFormContainer";
 
 export const RegisterRoutes = () => {
   return (

@@ -1,9 +1,12 @@
-import { Link, Stack, Text } from "@chakra-ui/react";
-import { UseFormReturn } from "react-hook-form";
 import { Link as RouterLink } from "react-router-dom";
+
+import { Link, Stack, Text } from "@chakra-ui/react";
+
 
 import { MailField } from "./MailField";
 import { SubmitButton } from "./SubmitButton";
+
+import type { UseFormReturn } from "react-hook-form";
 
 type Props = {
   form: UseFormReturn<{ email: string }>;

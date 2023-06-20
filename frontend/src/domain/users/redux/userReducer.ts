@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { User } from "firebase/auth";
+import type { User } from "firebase/auth";
+
 
 export type UserMeta = {
   createdAt: User["metadata"]["creationTime"];

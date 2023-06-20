@@ -1,7 +1,7 @@
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
-import { Provider as ReduxProvider } from "react-redux";
-import { QueryClient, QueryClientProvider } from "react-query";
 import { HelmetProvider } from "react-helmet-async";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { Provider as ReduxProvider } from "react-redux";
 
 import { store } from "../redux/store";
 

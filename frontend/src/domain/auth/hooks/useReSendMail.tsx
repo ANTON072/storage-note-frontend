@@ -1,8 +1,11 @@
-import { Button } from "@chakra-ui/react";
-import { Auth } from "firebase/auth";
 import { useState } from "react";
+
+import { Button } from "@chakra-ui/react";
 import { sendEmailVerification } from "firebase/auth";
 import { useMutation } from "react-query";
+
+import type { Auth  } from "firebase/auth";
+
 
 type Props = {
   auth: Auth;

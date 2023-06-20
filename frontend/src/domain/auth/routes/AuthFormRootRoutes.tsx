@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
-import { Flex, useColorModeValue } from "@chakra-ui/react";
-import { Stack, useBreakpointValue } from "@chakra-ui/react";
+
+import { Flex, useColorModeValue , Stack, useBreakpointValue } from "@chakra-ui/react";
 
 export const AuthFormRootRoutes = () => {
   return (

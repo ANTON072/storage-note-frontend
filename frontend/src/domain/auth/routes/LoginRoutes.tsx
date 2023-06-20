@@ -1,5 +1,6 @@
-import { LoginFormContainer } from "../containers/LoginFormContainer";
 import { PageHead } from "@/domain/application";
+
+import { LoginFormContainer } from "../containers/LoginFormContainer";
 
 export const LoginRoutes = () => {
   return (

@@ -1,8 +1,9 @@
+import { useNavigate } from "react-router-dom";
+
+import { useToast } from "@chakra-ui/react";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 import { firebaseGetAuth } from "@/domain/application";
-import { useNavigate } from "react-router-dom";
-import { useToast } from "@chakra-ui/react";
 
 export const useGoogleLogin = () => {
   const auth = firebaseGetAuth();

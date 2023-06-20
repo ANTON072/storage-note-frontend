@@ -1,4 +1,5 @@
 import { Box, Text, Stack, Button, useBreakpointValue } from "@chakra-ui/react";
+
 import { APP_NAME } from "..";
 
 export const AppFooter = () => {

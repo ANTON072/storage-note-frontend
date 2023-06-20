@@ -1,6 +1,7 @@
 import { useEffect } from "react";
-import { Box } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+
+import { Box } from "@chakra-ui/react";
 
 import { PageHead } from "@/domain/application";
 import { getUsers } from "@/domain/application/libs/appApi";

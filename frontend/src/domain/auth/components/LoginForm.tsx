@@ -1,12 +1,16 @@
-import { VStack, Link, Stack, Text, Divider } from "@chakra-ui/react";
-import { UseFormReturn } from "react-hook-form";
 import { Link as RouterLink } from "react-router-dom";
 
-import { PasswordLoginValues } from "../types";
+import { VStack, Link, Stack, Text, Divider } from "@chakra-ui/react";
+
+
+
+import { GoogleLoginButton } from "./GoogleLoginButton";
 import { MailField } from "./MailField";
 import { PasswordField } from "./PasswordField";
 import { SubmitButton } from "./SubmitButton";
-import { GoogleLoginButton } from "./GoogleLoginButton";
+
+import type { PasswordLoginValues } from "../types";
+import type { UseFormReturn } from "react-hook-form";
 
 type Props = {
   form: UseFormReturn<PasswordLoginValues>;
