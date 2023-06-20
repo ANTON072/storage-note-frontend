@@ -17,9 +17,12 @@ import { FormTitle } from "../components/FormTitle";
 import { LoginForm } from "../components/LoginForm";
 import { PasswordLoginValues, passwordLoginSchema } from "../types";
 import { useReSendMail } from "../hooks/useReSendMail";
+import { useGoogleLogin } from "../hooks/useGoogleLogin";
 
 export const LoginFormContainer = () => {
   const auth = firebaseGetAuth();
+
+  const { onGoogleLogin } = useGoogleLogin();
 
   const toast = useToast();
 
@@ -94,10 +97,7 @@ export const LoginFormContainer = () => {
 
   return (
     <>
-      <FormTitle
-        title="ログイン"
-        description="メールアドレスとパスワードを入力してください"
-      />
+      <FormTitle title="ログイン" />
       <FormBody>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
           <LoginForm
@@ -105,6 +105,7 @@ export const LoginFormContainer = () => {
             isLoading={isLoading}
             flashComponent={<FlashMessage />}
             reSendMailComponent={<ResendMailButton />}
+            onGoogleLogin={onGoogleLogin}
           />
         </form>
       </FormBody>

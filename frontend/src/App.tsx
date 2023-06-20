@@ -13,7 +13,7 @@ import {
 } from "@/domain/auth";
 import { HomeRoutes } from "@/domain/home";
 import { DashboardRoute } from "@/domain/dashboard";
-import { MyPageHomeRoutes } from "@/domain/user";
+import { SettingsHomeRoutes } from "@/domain/users";
 
 const router = createBrowserRouter([
   {
@@ -35,8 +35,8 @@ const router = createBrowserRouter([
             element: <DashboardRoute />,
           },
           {
-            path: "/app/mypage",
-            element: <MyPageHomeRoutes />,
+            path: "/app/settings",
+            element: <SettingsHomeRoutes />,
           },
         ],
       },

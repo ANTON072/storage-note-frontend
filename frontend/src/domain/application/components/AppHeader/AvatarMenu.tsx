@@ -1,4 +1,4 @@
-import { FirebaseUser } from "@/domain/user";
+import { FirebaseUser } from "@/domain/users";
 import {
   Flex,
   Menu,
@@ -9,6 +9,7 @@ import {
   MenuItem,
   MenuDivider,
 } from "@chakra-ui/react";
+import { Link as BrowserLink } from "react-router-dom";
 
 type Props = {
   photoURL: FirebaseUser["photoURL"];
@@ -29,7 +30,9 @@ export const AvatarMenu = ({ photoURL, onLogout }: Props) => {
           <Avatar size={"sm"} src={photoURL || undefined} />
         </MenuButton>
         <MenuList>
-          <MenuItem>ユーザー設定</MenuItem>
+          <MenuItem as={BrowserLink} to="/app/settings">
+            ユーザー設定
+          </MenuItem>
           <MenuDivider />
           <MenuItem onClick={onLogout}>ログアウト</MenuItem>
         </MenuList>

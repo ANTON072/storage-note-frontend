@@ -4,7 +4,7 @@ import { PageHead } from "@/domain/application";
 export const RegisterRoutes = () => {
   return (
     <>
-      <PageHead title={`アカウント登録`} />
+      <PageHead title={`新規登録`} />
       <RegisterFormContainer />
     </>
   );

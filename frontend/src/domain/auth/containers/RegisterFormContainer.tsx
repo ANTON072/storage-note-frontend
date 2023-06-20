@@ -19,6 +19,7 @@ import { PasswordLoginValues, passwordLoginSchema } from "../types";
 import { FormTitle } from "../components/FormTitle";
 import { FormBody } from "../components/FormBody";
 import { useReSendMail } from "../hooks/useReSendMail";
+import { useGoogleLogin } from "../hooks/useGoogleLogin";
 
 export const RegisterFormContainer = () => {
   const auth = firebaseGetAuth();
@@ -30,6 +31,8 @@ export const RegisterFormContainer = () => {
     },
     resolver: yupResolver(passwordLoginSchema),
   });
+
+  const { onGoogleLogin } = useGoogleLogin();
 
   const { FlashMessage, setFlashMessageState } = useFlashMessage();
 
@@ -93,10 +96,7 @@ export const RegisterFormContainer = () => {
 
   return (
     <>
-      <FormTitle
-        title="新規登録"
-        description="メールアドレスとパスワードを入力してください"
-      />
+      <FormTitle title="新規登録" />
       <FormBody>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
           <RegisterForm
@@ -104,6 +104,7 @@ export const RegisterFormContainer = () => {
             isLoading={isLoading}
             flashComponent={<FlashMessage />}
             reSendMailComponent={<ResendMailButton />}
+            onGoogleLogin={onGoogleLogin}
           />
         </form>
       </FormBody>
