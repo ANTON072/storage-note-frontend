@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "env-cmd -e local vite",
     "build:dev": "tsc && env-cmd -e development vite build",
-    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
     "preview": "vite preview",
     "format": "prettier --write ./src",
     "storybook": "storybook dev -p 6006",
