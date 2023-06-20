@@ -7,8 +7,9 @@ import {
   Tab,
   TabPanel,
 } from "@chakra-ui/react";
-import { ProfileFormContainer } from "../containers/ProfileFormContainer";
+
 import { ChangeLoginFormContainer } from "../containers/ChangeLoginFormContainer";
+import { ProfileFormContainer } from "../containers/ProfileFormContainer";
 
 export const SettingsHomeRoutes = () => {
   return (

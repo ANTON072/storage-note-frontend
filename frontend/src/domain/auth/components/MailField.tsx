@@ -1,5 +1,7 @@
 import { FormControl, FormLabel, Input } from "@chakra-ui/react";
-import { Controller, UseFormReturn, FieldValues, Path } from "react-hook-form";
+import { Controller } from "react-hook-form";
+
+import type { UseFormReturn, FieldValues, Path } from "react-hook-form";
 
 type Props<T extends FieldValues> = {
   form: UseFormReturn<T>;

@@ -1,8 +1,10 @@
-import { useToast } from "@chakra-ui/react";
+import { useEffect } from "react";
 import { useNavigate, useRouteError } from "react-router-dom";
 
+import { useToast } from "@chakra-ui/react";
+
 import { AuthError } from "@/domain/application";
-import { useEffect } from "react";
+
 
 const TOAST_ID = "auth-error";
 

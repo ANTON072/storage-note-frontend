@@ -1,8 +1,9 @@
 import { useCallback } from "react";
+
 import { useDispatch } from "react-redux";
 
-import { setFirebaseUser } from "@/domain/users";
 import { setIdToken } from "@/domain/auth";
+import { setFirebaseUser } from "@/domain/users";
 
 import { firebaseSignOut } from "..";
 

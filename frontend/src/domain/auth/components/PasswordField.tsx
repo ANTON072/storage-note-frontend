@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import {
   Button,
@@ -8,8 +10,9 @@ import {
   InputGroup,
   InputRightElement,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { Controller, UseFormReturn, FieldValues, Path } from "react-hook-form";
+import { Controller } from "react-hook-form";
+
+import type { UseFormReturn, FieldValues, Path } from "react-hook-form";
 
 type Props<T extends FieldValues> = {
   form: UseFormReturn<T>;

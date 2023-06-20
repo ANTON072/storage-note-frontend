@@ -1,4 +1,5 @@
-import { FirebaseUser } from "@/domain/users";
+import { Link as BrowserLink } from "react-router-dom";
+
 import {
   Flex,
   Menu,
@@ -9,7 +10,8 @@ import {
   MenuItem,
   MenuDivider,
 } from "@chakra-ui/react";
-import { Link as BrowserLink } from "react-router-dom";
+
+import type { FirebaseUser } from "@/domain/users";
 
 type Props = {
   photoURL: FirebaseUser["photoURL"];

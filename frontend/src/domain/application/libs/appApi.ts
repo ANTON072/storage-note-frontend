@@ -1,13 +1,16 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
+import type {
+  ApiError} from "@/domain/application";
 import {
   MOCK_API_BASE_URL,
   store,
-  ApiError,
   refreshIdToken,
 } from "@/domain/application";
 
 import { camelcaseKeys, snakecaseKeys } from "../utils/convertKeys";
+
+import type { AxiosError } from "axios";
 
 const appApi = axios.create();
 

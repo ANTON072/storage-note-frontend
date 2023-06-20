@@ -1,5 +1,6 @@
-import { PasswordReminderContainer } from "../containers/PasswordReminderContainer";
 import { PageHead } from "@/domain/application";
+
+import { PasswordReminderContainer } from "../containers/PasswordReminderContainer";
 
 export const PasswordReminderRoutes = () => {
   return (

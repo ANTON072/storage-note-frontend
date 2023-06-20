@@ -1,25 +1,30 @@
+import { useCallback, useEffect } from "react";
+
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
   createUserWithEmailAndPassword,
-  sendEmailVerification,
-  AuthError,
+  sendEmailVerification
 } from "firebase/auth";
-import { useMutation } from "react-query";
-import { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useMutation } from "react-query";
 
 import {
   firebaseGetAuth,
   localizeFirebaseErrorMessage,
   useFlashMessage,
 } from "@/domain/application";
-import { yupResolver } from "@hookform/resolvers/yup";
 
-import { RegisterForm } from "../components/RegisterForm";
-import { PasswordLoginValues, passwordLoginSchema } from "../types";
-import { FormTitle } from "../components/FormTitle";
+
 import { FormBody } from "../components/FormBody";
-import { useReSendMail } from "../hooks/useReSendMail";
+import { FormTitle } from "../components/FormTitle";
+import { RegisterForm } from "../components/RegisterForm";
 import { useGoogleLogin } from "../hooks/useGoogleLogin";
+import { useReSendMail } from "../hooks/useReSendMail";
+import { passwordLoginSchema } from "../types";
+
+import type { PasswordLoginValues} from "../types";
+import type {
+  AuthError} from "firebase/auth";
 
 export const RegisterFormContainer = () => {
   const auth = firebaseGetAuth();

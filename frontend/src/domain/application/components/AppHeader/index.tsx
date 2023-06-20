@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // See: https://chakra-templates.dev/navigation/navbar
+import { Link as RouterLink } from "react-router-dom";
+
+import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import {
   Box,
   Flex,
@@ -17,13 +20,13 @@ import {
   MenuItem,
   MenuList,
 } from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import { Link as RouterLink } from "react-router-dom";
-import { FirebaseUser } from "@/domain/users";
+
+import type { FirebaseUser } from "@/domain/users";
 
 import { APP_NAME } from "../../constants";
-import { LoginStack } from "./LoginStack";
+
 import { AvatarMenu } from "./AvatarMenu";
+import { LoginStack } from "./LoginStack";
 
 type Props = {
   user: FirebaseUser | null;

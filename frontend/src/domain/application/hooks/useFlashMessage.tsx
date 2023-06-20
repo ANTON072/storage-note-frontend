@@ -1,12 +1,15 @@
 import { useState } from "react";
+
 import {
   Alert,
   AlertIcon,
   AlertTitle,
   AlertDescription,
-  AlertStatus,
   Box,
 } from "@chakra-ui/react";
+
+import type {
+  AlertStatus} from "@chakra-ui/react";
 
 export type FlashMessageState = {
   title?: string;

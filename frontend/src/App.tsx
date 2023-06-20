@@ -1,7 +1,6 @@
-import { AppProviderContainer } from "@/domain/application";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import { RootRoutes, ErrorRoutes } from "@/domain/application";
+import { AppProviderContainer , RootRoutes, ErrorRoutes } from "@/domain/application";
 import {
   AuthRoutes,
   AuthFormRootRoutes,
@@ -11,8 +10,8 @@ import {
   authLoader,
   nonAuthLoader,
 } from "@/domain/auth";
-import { HomeRoutes } from "@/domain/home";
 import { DashboardRoute } from "@/domain/dashboard";
+import { HomeRoutes } from "@/domain/home";
 import { SettingsHomeRoutes } from "@/domain/users";
 
 const router = createBrowserRouter([
