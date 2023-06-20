@@ -10,11 +10,7 @@ export const SubmitButton = ({ children, isLoading }: Props) => {
     <Button
       loadingText="送信中"
       size="lg"
-      bg={"blue.400"}
-      color={"white"}
-      _hover={{
-        bg: "blue.500",
-      }}
+      colorScheme="blue"
       type="submit"
       isLoading={isLoading}
     >
