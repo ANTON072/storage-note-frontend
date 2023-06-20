@@ -50,6 +50,10 @@ module.exports = {
         "newlines-between": "always",
       },
     ],
+    "@typescript-eslint/consistent-type-imports": [
+      "error",
+      { prefer: "type-imports" },
+    ],
   },
   settings: {
     "import/resolver": {
