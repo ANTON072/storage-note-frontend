@@ -38,7 +38,7 @@ module.exports = {
             position: "before",
           },
           {
-            pattern: "@src/**",
+            pattern: "@/**",
             group: "parent",
             position: "before",
           },
