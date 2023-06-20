@@ -3,7 +3,7 @@ import { useCallback, useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   createUserWithEmailAndPassword,
-  sendEmailVerification
+  sendEmailVerification,
 } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
@@ -14,7 +14,6 @@ import {
   useFlashMessage,
 } from "@/domain/application";
 
-
 import { FormBody } from "../components/FormBody";
 import { FormTitle } from "../components/FormTitle";
 import { RegisterForm } from "../components/RegisterForm";
@@ -22,9 +21,8 @@ import { useGoogleLogin } from "../hooks/useGoogleLogin";
 import { useReSendMail } from "../hooks/useReSendMail";
 import { passwordLoginSchema } from "../types";
 
-import type { PasswordLoginValues} from "../types";
-import type {
-  AuthError} from "firebase/auth";
+import type { PasswordLoginValues } from "../types";
+import type { AuthError } from "firebase/auth";
 
 export const RegisterFormContainer = () => {
   const auth = firebaseGetAuth();
