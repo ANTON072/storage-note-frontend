@@ -1,20 +1,10 @@
 import {
-  Avatar,
   Box,
-  Heading,
   VStack,
-  Container,
   Button,
   FormControl,
   FormLabel,
-  FormHelperText,
   Input,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
-  Stack,
 } from "@chakra-ui/react";
 
 export const ChangeLoginForm = () => {
@@ -26,7 +16,7 @@ export const ChangeLoginForm = () => {
           <Input type="email" />
         </FormControl>
         <Box mt={3}>
-          <Button>メールアドレスを変更する</Button>
+          <Button colorScheme="blue">メールアドレスを変更する</Button>
         </Box>
       </Box>
       <Box width={`100%`}>
@@ -35,7 +25,7 @@ export const ChangeLoginForm = () => {
           <Input type="password" />
         </FormControl>
         <Box mt={3}>
-          <Button>パスワードを変更する</Button>
+          <Button colorScheme="blue">パスワードを変更する</Button>
         </Box>
       </Box>
     </VStack>

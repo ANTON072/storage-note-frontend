@@ -1,19 +1,12 @@
 import {
   Avatar,
   Box,
-  Heading,
   VStack,
-  Container,
   Button,
   FormControl,
   FormLabel,
   FormHelperText,
   Input,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
   Stack,
 } from "@chakra-ui/react";
 
