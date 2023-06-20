@@ -94,7 +94,7 @@ export const RegisterFormContainer = () => {
   return (
     <>
       <FormTitle
-        title="新規登録"
+        title="アカウントを作成"
         description="メールアドレスとパスワードを入力してください"
       />
       <FormBody>

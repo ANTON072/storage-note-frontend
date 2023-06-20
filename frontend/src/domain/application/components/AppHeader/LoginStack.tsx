@@ -25,7 +25,7 @@ export const LoginStack = () => {
           bg: "pink.300",
         }}
       >
-        新規登録
+        アカウントを作成
       </Button>
     </>
   );
