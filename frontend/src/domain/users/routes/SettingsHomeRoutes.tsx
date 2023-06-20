@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+
 import {
   Heading,
   Container,
@@ -7,11 +9,23 @@ import {
   Tab,
   TabPanel,
 } from "@chakra-ui/react";
+import { useSelector } from "react-redux";
+
+import type { AppState } from "@/domain/application";
 
 import { ChangeLoginFormContainer } from "../containers/ChangeLoginFormContainer";
 import { ProfileFormContainer } from "../containers/ProfileFormContainer";
 
 export const SettingsHomeRoutes = () => {
+  const provider = useSelector(
+    (state: AppState) => state.user.firebase?.providerData
+  );
+
+  const isGoogleAccount = useMemo(() => {
+    if (!provider) return false;
+    return !!provider.find((p) => p.providerId.includes("google"));
+  }, [provider]);
+
   return (
     <Container>
       <Heading as={`h2`} my={10} textAlign={`center`}>
@@ -20,7 +34,7 @@ export const SettingsHomeRoutes = () => {
       <Tabs align={`center`}>
         <TabList mb={5}>
           <Tab>プロフィール</Tab>
-          <Tab>ログイン情報</Tab>
+          <Tab isDisabled={isGoogleAccount}>ログイン情報</Tab>
         </TabList>
         <TabPanels>
           <TabPanel>
