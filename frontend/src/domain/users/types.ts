@@ -21,11 +21,12 @@ export type FirebaseUser = {
 };
 
 export const appUserSchema = yup.object({
-  notificationEmail: yup.string().email().required(),
   userId: yup
     .string()
     .matches(/^[A-Za-z0-9_]{1,15}$/, "ユーザーIDが不正です")
     .required(),
+  notificationEmail: yup.string().email().required(),
+  photoURL: yup.string().url(),
 });
 
 export type AppUser = yup.InferType<typeof appUserSchema>;

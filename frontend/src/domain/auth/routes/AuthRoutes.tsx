@@ -5,11 +5,10 @@ import { useUser } from "@/domain/users";
 export const AuthRoutes = () => {
   const location = useLocation();
 
-  const { user, error, isLoading, isError } = useUser();
+  const { user, isLoading, isError } = useUser();
 
-  const statusCode = error?.response?.status;
-
-  if (user.userId) {
+  // 設定ページはuserIdが無くてもアクセスが可能
+  if (location.pathname === "/app/settings") {
     return <Outlet />;
   }
 
@@ -17,11 +16,8 @@ export const AuthRoutes = () => {
     return null;
   }
 
-  if (location.pathname === "/app/settings") {
-    return <Outlet />;
-  }
-
-  if (statusCode && statusCode === 404) {
+  // 設定ページ以外のページはuserIdが必須
+  if (!user?.userId) {
     return <Navigate to={`/app/settings`} />;
   }
 
