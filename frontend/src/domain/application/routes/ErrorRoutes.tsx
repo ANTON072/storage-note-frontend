@@ -5,7 +5,6 @@ import { useToast } from "@chakra-ui/react";
 
 import { AuthError } from "@/domain/application";
 
-
 const TOAST_ID = "auth-error";
 
 export const ErrorRoutes = () => {
@@ -28,7 +27,7 @@ export const ErrorRoutes = () => {
           });
         }
         return;
-      } else if (error.type === "LOGGED_IN") {
+      } else if (error.type === "ALREADY_LOGGED_IN") {
         navigate("/app");
         return;
       } else {

@@ -1,18 +1,13 @@
 import axios from "axios";
 
-import type {
-  ApiError} from "@/domain/application";
-import {
-  MOCK_API_BASE_URL,
-  store,
-  refreshIdToken,
-} from "@/domain/application";
+import type { ApiError } from "@/domain/application";
+import { MOCK_API_BASE_URL, store, refreshIdToken } from "@/domain/application";
 
 import { camelcaseKeys, snakecaseKeys } from "../utils/convertKeys";
 
 import type { AxiosError } from "axios";
 
-const appApi = axios.create();
+export const appApi = axios.create();
 
 appApi.defaults.headers.common["Content-Type"] = "application/json";
 

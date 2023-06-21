@@ -8,7 +8,7 @@ export const nonAuthLoader = async () => {
     onAuthStateChanged(auth, async (user) => {
       // ログイン済みユーザーはappへリダイレクトさせる
       if (user && user.emailVerified) {
-        reject(new AuthError("LOGGED_IN"));
+        reject(new AuthError("ALREADY_LOGGED_IN"));
         return;
       }
       resolve(null);

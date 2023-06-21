@@ -22,6 +22,7 @@ export {
 } from "./libs/firebase";
 export { localizeFirebaseErrorMessage } from "./libs/localizeFirebaseErrorMessage";
 export { AuthError } from "./libs/AppError";
+export { appApi } from "./libs/appApi";
 
 /** hooks */
 export { useFlashMessage } from "./hooks/useFlashMessage";
