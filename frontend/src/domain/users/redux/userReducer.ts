@@ -1,33 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import type { AppUser, FirebaseUser, UserState } from "../types";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { User } from "firebase/auth";
-
-
-export type UserMeta = {
-  createdAt: User["metadata"]["creationTime"];
-  lastLoginAt: User["metadata"]["lastSignInTime"];
-};
-
-export type FirebaseUser = {
-  displayName: User["displayName"];
-  email: User["email"];
-  emailVerified: User["emailVerified"];
-  metadata: UserMeta;
-  photoURL: User["photoURL"];
-  providerData: User["providerData"];
-  providerId: User["providerId"];
-  refreshToken: User["refreshToken"];
-  tenantId: User["tenantId"];
-  uid: User["uid"];
-};
-
-export interface UserState {
-  firebase: FirebaseUser | null;
-}
 
 const initialState: UserState = {
   firebase: null,
+  appUser: {
+    userId: "",
+    notificationEmail: "",
+  },
 };
 
 export const userSlice = createSlice({
@@ -37,9 +18,12 @@ export const userSlice = createSlice({
     setFirebaseUser: (state, action: PayloadAction<FirebaseUser | null>) => {
       state.firebase = action.payload;
     },
+    setAppUser: (state, action: PayloadAction<AppUser>) => {
+      state.appUser = action.payload;
+    },
   },
 });
 
-export const { setFirebaseUser } = userSlice.actions;
+export const { setFirebaseUser, setAppUser } = userSlice.actions;
 
 export const userReducer = userSlice.reducer;

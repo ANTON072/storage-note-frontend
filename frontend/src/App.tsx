@@ -1,6 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import { AppProviderContainer , RootRoutes, ErrorRoutes } from "@/domain/application";
+import {
+  AppProviderContainer,
+  RootRoutes,
+  ErrorRoutes,
+} from "@/domain/application";
 import {
   AuthRoutes,
   AuthFormRootRoutes,

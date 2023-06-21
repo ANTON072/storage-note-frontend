@@ -30,4 +30,23 @@ export const userHandlers = [
     //   })
     // );
   }),
+
+  // ユーザーがいない場合のデモ
+  rest.get(`${MOCK_API_BASE_URL}/v1/user`, (_req, res, ctx) => {
+    return res(
+      ctx.status(404),
+      ctx.json({
+        title: "User not found",
+      })
+    );
+  }),
+
+  // rest.get(`${MOCK_API_BASE_URL}/v1/user`, (_req, res, ctx) => {
+  //   return res(
+  //     ctx.json({
+  //       userId: "xxx",
+  //       notificationEmail: "hoge@hoge.com",
+  //     })
+  //   );
+  // }),
 ];
