@@ -32,5 +32,4 @@ export type AppUser = yup.InferType<typeof appUserSchema>;
 
 export type UserState = {
   firebase: FirebaseUser | null;
-  appUser: AppUser;
 };

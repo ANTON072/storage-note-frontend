@@ -1,28 +1,15 @@
-import { useEffect } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
-import { useDispatch, useSelector } from "react-redux";
-
-import type { AppState } from "@/domain/application";
-import { setAppUser, useUser } from "@/domain/users";
+import { useUser } from "@/domain/users";
 
 export const AuthRoutes = () => {
   const location = useLocation();
-  const appUser = useSelector((state: AppState) => state.user.appUser);
-  const dispatch = useDispatch();
 
   const { user, error, isLoading, isError } = useUser();
 
   const statusCode = error?.response?.status;
 
-  useEffect(() => {
-    if (user) {
-      dispatch(setAppUser(user));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
-
-  if (appUser.userId) {
+  if (user.userId) {
     return <Outlet />;
   }
 
