@@ -57,9 +57,12 @@ export const ProfileForm = ({ form }: Props) => {
           保存する
         </Button>
       </Box>
-      <Box>
-        <Button variant={`ghost`}>退会する</Button>
-      </Box>
+      {/* 正規ユーザーのみ退会できる */}
+      {values.userId && (
+        <Box>
+          <Button variant={`ghost`}>退会する</Button>
+        </Box>
+      )}
     </VStack>
   );
 };
