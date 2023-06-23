@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   VStack,
   Button,
@@ -8,8 +7,9 @@ import {
   FormHelperText,
   Input,
   Stack,
-  InputGroup,
 } from "@chakra-ui/react";
+
+import { UserAvatar } from "./UserAvatar";
 
 import type { AppUser } from "../types";
 import type { UseFormReturn } from "react-hook-form";
@@ -24,18 +24,7 @@ export const ProfileForm = ({ form }: Props) => {
   return (
     <VStack spacing={`10`}>
       <Stack>
-        <Avatar src={values.photoURL} size="2xl" />
-        <InputGroup
-          onClick={() => {
-            console.log("click");
-          }}
-        >
-          {values.photoURL ? (
-            <Button colorScheme="red">画像を削除</Button>
-          ) : (
-            <Button colorScheme="blue">画像を選択</Button>
-          )}
-        </InputGroup>
+        <UserAvatar photoURL={values.photoURL} />
       </Stack>
       <Box width={`100%`}>
         <FormControl>
