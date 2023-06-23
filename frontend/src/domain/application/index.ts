@@ -29,6 +29,9 @@ export { useFlashMessage } from "./hooks/useFlashMessage";
 export { useLogout } from "./hooks/useLogout";
 export { useImageEditor } from "./components/ImageEditor/useImageEditor";
 export { useFullScreenLoading } from "./components/FullScreenLoading/useFullScreenLoading";
+export { useGoogleLogin } from "./firebase/useGoogleLogin";
+export { useReSendMail } from "./firebase/useReSendMail";
+export { useReauthenticate } from "./firebase/useReauthenticate";
 
 /** types */
 export type { FlashMessageState } from "./hooks/useFlashMessage";

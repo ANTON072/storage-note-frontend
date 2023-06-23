@@ -12,9 +12,6 @@ export { authReducer, setIdToken } from "./redux/authReducer";
 export { authLoader } from "./loader/authLoader";
 export { nonAuthLoader } from "./loader/nonAuthLoader";
 
-/** Hooks */
-export { useReauthenticate } from "./hooks/useReauthenticate";
-
 /** Components */
 export { FormTitle } from "./components/FormTitle";
 export { FormBody } from "./components/FormBody";

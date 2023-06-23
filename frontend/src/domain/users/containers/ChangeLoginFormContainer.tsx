@@ -14,8 +14,8 @@ import type { AppState } from "@/domain/application";
 import {
   localizeFirebaseErrorMessage,
   firebaseGetAuth,
+  useReauthenticate,
 } from "@/domain/application";
-import { useReauthenticate } from "@/domain/auth";
 import {
   passwordLoginSchema,
   type PasswordLoginValues,
