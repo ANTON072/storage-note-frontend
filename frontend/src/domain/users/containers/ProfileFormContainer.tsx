@@ -18,7 +18,7 @@ export const ProfileFormContainer = () => {
     userId: userId || "",
     notificationEmail:
       (userId ? user.notificationEmail : firebaseUser?.email) || "",
-    photoURL: (userId ? user.photoURL : firebaseUser?.photoURL) || "",
+    photoURL: userId ? user.photoURL : firebaseUser?.photoURL || "",
   };
 
   const userForm = useForm<AppUser>({
