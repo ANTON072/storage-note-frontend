@@ -19,8 +19,7 @@ type Props = {
   form: UseFormReturn<AppUser>;
 };
 
-export const ProfileForm = ({ form }: Props) => {
-  const values = form.getValues();
+export const CreateUserForm = ({ form }: Props) => {
   const errors = form.formState.errors;
 
   return (

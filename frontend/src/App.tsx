@@ -6,17 +6,17 @@ import {
   ErrorRoutes,
 } from "@/domain/application";
 import {
-  AuthRoutes,
-  AuthFormRootRoutes,
-  LoginRoutes,
-  RegisterRoutes,
-  PasswordReminderRoutes,
+  AuthRoute,
+  AuthFormRootRoute,
+  LoginRoute,
+  RegisterRoute,
+  PasswordReminderRoute,
   authLoader,
   nonAuthLoader,
 } from "@/domain/auth";
 import { DashboardRoute } from "@/domain/dashboard";
-import { HomeRoutes } from "@/domain/home";
-import { SettingsHomeRoutes } from "@/domain/users";
+import { HomeRoute } from "@/domain/home";
+import { UserSettingsRoute, CreateUserRoute } from "@/domain/users";
 
 const router = createBrowserRouter([
   {
@@ -26,39 +26,49 @@ const router = createBrowserRouter([
       // 公開ページ
       {
         path: "/",
-        element: <HomeRoutes />,
+        element: <HomeRoute />,
       },
       // 認証が必要なページ
       {
-        element: <AuthRoutes />,
         loader: authLoader,
         children: [
+          // app
           {
-            path: "/app",
-            element: <DashboardRoute />,
+            element: <AuthRoute />,
+            children: [
+              {
+                path: "/app",
+                element: <DashboardRoute />,
+              },
+              {
+                path: "/app/user/settings",
+                element: <UserSettingsRoute />,
+              },
+            ],
           },
+          // ユーザー登録
           {
-            path: "/app/settings",
-            element: <SettingsHomeRoutes />,
+            path: "/create-user",
+            element: <CreateUserRoute />,
           },
         ],
       },
       {
         // 認証フォーム系
-        element: <AuthFormRootRoutes />,
+        element: <AuthFormRootRoute />,
         loader: nonAuthLoader,
         children: [
           {
             path: "/auth/login",
-            element: <LoginRoutes />,
+            element: <LoginRoute />,
           },
           {
             path: "/auth/register",
-            element: <RegisterRoutes />,
+            element: <RegisterRoute />,
           },
           {
             path: "/auth/password-reminder",
-            element: <PasswordReminderRoutes />,
+            element: <PasswordReminderRoute />,
           },
         ],
       },

@@ -2,7 +2,7 @@ import { PageHead } from "@/domain/application";
 
 import { LoginFormContainer } from "../containers/LoginFormContainer";
 
-export const LoginRoutes = () => {
+export const LoginRoute = () => {
   return (
     <>
       <PageHead title={`ログイン`} />

@@ -32,7 +32,7 @@ export const AvatarMenu = ({ photoURL, onLogout }: Props) => {
           <Avatar size={"sm"} src={photoURL || undefined} />
         </MenuButton>
         <MenuList>
-          <MenuItem as={BrowserLink} to="/app/settings">
+          <MenuItem as={BrowserLink} to="/app/user/settings">
             ユーザー設定
           </MenuItem>
           <MenuDivider />

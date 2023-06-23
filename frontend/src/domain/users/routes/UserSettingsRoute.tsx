@@ -14,9 +14,8 @@ import { useSelector } from "react-redux";
 import type { AppState } from "@/domain/application";
 
 import { ChangeLoginFormContainer } from "../containers/ChangeLoginFormContainer";
-import { ProfileFormContainer } from "../containers/ProfileFormContainer";
 
-export const SettingsHomeRoutes = () => {
+export const UserSettingsRoute = () => {
   const provider = useSelector(
     (state: AppState) => state.user.firebase?.providerData
   );
@@ -38,7 +37,7 @@ export const SettingsHomeRoutes = () => {
         </TabList>
         <TabPanels>
           <TabPanel>
-            <ProfileFormContainer />
+            <>Profile</>
           </TabPanel>
           <TabPanel>
             <ChangeLoginFormContainer />

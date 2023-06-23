@@ -7,11 +7,12 @@ import { useSelector } from "react-redux";
 import type { AppState } from "@/domain/application";
 
 import { useUser } from "..";
-import { ProfileForm } from "../components/ProfileForm";
+import { CreateUserForm } from "../components/CreateUserForm";
 import { appUserSchema, type AppUser } from "../types";
 
-export const ProfileFormContainer = () => {
+export const CreateUserFormContainer = () => {
   const { user } = useUser();
+
   const firebaseUser = useSelector((state: AppState) => state.user.firebase);
 
   const userId = user?.userId;
@@ -34,7 +35,7 @@ export const ProfileFormContainer = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <ProfileForm form={userForm} />
+      <CreateUserForm form={userForm} />
     </form>
   );
 };

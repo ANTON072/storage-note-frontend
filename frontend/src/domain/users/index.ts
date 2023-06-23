@@ -1,5 +1,6 @@
 /** Routes */
-export { SettingsHomeRoutes } from "./routes/SettingsHomeRoutes";
+export { UserSettingsRoute } from "./routes/UserSettingsRoute";
+export { CreateUserRoute } from "./routes/CreateUserRoute";
 
 /** Redux */
 export { userReducer, setFirebaseUser } from "./redux/userReducer";
