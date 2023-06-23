@@ -9,4 +9,4 @@ export { userReducer, setFirebaseUser } from "./redux/userReducer";
 export type { UserMeta, FirebaseUser } from "./types";
 
 /** hooks */
-export { useUser } from "./hooks/useUser";
+export { useUser } from "./api/useUser";
