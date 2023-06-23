@@ -16,22 +16,6 @@ import { cropImage, resizeImage } from "./lib";
 
 import type { Area } from "react-easy-crop";
 
-const convertFileToDataURL = (file: File) => {
-  return new Promise<string>((resolve, reject) => {
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(file);
-
-    fileReader.addEventListener("load", () => {
-      if (typeof fileReader.result === "string") {
-        const dataURL = fileReader.result;
-        resolve(dataURL);
-      } else {
-        reject("dataURLの変換に失敗しました");
-      }
-    });
-  });
-};
-
 type ImageEditorArgs = {
   maxSizePx: number;
 };
@@ -43,7 +27,31 @@ export const useImageEditor = ({ maxSizePx }: ImageEditorArgs) => {
   // 加工後のDataURL
   const [croppedDataURL, setCroppedDataURL] = useState<string | undefined>();
 
+  const [isLoading, setLoading] = useState(false);
+
   const imageFileInputRef = useRef<HTMLInputElement>(null);
+
+  const convertFileToDataURL = (file: File) => {
+    return new Promise<string>((resolve, reject) => {
+      const fileReader = new FileReader();
+
+      fileReader.onloadstart = () => {
+        setLoading(true);
+      };
+
+      fileReader.onloadend = () => {
+        setLoading(false);
+        if (typeof fileReader.result === "string") {
+          const dataURL = fileReader.result;
+          resolve(dataURL);
+        } else {
+          reject("dataURLの変換に失敗しました");
+        }
+      };
+
+      fileReader.readAsDataURL(file);
+    });
+  };
 
   const handleChange = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -135,5 +143,5 @@ export const useImageEditor = ({ maxSizePx }: ImageEditorArgs) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orgDataURL]);
 
-  return { imageFileInputRef, ImageEditor, croppedDataURL };
+  return { imageFileInputRef, ImageEditor, croppedDataURL, isLoading };
 };

@@ -10,10 +10,12 @@ type Props = {
 };
 
 export const UserAvatar = ({ photoURL }: Props) => {
-  const { ImageEditor, imageFileInputRef, croppedDataURL } = useImageEditor({
-    maxSizePx: 128 * 2,
-  });
+  const { ImageEditor, imageFileInputRef, croppedDataURL, isLoading } =
+    useImageEditor({
+      maxSizePx: 128 * 2,
+    });
 
+  console.log("isLoading", isLoading);
   console.log("croppedDataURL", croppedDataURL);
 
   return (
@@ -27,6 +29,7 @@ export const UserAvatar = ({ photoURL }: Props) => {
           colorScheme={photoURL ? `red` : `blue`}
           aria-label={photoURL ? `アイコンを削除` : `アイコンを追加`}
           icon={photoURL ? <SmallCloseIcon /> : <SmallAddIcon />}
+          isLoading={isLoading}
           onClick={() => {
             if (photoURL) {
               // 削除
