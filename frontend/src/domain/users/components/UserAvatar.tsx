@@ -1,22 +1,30 @@
+import { useEffect } from "react";
+
 import { SmallCloseIcon, SmallAddIcon } from "@chakra-ui/icons";
 import { Avatar, IconButton, AvatarBadge } from "@chakra-ui/react";
 
 import { useImageEditor } from "@/domain/application";
 
 import type { AppUser } from "../types";
+import type { UseFormReturn } from "react-hook-form";
 
 type Props = {
-  photoURL: AppUser["photoURL"];
+  form: UseFormReturn<AppUser>;
 };
 
-export const UserAvatar = ({ photoURL }: Props) => {
+export const UserAvatar = ({ form }: Props) => {
+  const values = form.getValues();
+  const photoURL = values.photoURL;
+
   const { ImageEditor, imageFileInputRef, croppedDataURL, isLoading } =
     useImageEditor({
       maxSizePx: 128 * 2,
     });
 
-  console.log("isLoading", isLoading);
-  console.log("croppedDataURL", croppedDataURL);
+  useEffect(() => {
+    form.setValue("photoURL", croppedDataURL || "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [croppedDataURL]);
 
   return (
     <>

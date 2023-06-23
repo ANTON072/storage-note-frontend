@@ -24,7 +24,7 @@ export const ProfileForm = ({ form }: Props) => {
   return (
     <VStack spacing={`10`}>
       <Stack>
-        <UserAvatar photoURL={values.photoURL} />
+        <UserAvatar form={form} />
       </Stack>
       <Box width={`100%`}>
         <FormControl>

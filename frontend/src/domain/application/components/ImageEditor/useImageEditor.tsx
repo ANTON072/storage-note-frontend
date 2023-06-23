@@ -86,6 +86,7 @@ export const useImageEditor = ({ maxSizePx }: ImageEditorArgs) => {
 
       const handleCropImage = useCallback(async () => {
         if (!croppedAreaPixels || !orgFile) return;
+        setLoading(true);
         // 切り抜き
         const croppedDataURLImage = await cropImage({
           src: orgDataURL,
@@ -97,6 +98,7 @@ export const useImageEditor = ({ maxSizePx }: ImageEditorArgs) => {
           maxSizePx,
           mineType: orgFile.type,
         });
+        setLoading(false);
         setCroppedDataURL(resizedDataURLImage);
         handleCloseModal();
       }, [croppedAreaPixels]);
@@ -129,7 +131,11 @@ export const useImageEditor = ({ maxSizePx }: ImageEditorArgs) => {
                 />
               </ModalBody>
               <ModalFooter>
-                <Button onClick={handleCropImage} colorScheme="blue">
+                <Button
+                  onClick={handleCropImage}
+                  colorScheme="blue"
+                  isLoading={isLoading}
+                >
                   適用
                 </Button>
               </ModalFooter>
