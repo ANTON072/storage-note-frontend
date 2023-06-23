@@ -7,6 +7,7 @@ import {
   FormHelperText,
   Input,
   Stack,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 
 import { UserAvatar } from "./UserAvatar";
@@ -20,6 +21,7 @@ type Props = {
 
 export const ProfileForm = ({ form }: Props) => {
   const values = form.getValues();
+  const errors = form.formState.errors;
 
   return (
     <VStack spacing={`10`}>
@@ -27,31 +29,31 @@ export const ProfileForm = ({ form }: Props) => {
         <UserAvatar form={form} />
       </Stack>
       <Box width={`100%`}>
-        <FormControl>
+        <FormControl isInvalid={!!errors.userId} isRequired>
           <FormLabel>ユーザーID</FormLabel>
-          <Input type="text" {...form.register("userId")} />
-          <FormHelperText textAlign={`left`}>
-            5文字以上15文字以内で設定してください
+          <FormHelperText textAlign={`left`} mb={2}>
+            ユーザーIDは英数とアンダースコアのみ、3文字以上15文字以内で、必ず1つ以上の英字が含まれている必要があります。
           </FormHelperText>
+          <Input required type="text" {...form.register("userId")} />
+
+          {errors.userId && (
+            <FormErrorMessage textAlign={`left`}>
+              {errors.userId.message}
+            </FormErrorMessage>
+          )}
         </FormControl>
       </Box>
       <Box width={`100%`}>
-        <FormControl>
-          <FormLabel>通知用メールアドレス</FormLabel>
-          <Input type="email" {...form.register("notificationEmail")} />
-        </FormControl>
-      </Box>
-      <Box width={`100%`}>
-        <Button colorScheme="blue" size={`lg`} width={`100%`}>
+        <Button type="submit" colorScheme="blue" size={`lg`} width={`100%`}>
           保存する
         </Button>
       </Box>
       {/* 正規ユーザーのみ退会できる */}
-      {values.userId && (
+      {/* {values.userId && (
         <Box>
           <Button variant={`ghost`}>退会する</Button>
         </Box>
-      )}
+      )} */}
     </VStack>
   );
 };

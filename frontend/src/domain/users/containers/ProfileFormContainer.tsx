@@ -1,3 +1,5 @@
+import { useCallback } from "react";
+
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
@@ -16,8 +18,6 @@ export const ProfileFormContainer = () => {
 
   const defaultValues: AppUser = {
     userId: userId || "",
-    notificationEmail:
-      (userId ? user.notificationEmail : firebaseUser?.email) || "",
     photoURL: userId ? user.photoURL : firebaseUser?.photoURL || "",
   };
 
@@ -26,5 +26,15 @@ export const ProfileFormContainer = () => {
     resolver: yupResolver(appUserSchema),
   });
 
-  return <ProfileForm form={userForm} />;
+  const handleSubmit = userForm.handleSubmit(
+    useCallback((values: AppUser) => {
+      console.log("values", values);
+    }, [])
+  );
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <ProfileForm form={userForm} />
+    </form>
+  );
 };
