@@ -1,14 +1,12 @@
 /** Routes */
-export { SettingsHomeRoutes } from "./routes/SettingsHomeRoutes";
+export { UserSettingsRoute } from "./routes/UserSettingsRoute";
+export { CreateUserRoute } from "./routes/CreateUserRoute";
 
 /** Redux */
-export { userReducer, setFirebaseUser, setAppUser } from "./redux/userReducer";
+export { userReducer, setFirebaseUser } from "./redux/userReducer";
 
 /** Types */
 export type { UserMeta, FirebaseUser } from "./types";
-
-/** api */
-export { getAppUser } from "./api";
 
 /** hooks */
 export { useUser } from "./hooks/useUser";

@@ -1,9 +1,9 @@
 /** Routes */
-export { AuthRoutes } from "./routes/AuthRoutes";
-export { AuthFormRootRoutes } from "./routes/AuthFormRootRoutes";
-export { LoginRoutes } from "./routes/LoginRoutes";
-export { RegisterRoutes } from "./routes/RegisterRoutes";
-export { PasswordReminderRoutes } from "./routes/PasswordReminderRoutes";
+export { AuthRoute } from "./routes/AuthRoute";
+export { AuthFormRootRoute } from "./routes/AuthFormRootRoute";
+export { LoginRoute } from "./routes/LoginRoute";
+export { RegisterRoute } from "./routes/RegisterRoute";
+export { PasswordReminderRoute } from "./routes/PasswordReminderRoute";
 
 /** Redux */
 export { authReducer, setIdToken } from "./redux/authReducer";
@@ -14,3 +14,8 @@ export { nonAuthLoader } from "./loader/nonAuthLoader";
 
 /** Hooks */
 export { useReauthenticate } from "./hooks/useReauthenticate";
+
+/** Components */
+export { FormTitle } from "./components/FormTitle";
+export { FormBody } from "./components/FormBody";
+export { FormFrame } from "./components/FormFrame";

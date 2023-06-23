@@ -1,8 +1,15 @@
-import { Outlet } from "react-router-dom";
+import {
+  Flex,
+  useColorModeValue,
+  Stack,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 
-import { Flex, useColorModeValue , Stack, useBreakpointValue } from "@chakra-ui/react";
+type Props = {
+  children: React.ReactNode;
+};
 
-export const AuthFormRootRoutes = () => {
+export const FormFrame = ({ children }: Props) => {
   return (
     <Flex
       align={"center"}
@@ -18,7 +25,7 @@ export const AuthFormRootRoutes = () => {
         py={12}
         px={6}
       >
-        <Outlet />
+        {children}
       </Stack>
     </Flex>
   );
