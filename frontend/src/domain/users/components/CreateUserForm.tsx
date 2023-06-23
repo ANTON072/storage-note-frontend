@@ -34,7 +34,6 @@ export const CreateUserForm = ({ form }: Props) => {
             ユーザーIDは英数とアンダースコアのみ、3文字以上15文字以内で、必ず1つ以上の英字が含まれている必要があります。
           </FormHelperText>
           <Input required type="text" {...form.register("userId")} />
-
           {errors.userId && (
             <FormErrorMessage textAlign={`left`}>
               {errors.userId.message}
@@ -47,12 +46,6 @@ export const CreateUserForm = ({ form }: Props) => {
           保存する
         </Button>
       </Box>
-      {/* 正規ユーザーのみ退会できる */}
-      {/* {values.userId && (
-        <Box>
-          <Button variant={`ghost`}>退会する</Button>
-        </Box>
-      )} */}
     </VStack>
   );
 };
