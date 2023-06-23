@@ -26,7 +26,7 @@ export const useImageEditor = ({ maxSizePx }: ImageEditorArgs) => {
   const [orgDataURL, setOrgDataURL] = useState("");
   // 加工後のDataURL
   const [croppedDataURL, setCroppedDataURL] = useState<string | undefined>();
-
+  // 画像選択中のローディング
   const [isLoading, setLoading] = useState(false);
 
   const imageFileInputRef = useRef<HTMLInputElement>(null);
@@ -84,9 +84,11 @@ export const useImageEditor = ({ maxSizePx }: ImageEditorArgs) => {
       // クロップ位置
       const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area>();
 
+      const [converting, setConverting] = useState(false);
+
       const handleCropImage = useCallback(async () => {
         if (!croppedAreaPixels || !orgFile) return;
-        setLoading(true);
+        setConverting(true);
         // 切り抜き
         const croppedDataURLImage = await cropImage({
           src: orgDataURL,
@@ -98,7 +100,6 @@ export const useImageEditor = ({ maxSizePx }: ImageEditorArgs) => {
           maxSizePx,
           mineType: orgFile.type,
         });
-        setLoading(false);
         setCroppedDataURL(resizedDataURLImage);
         handleCloseModal();
       }, [croppedAreaPixels]);
@@ -134,7 +135,7 @@ export const useImageEditor = ({ maxSizePx }: ImageEditorArgs) => {
                 <Button
                   onClick={handleCropImage}
                   colorScheme="blue"
-                  isLoading={isLoading}
+                  isLoading={converting}
                 >
                   適用
                 </Button>
