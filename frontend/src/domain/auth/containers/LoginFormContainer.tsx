@@ -11,13 +11,13 @@ import {
   firebaseGetAuth,
   localizeFirebaseErrorMessage,
   useFlashMessage,
+  useGoogleLogin,
+  useReSendMail,
 } from "@/domain/application";
 
 import { FormBody } from "../components/FormBody";
 import { FormTitle } from "../components/FormTitle";
 import { LoginForm } from "../components/LoginForm";
-import { useGoogleLogin } from "../hooks/useGoogleLogin";
-import { useReSendMail } from "../hooks/useReSendMail";
 import { passwordLoginSchema } from "../types";
 
 import type { PasswordLoginValues } from "../types";
