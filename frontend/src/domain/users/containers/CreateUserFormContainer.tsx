@@ -4,7 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 
-import type { AppState } from "@/domain/application";
+import { useFirebaseStorage, type AppState } from "@/domain/application";
 
 import { useUser } from "..";
 import { CreateUserForm } from "../components/CreateUserForm";
@@ -14,6 +14,8 @@ export const CreateUserFormContainer = () => {
   const { user } = useUser();
 
   const firebaseUser = useSelector((state: AppState) => state.user.firebase);
+
+  const { uploadImageToStorage } = useFirebaseStorage();
 
   const userId = user?.userId;
 
@@ -28,9 +30,16 @@ export const CreateUserFormContainer = () => {
   });
 
   const handleSubmit = userForm.handleSubmit(
-    useCallback((values: AppUser) => {
-      console.log("values", values);
-    }, [])
+    useCallback(
+      (values: AppUser) => {
+        console.log("values", values);
+        uploadImageToStorage({
+          url: values.photoURL,
+        });
+      },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [firebaseUser]
+    )
   );
 
   return (
