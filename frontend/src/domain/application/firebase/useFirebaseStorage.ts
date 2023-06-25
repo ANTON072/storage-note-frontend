@@ -1,4 +1,7 @@
 import { nanoid } from "@reduxjs/toolkit";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
+import { firebaseGetStorage } from ".";
 
 const getExtensionFromMimeType = (mimeType: string) => {
   const mapping: Record<string, string> = {
@@ -46,6 +49,11 @@ export const useFirebaseStorage = () => {
     }
     const file = dataURLtoFile(url, `user-${nanoid()}`);
     console.log("file", file);
+    const storage = firebaseGetStorage();
+    const storageRef = ref(storage, file.name);
+    const snapshot = await uploadBytes(storageRef, file);
+    const downloadURL = await getDownloadURL(storageRef);
+    console.log("downloadURL", downloadURL);
   };
 
   return { uploadImage };
