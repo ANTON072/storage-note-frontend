@@ -32,7 +32,10 @@ export const CreateUserFormContainer = () => {
   const handleSubmit = userForm.handleSubmit(
     useCallback(
       async (values: AppUser) => {
-        const fileURL = await uploadImage({ url: values.photoURL });
+        const fileURL = await uploadImage({
+          url: values.photoURL,
+          namePrefix: "user-icon",
+        });
       },
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [firebaseUser]

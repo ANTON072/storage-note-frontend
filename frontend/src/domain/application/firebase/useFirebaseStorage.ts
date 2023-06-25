@@ -38,16 +38,17 @@ const getExtensionFromDataURL = (dataURL: string) => {
 
 type UploadImageToStorageArgs = {
   url: string;
+  namePrefix: string;
 };
 
 export const useFirebaseStorage = () => {
-  const uploadImage = async ({ url }: UploadImageToStorageArgs) => {
+  const uploadImage = async ({ url, namePrefix }: UploadImageToStorageArgs) => {
     // 空文字もしくはURLの場合は即終了
     if (!url || /^http.+/.test(url)) {
       return Promise.resolve(url);
     }
     const ext = getExtensionFromDataURL(url);
-    const name = `user-${nanoid()}${ext}`;
+    const name = `${namePrefix}-${nanoid()}${ext}`;
     const storage = firebaseGetStorage();
     const storageRef = ref(storage, name);
     await uploadString(storageRef, url, "data_url");
