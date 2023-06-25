@@ -15,7 +15,6 @@ import {
   nonAuthLoader,
 } from "@/domain/auth";
 import { DashboardRoute } from "@/domain/dashboard";
-import { HomeRoute } from "@/domain/home";
 import { UserSettingsRoute, CreateUserRoute } from "@/domain/users";
 
 const router = createBrowserRouter([
@@ -23,11 +22,6 @@ const router = createBrowserRouter([
     element: <RootRoutes />,
     errorElement: <ErrorRoutes />,
     children: [
-      // 公開ページ
-      {
-        path: "/",
-        element: <HomeRoute />,
-      },
       // 認証が必要なページ
       {
         loader: authLoader,
@@ -37,11 +31,11 @@ const router = createBrowserRouter([
             element: <AuthRoute />,
             children: [
               {
-                path: "/app",
+                path: "/",
                 element: <DashboardRoute />,
               },
               {
-                path: "/app/user/settings",
+                path: "/user/settings",
                 element: <UserSettingsRoute />,
               },
             ],
