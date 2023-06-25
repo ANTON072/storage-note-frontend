@@ -15,7 +15,7 @@ export const CreateUserFormContainer = () => {
 
   const firebaseUser = useSelector((state: AppState) => state.user.firebase);
 
-  const { uploadImageToStorage } = useFirebaseStorage();
+  const { uploadImage } = useFirebaseStorage();
 
   const userId = user?.userId;
 
@@ -33,7 +33,7 @@ export const CreateUserFormContainer = () => {
     useCallback(
       (values: AppUser) => {
         console.log("values", values);
-        uploadImageToStorage({
+        uploadImage({
           url: values.photoURL,
         });
       },

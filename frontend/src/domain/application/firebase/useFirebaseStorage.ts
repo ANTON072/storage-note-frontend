@@ -39,7 +39,7 @@ type UploadImageToStorageArgs = {
 };
 
 export const useFirebaseStorage = () => {
-  const uploadImageToStorage = async ({ url }: UploadImageToStorageArgs) => {
+  const uploadImage = async ({ url }: UploadImageToStorageArgs) => {
     // 空文字もしくはURLの場合は即終了
     if (!url || /^http.+/.test(url)) {
       return Promise.resolve(url);
@@ -48,5 +48,5 @@ export const useFirebaseStorage = () => {
     console.log("file", file);
   };
 
-  return { uploadImageToStorage };
+  return { uploadImage };
 };
