@@ -17,9 +17,10 @@ import type { UseFormReturn } from "react-hook-form";
 
 type Props = {
   form: UseFormReturn<AppUser>;
+  isLoading: boolean;
 };
 
-export const CreateUserForm = ({ form }: Props) => {
+export const CreateUserForm = ({ form, isLoading }: Props) => {
   const errors = form.formState.errors;
 
   return (
@@ -42,7 +43,13 @@ export const CreateUserForm = ({ form }: Props) => {
         </FormControl>
       </Box>
       <Box width={`100%`}>
-        <Button type="submit" colorScheme="blue" size={`lg`} width={`100%`}>
+        <Button
+          type="submit"
+          colorScheme="blue"
+          size={`lg`}
+          width={`100%`}
+          isLoading={isLoading}
+        >
           保存する
         </Button>
       </Box>

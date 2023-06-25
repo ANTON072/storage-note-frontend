@@ -1,6 +1,7 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 
 import { yupResolver } from "@hookform/resolvers/yup";
+import { FirebaseError } from "firebase/app";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 
@@ -17,6 +18,8 @@ export const CreateUserFormContainer = () => {
 
   const { uploadImage } = useFirebaseStorage();
 
+  const [isLoading, setLoading] = useState(false);
+
   const userId = user?.userId;
 
   const defaultValues: AppUser = {
@@ -32,10 +35,22 @@ export const CreateUserFormContainer = () => {
   const handleSubmit = userForm.handleSubmit(
     useCallback(
       async (values: AppUser) => {
-        const fileURL = await uploadImage({
-          url: values.photoURL,
-          namePrefix: "user-icon",
-        });
+        try {
+          setLoading(true);
+          const fileURL = await uploadImage({
+            url: values.photoURL,
+            namePrefix: "user-icon",
+          });
+          console.log("fileURL", fileURL);
+        } catch (error) {
+          if (error instanceof FirebaseError) {
+            //
+          } else {
+            //
+          }
+        } finally {
+          setLoading(false);
+        }
       },
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [firebaseUser]
@@ -44,7 +59,7 @@ export const CreateUserFormContainer = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <CreateUserForm form={userForm} />
+      <CreateUserForm form={userForm} isLoading={isLoading} />
     </form>
   );
 };
