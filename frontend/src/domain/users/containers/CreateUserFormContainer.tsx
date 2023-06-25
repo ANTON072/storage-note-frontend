@@ -31,11 +31,8 @@ export const CreateUserFormContainer = () => {
 
   const handleSubmit = userForm.handleSubmit(
     useCallback(
-      (values: AppUser) => {
-        console.log("values", values);
-        uploadImage({
-          url: values.photoURL,
-        });
+      async (values: AppUser) => {
+        const fileURL = await uploadImage({ url: values.photoURL });
       },
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [firebaseUser]

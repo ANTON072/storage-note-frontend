@@ -1,40 +1,39 @@
 import { nanoid } from "@reduxjs/toolkit";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  ref,
+  uploadString,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 
 import { firebaseGetStorage } from ".";
 
-const getExtensionFromMimeType = (mimeType: string) => {
-  const mapping: Record<string, string> = {
-    "image/jpeg": ".jpg",
-    "image/png": ".png",
-  };
+const extractFileNameFromURL = (fileURL: string) => {
+  const regex = /[^/]+(?=\?alt=media)/;
+  const match = fileURL.match(regex);
 
-  return mapping[mimeType] || "";
+  return match ? match[0] : "";
 };
 
-const dataURLtoBlob = (dataURL: string) => {
-  // データURIをBASE64データとMIME識別子に分割
-  const splitDataURI = dataURL.split(",");
-  const byteString = atob(splitDataURI[1]);
-  const mimeString = splitDataURI[0].split(":")[1].split(";")[0];
+const getExtensionFromDataURL = (dataURL: string) => {
+  const regex = /^data:(.+);/;
+  const match = dataURL.match(regex);
 
-  // バイト配列を作成
-  const arrayBuffer = new ArrayBuffer(byteString.length);
-  const int8Array = new Uint8Array(arrayBuffer);
-  for (let i = 0; i < byteString.length; i++) {
-    int8Array[i] = byteString.charCodeAt(i);
+  if (match !== null) {
+    const mimeType = match[1];
+    switch (mimeType) {
+      case "image/jpeg":
+        return ".jpg";
+      case "image/png":
+        return ".png";
+      case "image/gif":
+        return ".gif";
+      default:
+        return "";
+    }
+  } else {
+    return "";
   }
-
-  // Blobを作成
-  const blob = new Blob([int8Array], { type: mimeString });
-  return blob;
-};
-
-const dataURLtoFile = (dataURL: string, filename: string) => {
-  const blob = dataURLtoBlob(dataURL);
-  const ext = getExtensionFromMimeType(blob.type);
-  const file = new File([blob], `${filename}${ext}`, { type: blob.type });
-  return file;
 };
 
 type UploadImageToStorageArgs = {
@@ -47,14 +46,20 @@ export const useFirebaseStorage = () => {
     if (!url || /^http.+/.test(url)) {
       return Promise.resolve(url);
     }
-    const file = dataURLtoFile(url, `user-${nanoid()}`);
-    console.log("file", file);
+    const ext = getExtensionFromDataURL(url);
+    const name = `user-${nanoid()}${ext}`;
     const storage = firebaseGetStorage();
-    const storageRef = ref(storage, file.name);
-    const snapshot = await uploadBytes(storageRef, file);
-    const downloadURL = await getDownloadURL(storageRef);
-    console.log("downloadURL", downloadURL);
+    const storageRef = ref(storage, name);
+    await uploadString(storageRef, url, "data_url");
+    return await getDownloadURL(storageRef);
   };
 
-  return { uploadImage };
+  const deleteImage = async (fileURL: string) => {
+    const fileName = extractFileNameFromURL(fileURL);
+    const storage = firebaseGetStorage();
+    const storageRef = ref(storage, fileName);
+    return await deleteObject(storageRef);
+  };
+
+  return { uploadImage, deleteImage };
 };
