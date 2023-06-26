@@ -1,13 +1,11 @@
-import { useCallback, useState } from "react";
-
 import { yupResolver } from "@hookform/resolvers/yup";
-import { FirebaseError } from "firebase/app";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 
-import { useFirebaseStorage, type AppState } from "@/domain/application";
+import { type AppState } from "@/domain/application";
 
 import { useUser } from "..";
+import { useCreateUser } from "../api/useCreateUser";
 import { CreateUserForm } from "../components/CreateUserForm";
 import { appUserSchema, type AppUser } from "../types";
 
@@ -16,9 +14,7 @@ export const CreateUserFormContainer = () => {
 
   const firebaseUser = useSelector((state: AppState) => state.user.firebase);
 
-  const { uploadImage } = useFirebaseStorage();
-
-  const [isLoading, setLoading] = useState(false);
+  const { onCreateUser, isLoading } = useCreateUser();
 
   const userId = user?.userId;
 
@@ -32,30 +28,7 @@ export const CreateUserFormContainer = () => {
     resolver: yupResolver(appUserSchema),
   });
 
-  const handleSubmit = userForm.handleSubmit(
-    useCallback(
-      async (values: AppUser) => {
-        try {
-          setLoading(true);
-          const fileURL = await uploadImage({
-            url: values.photoURL,
-            namePrefix: "user-icon",
-          });
-          console.log("fileURL", fileURL);
-        } catch (error) {
-          if (error instanceof FirebaseError) {
-            //
-          } else {
-            //
-          }
-        } finally {
-          setLoading(false);
-        }
-      },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [firebaseUser]
-    )
-  );
+  const handleSubmit = userForm.handleSubmit(onCreateUser);
 
   return (
     <form onSubmit={handleSubmit}>
