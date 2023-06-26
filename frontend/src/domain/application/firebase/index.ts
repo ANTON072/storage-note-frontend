@@ -1,10 +1,12 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth, signOut } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 
 import { store } from "@/domain/application";
 import { setIdToken } from "@/domain/auth";
 
-import type { Auth} from "firebase/auth";
+import type { Auth } from "firebase/auth";
+import type { FirebaseStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -23,13 +25,20 @@ export const firebaseApp = !apps.length
   : getApp();
 
 let authInstance: Auth;
+let storageInstance: FirebaseStorage;
 
-// シングルトンパターン
 export const firebaseGetAuth = () => {
   if (!authInstance) {
     authInstance = getAuth(firebaseApp);
   }
   return authInstance;
+};
+
+export const firebaseGetStorage = () => {
+  if (!storageInstance) {
+    storageInstance = getStorage(firebaseApp);
+  }
+  return storageInstance;
 };
 
 export const firebaseSignOut = () => {

@@ -68,7 +68,7 @@ export const LoginFormContainer = () => {
         toast({
           title: "ログインしました",
         });
-        navigate("/app");
+        navigate("/");
       } else {
         setFlashMessageState({
           description: "メールアドレスが認証されていません",

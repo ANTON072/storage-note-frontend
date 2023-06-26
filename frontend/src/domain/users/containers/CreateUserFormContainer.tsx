@@ -1,12 +1,11 @@
-import { useCallback } from "react";
-
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 
-import type { AppState } from "@/domain/application";
+import { type AppState } from "@/domain/application";
 
 import { useUser } from "..";
+import { useCreateUser } from "../api/useCreateUser";
 import { CreateUserForm } from "../components/CreateUserForm";
 import { appUserSchema, type AppUser } from "../types";
 
@@ -14,6 +13,8 @@ export const CreateUserFormContainer = () => {
   const { user } = useUser();
 
   const firebaseUser = useSelector((state: AppState) => state.user.firebase);
+
+  const { onCreateUser, isLoading } = useCreateUser();
 
   const userId = user?.userId;
 
@@ -27,15 +28,11 @@ export const CreateUserFormContainer = () => {
     resolver: yupResolver(appUserSchema),
   });
 
-  const handleSubmit = userForm.handleSubmit(
-    useCallback((values: AppUser) => {
-      console.log("values", values);
-    }, [])
-  );
+  const handleSubmit = userForm.handleSubmit(onCreateUser);
 
   return (
     <form onSubmit={handleSubmit}>
-      <CreateUserForm form={userForm} />
+      <CreateUserForm form={userForm} isLoading={isLoading} />
     </form>
   );
 };

@@ -32,6 +32,7 @@ export { useFullScreenLoading } from "./components/FullScreenLoading/useFullScre
 export { useGoogleLogin } from "./firebase/useGoogleLogin";
 export { useReSendMail } from "./firebase/useReSendMail";
 export { useReauthenticate } from "./firebase/useReauthenticate";
+export {useFirebaseStorage} from "./firebase/useFirebaseStorage";
 
 /** types */
 export type { FlashMessageState } from "./helpers/useFlashMessage";

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import type { ApiError } from "@/domain/application";
-import { MOCK_API_BASE_URL, store, refreshIdToken } from "@/domain/application";
+import { store, refreshIdToken } from "@/domain/application";
 
 import { camelcaseKeys, snakecaseKeys } from "../libs/convertKeys";
 
@@ -62,8 +62,8 @@ appApi.interceptors.response.use(
   }
 );
 
-export const getUsers = async () => {
-  const response = await appApi.get(`${MOCK_API_BASE_URL}/v1/users`);
+// export const getUsers = async () => {
+//   const response = await appApi.get(`${MOCK_API_BASE_URL}/v1/users`);
 
-  return response.data;
-};
+//   return response.data;
+// };

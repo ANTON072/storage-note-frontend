@@ -13,7 +13,7 @@ export const useGoogleLogin = () => {
 
   const onGoogleLogin = async () => {
     await signInWithPopup(auth, provider);
-    navigate("/app");
+    navigate("/");
     toast({ title: "ログインしました" });
   };
 

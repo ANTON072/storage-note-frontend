@@ -49,4 +49,11 @@ export const userHandlers = [
   //     })
   //   );
   // }),
+
+  // ユーザー作成
+  rest.post(`${MOCK_API_BASE_URL}/v1/user`, (req, res, ctx) => {
+    const reqJson = req.json();
+
+    return res(ctx.json(reqJson));
+  }),
 ];

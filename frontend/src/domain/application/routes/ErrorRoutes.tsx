@@ -28,7 +28,7 @@ export const ErrorRoutes = () => {
         }
         return;
       } else if (error.type === "ALREADY_LOGGED_IN") {
-        navigate("/app");
+        navigate("/");
         return;
       } else {
         navigate("/auth/login");
