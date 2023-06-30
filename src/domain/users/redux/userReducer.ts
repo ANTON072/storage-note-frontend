@@ -1,7 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import type { FirebaseUser, UserState } from "../types";
+import type { FirebaseUser } from "../types";
 import type { PayloadAction } from "@reduxjs/toolkit";
+
+type UserState = {
+  firebase: FirebaseUser | null;
+};
 
 const initialState: UserState = {
   firebase: null,

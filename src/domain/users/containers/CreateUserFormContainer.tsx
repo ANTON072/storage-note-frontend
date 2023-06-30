@@ -16,11 +16,11 @@ export const CreateUserFormContainer = () => {
 
   const { onCreateUser, isLoading } = useCreateUser();
 
-  const userId = user?.userId;
+  const name = user?.name;
 
   const defaultValues: AppUser = {
-    userId: userId || "",
-    photoURL: userId ? user.photoURL : firebaseUser?.photoURL || "",
+    name: name || "",
+    photoURL: name ? user.photoURL : firebaseUser?.photoURL || "",
   };
 
   const userForm = useForm<AppUser>({

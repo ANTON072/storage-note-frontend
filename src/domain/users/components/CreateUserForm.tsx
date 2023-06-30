@@ -29,15 +29,15 @@ export const CreateUserForm = ({ form, isLoading }: Props) => {
         <UserAvatar form={form} />
       </Stack>
       <Box width={`100%`}>
-        <FormControl isInvalid={!!errors.userId} isRequired>
+        <FormControl isInvalid={!!errors.name} isRequired>
           <FormLabel>ユーザーID</FormLabel>
           <FormHelperText textAlign={`left`} mb={2}>
             ユーザーIDは英数とアンダースコアのみ、3文字以上15文字以内で、必ず1つ以上の英字が含まれている必要があります。
           </FormHelperText>
-          <Input required type="text" {...form.register("userId")} />
-          {errors.userId && (
+          <Input required type="text" {...form.register("name")} />
+          {errors.name && (
             <FormErrorMessage textAlign={`left`}>
-              {errors.userId.message}
+              {errors.name.message}
             </FormErrorMessage>
           )}
         </FormControl>
