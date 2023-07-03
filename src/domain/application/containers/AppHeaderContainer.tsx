@@ -2,12 +2,11 @@ import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useToast } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
 
-import { type AppState, useLogout } from "@/domain/application";
+import { useLogout } from "@/domain/application";
+import { useUser } from "@/domain/users";
 
 import { AppHeader } from "../components/AppHeader";
-
 
 export const AppHeaderContainer = () => {
   const navigate = useNavigate();
@@ -16,9 +15,7 @@ export const AppHeaderContainer = () => {
 
   const { onLogout } = useLogout();
 
-  const firebaseUserState = useSelector(
-    (state: AppState) => state.user.firebase
-  );
+  const { user } = useUser();
 
   const handleLogout = useCallback(async () => {
     await onLogout();
@@ -29,5 +26,13 @@ export const AppHeaderContainer = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <AppHeader user={firebaseUserState} onLogout={handleLogout} />;
+  return (
+    <AppHeader
+      user={{
+        name: user?.name || "",
+        photoUrl: user?.photoUrl || "",
+      }}
+      onLogout={handleLogout}
+    />
+  );
 };

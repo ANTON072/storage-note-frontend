@@ -14,11 +14,11 @@ import {
 import type { FirebaseUser } from "@/domain/users";
 
 type Props = {
-  photoURL: FirebaseUser["photoURL"];
+  photoUrl: FirebaseUser["photoURL"];
   onLogout: () => void;
 };
 
-export const AvatarMenu = ({ photoURL, onLogout }: Props) => {
+export const AvatarMenu = ({ photoUrl, onLogout }: Props) => {
   return (
     <Flex alignItems={"center"}>
       <Menu>
@@ -29,7 +29,7 @@ export const AvatarMenu = ({ photoURL, onLogout }: Props) => {
           cursor={"pointer"}
           minW={0}
         >
-          <Avatar size={"sm"} src={photoURL || undefined} />
+          <Avatar key={photoUrl} size={"sm"} src={photoUrl || undefined} />
         </MenuButton>
         <MenuList>
           <MenuItem as={BrowserLink} to="/app/user/settings">

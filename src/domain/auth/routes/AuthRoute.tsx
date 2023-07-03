@@ -10,12 +10,13 @@ export const AuthRoute = () => {
   }
 
   // ユーザーIDが未設定な場合はユーザー作成ページへ遷移
-  if (!user?.userId) {
+  if (!user?.name) {
     return <Navigate to={`/create-user`} />;
   }
 
   if (isError) {
     // TODO: システムエラー画面の表示
+    return <div>システムエラー</div>;
   }
 
   return <Outlet />;

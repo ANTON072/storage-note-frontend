@@ -1,3 +1,5 @@
+import { useCallback } from "react";
+
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
@@ -10,7 +12,7 @@ import { CreateUserForm } from "../components/CreateUserForm";
 import { appUserSchema, type AppUser } from "../types";
 
 export const CreateUserFormContainer = () => {
-  const { user } = useUser();
+  const { user, refetch } = useUser();
 
   const firebaseUser = useSelector((state: AppState) => state.user.firebase);
 
@@ -20,7 +22,7 @@ export const CreateUserFormContainer = () => {
 
   const defaultValues: AppUser = {
     name: name || "",
-    photoURL: name ? user.photoURL : firebaseUser?.photoURL || "",
+    photoUrl: name ? user.photoUrl : firebaseUser?.photoURL || "",
   };
 
   const userForm = useForm<AppUser>({
@@ -28,7 +30,15 @@ export const CreateUserFormContainer = () => {
     resolver: yupResolver(appUserSchema),
   });
 
-  const handleSubmit = userForm.handleSubmit(onCreateUser);
+  const onSubmit = useCallback(
+    async (values: AppUser) => {
+      await onCreateUser(values);
+      refetch();
+    },
+    [onCreateUser, refetch]
+  );
+
+  const handleSubmit = userForm.handleSubmit((values) => onSubmit(values));
 
   return (
     <form onSubmit={handleSubmit}>

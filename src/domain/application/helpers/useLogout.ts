@@ -15,7 +15,7 @@ export const useLogout = () => {
     return new Promise((resolve) => {
       dispatch(setFirebaseUser(null));
       dispatch(setIdToken(""));
-      resolve(`delete user`);
+      resolve(`logout`);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
