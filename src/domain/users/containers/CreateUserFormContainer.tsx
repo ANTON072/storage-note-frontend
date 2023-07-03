@@ -1,3 +1,7 @@
+import { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { useToast } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
@@ -10,17 +14,21 @@ import { CreateUserForm } from "../components/CreateUserForm";
 import { appUserSchema, type AppUser } from "../types";
 
 export const CreateUserFormContainer = () => {
-  const { user } = useUser();
+  const { user, refetch } = useUser();
 
   const firebaseUser = useSelector((state: AppState) => state.user.firebase);
 
   const { onCreateUser, isLoading } = useCreateUser();
 
-  const userId = user?.userId;
+  const navigate = useNavigate();
+
+  const toast = useToast();
+
+  const name = user?.name;
 
   const defaultValues: AppUser = {
-    userId: userId || "",
-    photoURL: userId ? user.photoURL : firebaseUser?.photoURL || "",
+    name: name || "",
+    photoUrl: name ? user.photoUrl : firebaseUser?.photoURL || "",
   };
 
   const userForm = useForm<AppUser>({
@@ -28,7 +36,19 @@ export const CreateUserFormContainer = () => {
     resolver: yupResolver(appUserSchema),
   });
 
-  const handleSubmit = userForm.handleSubmit(onCreateUser);
+  const onSubmit = useCallback(
+    async (values: AppUser) => {
+      await onCreateUser(values);
+      refetch();
+      navigate("/");
+      toast({
+        title: "Storage Noteへようこそ！",
+      });
+    },
+    [navigate, onCreateUser, refetch, toast]
+  );
+
+  const handleSubmit = userForm.handleSubmit((values) => onSubmit(values));
 
   return (
     <form onSubmit={handleSubmit}>

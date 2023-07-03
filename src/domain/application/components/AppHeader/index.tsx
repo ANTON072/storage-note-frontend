@@ -21,7 +21,7 @@ import {
   MenuList,
 } from "@chakra-ui/react";
 
-import type { FirebaseUser } from "@/domain/users";
+import type { AppUser } from "@/domain/users/types";
 
 import { APP_NAME } from "../../constants";
 
@@ -29,14 +29,14 @@ import { AvatarMenu } from "./AvatarMenu";
 import { LoginStack } from "./LoginStack";
 
 type Props = {
-  user: FirebaseUser | null;
+  user: AppUser;
   onLogout: () => Promise<void>;
 };
 
 export const AppHeader = ({ user, onLogout }: Props) => {
   // const { isOpen, onToggle } = useDisclosure();
 
-  const isLoggedIn = !!user;
+  const isLoggedIn = !!user.name;
 
   return (
     <Box as="header">
@@ -90,7 +90,7 @@ export const AppHeader = ({ user, onLogout }: Props) => {
           spacing={6}
         >
           {isLoggedIn ? (
-            <AvatarMenu photoURL={user.photoURL} onLogout={onLogout} />
+            <AvatarMenu photoUrl={user.photoUrl} onLogout={onLogout} />
           ) : (
             <LoginStack />
           )}

@@ -13,7 +13,7 @@ type Props = {
 };
 
 export const UserAvatar = ({ form }: Props) => {
-  const photoURL = form.watch("photoURL");
+  const photoUrl = form.watch("photoUrl");
 
   const { ImageEditor, imageFileInputRef, croppedDataURL, isLoading } =
     useImageEditor({
@@ -22,27 +22,27 @@ export const UserAvatar = ({ form }: Props) => {
 
   useEffect(() => {
     if (croppedDataURL) {
-      form.setValue("photoURL", croppedDataURL);
+      form.setValue("photoUrl", croppedDataURL);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [croppedDataURL]);
 
   return (
     <>
-      <Avatar src={photoURL} size="2xl" key={photoURL}>
+      <Avatar src={photoUrl} size="2xl" key={photoUrl}>
         <AvatarBadge
           as={IconButton}
           size="md"
           rounded="full"
           top="-10px"
-          colorScheme={photoURL ? `red` : `blue`}
-          aria-label={photoURL ? `アイコンを削除` : `アイコンを追加`}
-          icon={photoURL ? <SmallCloseIcon /> : <SmallAddIcon />}
+          colorScheme={photoUrl ? `red` : `blue`}
+          aria-label={photoUrl ? `アイコンを削除` : `アイコンを追加`}
+          icon={photoUrl ? <SmallCloseIcon /> : <SmallAddIcon />}
           isLoading={isLoading}
           onClick={() => {
-            if (photoURL) {
+            if (photoUrl) {
               // 削除
-              form.setValue("photoURL", "");
+              form.setValue("photoUrl", "");
             } else {
               imageFileInputRef.current?.click();
             }
