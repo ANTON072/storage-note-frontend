@@ -1,5 +1,7 @@
 import { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
+import { useToast } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
@@ -18,6 +20,10 @@ export const CreateUserFormContainer = () => {
 
   const { onCreateUser, isLoading } = useCreateUser();
 
+  const navigate = useNavigate();
+
+  const toast = useToast();
+
   const name = user?.name;
 
   const defaultValues: AppUser = {
@@ -34,8 +40,12 @@ export const CreateUserFormContainer = () => {
     async (values: AppUser) => {
       await onCreateUser(values);
       refetch();
+      navigate("/");
+      toast({
+        title: "Storage Noteへようこそ！",
+      });
     },
-    [onCreateUser, refetch]
+    [navigate, onCreateUser, refetch, toast]
   );
 
   const handleSubmit = userForm.handleSubmit((values) => onSubmit(values));
