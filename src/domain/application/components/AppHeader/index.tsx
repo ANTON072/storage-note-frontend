@@ -36,9 +36,7 @@ type Props = {
 export const AppHeader = ({ user, onLogout }: Props) => {
   // const { isOpen, onToggle } = useDisclosure();
 
-  console.log("!!!!!user", user);
-
-  const isLoggedIn = !!user;
+  const isLoggedIn = !!user.name;
 
   return (
     <Box as="header">
