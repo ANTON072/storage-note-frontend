@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { save, load } from "redux-localstorage-simple";
 
 import { authReducer } from "@/domain/auth";
 import { userReducer } from "@/domain/users";
@@ -8,6 +9,8 @@ export const store = configureStore({
     auth: authReducer,
     user: userReducer,
   },
+  preloadedState: load(),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(save()),
 });
 
 export type AppState = ReturnType<typeof store.getState>;
