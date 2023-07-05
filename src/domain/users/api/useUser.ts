@@ -12,8 +12,6 @@ import type { AppUser } from "../types";
 import type { AxiosError } from "axios";
 
 export const useUser = () => {
-  const [isLoggedIn, setLoggedIn] = useState(false);
-
   const idToken = useSelector((state: AppState) => state.auth.idToken);
 
   const appUser = useSelector((state: AppState) => state.user.appUser);
@@ -37,10 +35,6 @@ export const useUser = () => {
   );
 
   useEffect(() => {
-    setLoggedIn(!!idToken);
-  }, [idToken]);
-
-  useEffect(() => {
     if (data) {
       dispatch(setAppUser(data));
     }
@@ -54,6 +48,6 @@ export const useUser = () => {
     isSuccess,
     error,
     refetch,
-    isLoggedIn,
+    isLoggedIn: !!idToken,
   };
 };
