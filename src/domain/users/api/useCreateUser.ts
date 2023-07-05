@@ -16,7 +16,7 @@ export const useCreateUser = () => {
       try {
         setLoading(true);
         const photoUrl = await uploadImage({
-          url: values.photoUrl,
+          url: values.photoUrl || "",
           namePrefix: "user_icon",
         });
         await appApi.post<AppUser>(`${API_BASE_URL}/v1/user`, {
@@ -37,5 +37,31 @@ export const useCreateUser = () => {
     [uploadImage]
   );
 
-  return { onCreateUser, isLoading };
+  const onUpdateUser = useCallback(
+    async (values: AppUser) => {
+      setLoading(true);
+      try {
+        setLoading(true);
+        const photoUrl = await uploadImage({
+          url: values.photoUrl || "",
+          namePrefix: "user_icon",
+        });
+        await appApi.patch<Pick<AppUser, "photoUrl">>(
+          `${API_BASE_URL}/v1/user`,
+          {
+            photoUrl,
+          }
+        );
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        // TODO: APIエラー時はFirebaseにアップロードされた画像を消したい
+        throw new Error(error);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [uploadImage]
+  );
+
+  return { onCreateUser, onUpdateUser, isLoading };
 };

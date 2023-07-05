@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { useQuery } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,7 +30,6 @@ export const useUser = () => {
     },
     {
       retry: false,
-      enabled: !appUser,
     }
   );
 
