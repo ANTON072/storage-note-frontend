@@ -29,14 +29,13 @@ import { AvatarMenu } from "./AvatarMenu";
 import { LoginStack } from "./LoginStack";
 
 type Props = {
-  user: AppUser;
+  user: AppUser | null;
+  isLoggedIn: boolean;
   onLogout: () => Promise<void>;
 };
 
-export const AppHeader = ({ user, onLogout }: Props) => {
+export const AppHeader = ({ user, isLoggedIn, onLogout }: Props) => {
   // const { isOpen, onToggle } = useDisclosure();
-
-  const isLoggedIn = !!user.name;
 
   return (
     <Box as="header">
@@ -72,7 +71,7 @@ export const AppHeader = ({ user, onLogout }: Props) => {
             as="h1"
             fontWeight="bold"
           >
-            <RouterLink to={isLoggedIn ? `/app` : `/`}>{APP_NAME}</RouterLink>
+            <RouterLink to={`/`}>{APP_NAME}</RouterLink>
           </Text>
           {/* メニュー */}
           {/* See: https://chakra-templates.dev/navigation/navbar */}
@@ -90,7 +89,7 @@ export const AppHeader = ({ user, onLogout }: Props) => {
           spacing={6}
         >
           {isLoggedIn ? (
-            <AvatarMenu photoUrl={user.photoUrl} onLogout={onLogout} />
+            <AvatarMenu photoUrl={user?.photoUrl || null} onLogout={onLogout} />
           ) : (
             <LoginStack />
           )}

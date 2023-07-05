@@ -1,18 +1,22 @@
 import { useEffect, useState } from "react";
 
 import { useQuery } from "react-query";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import type { AppState } from "@/domain/application";
 import { API_BASE_URL, appApi } from "@/domain/application";
+
+import { setAppUser } from "..";
 
 import type { AppUser } from "../types";
 import type { AxiosError } from "axios";
 
 export const useUser = () => {
-  const [isLoggedIn, setLoggedIn] = useState(false);
-
   const idToken = useSelector((state: AppState) => state.auth.idToken);
+
+  const appUser = useSelector((state: AppState) => state.user.appUser);
+
+  const dispatch = useDispatch();
 
   const { data, error, isLoading, isSuccess, isError, refetch } = useQuery<
     AppUser,
@@ -26,20 +30,24 @@ export const useUser = () => {
     },
     {
       retry: false,
+      enabled: !appUser,
     }
   );
 
   useEffect(() => {
-    setLoggedIn(!!idToken);
-  }, [idToken]);
+    if (data) {
+      dispatch(setAppUser(data));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   return {
-    user: data,
+    user: appUser,
     isLoading,
     isError,
     isSuccess,
     error,
     refetch,
-    isLoggedIn,
+    isLoggedIn: !!idToken,
   };
 };
