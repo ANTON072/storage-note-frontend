@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 
 import { setIdToken } from "@/domain/auth";
-import { setFirebaseUser } from "@/domain/users";
+import { setAppUser, setFirebaseUser } from "@/domain/users";
 
 import { firebaseSignOut } from "..";
 
@@ -14,6 +14,7 @@ export const useLogout = () => {
     await firebaseSignOut();
     return new Promise((resolve) => {
       dispatch(setFirebaseUser(null));
+      dispatch(setAppUser(null));
       dispatch(setIdToken(""));
       resolve(`logout`);
     });

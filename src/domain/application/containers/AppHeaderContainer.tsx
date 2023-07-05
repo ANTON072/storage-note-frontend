@@ -15,7 +15,7 @@ export const AppHeaderContainer = () => {
 
   const { onLogout } = useLogout();
 
-  const { user } = useUser();
+  const { user, isLoggedIn } = useUser();
 
   const handleLogout = useCallback(async () => {
     await onLogout();
@@ -27,12 +27,6 @@ export const AppHeaderContainer = () => {
   }, []);
 
   return (
-    <AppHeader
-      user={{
-        name: user?.name || "",
-        photoUrl: user?.photoUrl || "",
-      }}
-      onLogout={handleLogout}
-    />
+    <AppHeader user={user} isLoggedIn={isLoggedIn} onLogout={handleLogout} />
   );
 };
