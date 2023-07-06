@@ -6,9 +6,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { AxiosError } from "axios";
 import { FirebaseError } from "firebase/app";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import type { AppState } from "@/domain/application";
+import { setError, type AppState } from "@/domain/application";
 
 import { useUser } from "..";
 import { useCreateUser } from "../api/useCreateUser";
@@ -17,6 +17,8 @@ import { appUserSchema, type AppUser } from "../types";
 
 export const CreateUserFormContainer = () => {
   const { user, refetch } = useUser();
+
+  const dispatch = useDispatch();
 
   const firebaseUser = useSelector((state: AppState) => state.user.firebase);
 
@@ -49,11 +51,16 @@ export const CreateUserFormContainer = () => {
         });
       } catch (error) {
         if (error instanceof AxiosError) {
-          const message = error.response?.data.errors[0].detail;
-          form.setError("name", {
-            type: "validate",
-            message,
-          });
+          const status = error.response?.status;
+          if (status === 422) {
+            const message = error.response?.data.errors[0].detail;
+            form.setError("name", {
+              type: "validate",
+              message,
+            });
+          } else {
+            dispatch(setError(error));
+          }
         } else if (error instanceof FirebaseError) {
           form.setError("photoUrl", {
             type: "validate",
@@ -64,6 +71,7 @@ export const CreateUserFormContainer = () => {
         }
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [form, navigate, onCreateUser, refetch, toast]
   );
 

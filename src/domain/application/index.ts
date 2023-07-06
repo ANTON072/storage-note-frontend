@@ -8,6 +8,7 @@ export { ErrorRoutes } from "./routes/ErrorRoutes";
 /** Containers */
 export { AppProviderContainer } from "./containers/AppProviderContainer";
 export { AppHeaderContainer } from "./containers/AppHeaderContainer";
+export { AppGlobalErrorContainer } from "./containers/AppGlobalErrorContainer";
 
 /** Components */
 export { AppFooter } from "./components/AppFooter";
@@ -32,7 +33,7 @@ export { useFullScreenLoading } from "./components/FullScreenLoading/useFullScre
 export { useGoogleLogin } from "./firebase/useGoogleLogin";
 export { useReSendMail } from "./firebase/useReSendMail";
 export { useReauthenticate } from "./firebase/useReauthenticate";
-export {useFirebaseStorage} from "./firebase/useFirebaseStorage";
+export { useFirebaseStorage } from "./firebase/useFirebaseStorage";
 
 /** types */
 export type { FlashMessageState } from "./helpers/useFlashMessage";
@@ -43,4 +44,5 @@ export { setCookie, getCookie } from "./libs/cookie";
 
 /** Redux */
 export { store } from "./redux/store";
+export { setError } from "./redux/commonReducer";
 export type { AppState } from "./redux/store";

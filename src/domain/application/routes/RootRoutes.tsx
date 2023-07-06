@@ -2,12 +2,19 @@ import { Outlet, ScrollRestoration } from "react-router-dom";
 
 import { Box } from "@chakra-ui/react";
 
-import { AppHeaderContainer, AppFooter } from "@/domain/application";
+import {
+  AppHeaderContainer,
+  AppFooter,
+  AppGlobalErrorContainer,
+} from "@/domain/application";
 
 export const RootRoutes = () => {
   return (
     <>
-      <AppHeaderContainer />
+      <Box>
+        <AppHeaderContainer />
+        <AppGlobalErrorContainer />
+      </Box>
       <Box as="main">
         <Outlet />
       </Box>

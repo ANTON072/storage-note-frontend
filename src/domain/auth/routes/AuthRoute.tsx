@@ -1,9 +1,14 @@
 import { Navigate, Outlet } from "react-router-dom";
 
+import { useDispatch } from "react-redux";
+
+import { setError } from "@/domain/application";
 import { useUser } from "@/domain/users";
 
 export const AuthRoute = () => {
   const { user, isLoading, error } = useUser();
+
+  const dispatch = useDispatch();
 
   if (isLoading) {
     return null;
@@ -15,18 +20,7 @@ export const AuthRoute = () => {
   }
 
   if (error) {
-    // const statusCode = error.response?.status;
-    // if (!statusCode) {
-    //   return <div>システムエラー</div>;
-    // }
-    // if (statusCode < 500) {
-    //   onLogout().then(() => {
-    //     return <Navigate to={`/auth/login`} />;
-    //   });
-    // } else {
-    //   return <div>システムエラー</div>;
-    // }
-    return <div>システムエラー</div>;
+    dispatch(setError(error));
   }
 
   return <Outlet />;
