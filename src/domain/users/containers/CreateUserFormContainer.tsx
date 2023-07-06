@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 import { useToast } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { AxiosError } from "axios";
+import { FirebaseError } from "firebase/app";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 
-import { type AppState } from "@/domain/application";
+import type { AppState } from "@/domain/application";
 
 import { useUser } from "..";
 import { useCreateUser } from "../api/useCreateUser";
@@ -31,28 +33,45 @@ export const CreateUserFormContainer = () => {
     photoUrl: name ? user.photoUrl : firebaseUser?.photoURL || "",
   };
 
-  const userForm = useForm<AppUser>({
+  const form = useForm<AppUser>({
     defaultValues,
     resolver: yupResolver(appUserSchema),
   });
 
   const onSubmit = useCallback(
     async (values: AppUser) => {
-      await onCreateUser(values);
-      refetch();
-      navigate("/");
-      toast({
-        title: "Storage Noteへようこそ！",
-      });
+      try {
+        await onCreateUser(values);
+        refetch();
+        navigate("/");
+        toast({
+          title: "Storage Noteへようこそ！",
+        });
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          const message = error.response?.data.errors[0].detail;
+          form.setError("name", {
+            type: "validate",
+            message,
+          });
+        } else if (error instanceof FirebaseError) {
+          form.setError("photoUrl", {
+            type: "validate",
+            message: error.message,
+          });
+        } else {
+          console.error(error);
+        }
+      }
     },
-    [navigate, onCreateUser, refetch, toast]
+    [form, navigate, onCreateUser, refetch, toast]
   );
 
-  const handleSubmit = userForm.handleSubmit((values) => onSubmit(values));
+  const handleSubmit = form.handleSubmit((values) => onSubmit(values));
 
   return (
     <form onSubmit={handleSubmit}>
-      <CreateUserForm form={userForm} isLoading={isLoading} />
+      <CreateUserForm form={form} isLoading={isLoading} />
     </form>
   );
 };

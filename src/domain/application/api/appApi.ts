@@ -45,12 +45,13 @@ appApi.interceptors.response.use(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const originalRequest = error.config as any;
     const statusCode = error.response?.status;
-    const title = error.response?.data?.title || "";
+    const errors = error.response?.data.errors;
+    const title = errors ? errors[0].title : undefined;
 
     // トークンの期限切れ
     if (
       statusCode === 401 &&
-      title?.includes("expired") &&
+      title?.includes("Expired") &&
       !originalRequest._retry
     ) {
       originalRequest._retry = true;
@@ -61,9 +62,3 @@ appApi.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-// export const getUsers = async () => {
-//   const response = await appApi.get(`${MOCK_API_BASE_URL}/v1/users`);
-
-//   return response.data;
-// };

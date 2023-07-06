@@ -35,11 +35,9 @@ export const CreateUserForm = ({ form, isLoading }: Props) => {
             ユーザーIDは英数とアンダースコアのみ、3文字以上15文字以内で、必ず1つ以上の英字が含まれている必要があります。
           </FormHelperText>
           <Input required type="text" {...form.register("name")} />
-          {errors.name && (
-            <FormErrorMessage textAlign={`left`}>
-              {errors.name.message}
-            </FormErrorMessage>
-          )}
+          <FormErrorMessage textAlign={`left`}>
+            {errors.name?.message}
+          </FormErrorMessage>
         </FormControl>
       </Box>
       <Box width={`100%`}>

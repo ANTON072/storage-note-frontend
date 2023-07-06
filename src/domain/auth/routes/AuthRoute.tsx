@@ -3,7 +3,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useUser } from "@/domain/users";
 
 export const AuthRoute = () => {
-  const { user, isLoading, isError } = useUser();
+  const { user, isLoading, error } = useUser();
 
   if (isLoading) {
     return null;
@@ -14,8 +14,18 @@ export const AuthRoute = () => {
     return <Navigate to={`/create-user`} />;
   }
 
-  if (isError) {
-    // TODO: システムエラー画面の表示
+  if (error) {
+    // const statusCode = error.response?.status;
+    // if (!statusCode) {
+    //   return <div>システムエラー</div>;
+    // }
+    // if (statusCode < 500) {
+    //   onLogout().then(() => {
+    //     return <Navigate to={`/auth/login`} />;
+    //   });
+    // } else {
+    //   return <div>システムエラー</div>;
+    // }
     return <div>システムエラー</div>;
   }
 

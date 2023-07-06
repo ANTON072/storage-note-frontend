@@ -1,7 +1,5 @@
 import { useCallback, useState } from "react";
 
-import { FirebaseError } from "firebase/app";
-
 import { useFirebaseStorage, appApi, API_BASE_URL } from "@/domain/application";
 
 import type { AppUser } from "../types";
@@ -13,27 +11,19 @@ export const useCreateUser = () => {
 
   const onCreateUser = useCallback(
     async (values: AppUser) => {
-      try {
-        setLoading(true);
-        const photoUrl = await uploadImage({
-          url: values.photoUrl || "",
-          namePrefix: "user_icon",
-        });
-        await appApi.post<AppUser>(`${API_BASE_URL}/v1/user`, {
+      setLoading(true);
+      const photoUrl = await uploadImage({
+        url: values.photoUrl || "",
+        namePrefix: "user_icon",
+      });
+      await appApi
+        .post<AppUser>(`${API_BASE_URL}/v1/user`, {
           name: values.name,
           photoUrl,
+        })
+        .finally(() => {
+          setLoading(false);
         });
-      } catch (error) {
-        console.error(error);
-        if (error instanceof FirebaseError) {
-          //
-        } else {
-          //
-          throw new Error(error as any);
-        }
-      } finally {
-        setLoading(false);
-      }
     },
     [uploadImage]
   );
@@ -41,25 +31,17 @@ export const useCreateUser = () => {
   const onUpdateUser = useCallback(
     async (values: AppUser) => {
       setLoading(true);
-      try {
-        setLoading(true);
-        const photoUrl = await uploadImage({
-          url: values.photoUrl || "",
-          namePrefix: "user_icon",
+      const photoUrl = await uploadImage({
+        url: values.photoUrl || "",
+        namePrefix: "user_icon",
+      });
+      await appApi
+        .patch<Pick<AppUser, "photoUrl">>(`${API_BASE_URL}/v1/user`, {
+          photoUrl,
+        })
+        .finally(() => {
+          setLoading(false);
         });
-        await appApi.patch<Pick<AppUser, "photoUrl">>(
-          `${API_BASE_URL}/v1/user`,
-          {
-            photoUrl,
-          }
-        );
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (error: any) {
-        // TODO: APIエラー時はFirebaseにアップロードされた画像を消したい
-        throw new Error(error);
-      } finally {
-        setLoading(false);
-      }
     },
     [uploadImage]
   );
