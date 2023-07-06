@@ -29,6 +29,7 @@ export const useCreateUser = () => {
           //
         } else {
           //
+          throw new Error(error as any);
         }
       } finally {
         setLoading(false);
