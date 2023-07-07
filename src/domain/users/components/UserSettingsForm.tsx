@@ -24,8 +24,6 @@ type Props = {
 export const UserSettingsForm = ({ form, isLoading }: Props) => {
   const name = form.getValues("name");
 
-  console.log("name", name);
-
   return (
     <VStack spacing={5}>
       <Stack>
