@@ -2,8 +2,13 @@ import { useCallback } from "react";
 
 import { useToast } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { AxiosError } from "axios";
+import { FirebaseError } from "firebase/app";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import * as yup from "yup";
+
+import { setError } from "@/domain/application";
 
 import { useUser } from "..";
 import { useCreateUser } from "../api/useCreateUser";
@@ -16,6 +21,8 @@ export const UserSettingsContainer = () => {
   const { onUpdateUser, isLoading } = useCreateUser();
 
   const toast = useToast();
+
+  const dispatch = useDispatch();
 
   const defaultValues: AppUser = {
     name: user?.name || "",
@@ -40,13 +47,19 @@ export const UserSettingsContainer = () => {
           title: "ユーザー情報を更新しました",
         });
       } catch (error) {
-        toast({
-          title: "ユーザー情報の更新に失敗しました",
-          status: "error",
-        });
+        if (error instanceof AxiosError) {
+          dispatch(setError(error));
+        } else if (error instanceof FirebaseError) {
+          form.setError("photoUrl", {
+            type: "validate",
+            message: error.message,
+          });
+        } else {
+          console.error(error);
+        }
       }
     },
-    [onUpdateUser, refetch, toast]
+    [dispatch, form, onUpdateUser, refetch, toast]
   );
 
   const handleSubmit = form.handleSubmit((values) => onSubmit(values));
