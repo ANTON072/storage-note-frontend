@@ -11,7 +11,10 @@ import {
   Input,
   Stack,
   Box,
+  Button,
 } from "@chakra-ui/react";
+
+import { AutoComplete } from "@/domain/application";
 
 type Props = {
   isOpen: boolean;
@@ -26,7 +29,7 @@ export const StorageForm = ({ isOpen, onClose }: Props) => {
       placement="right"
       initialFocusRef={firstField}
       onClose={onClose}
-      isOpen={isOpen}
+      isOpen={true}
     >
       <DrawerOverlay />
       <DrawerCloseButton />
@@ -34,7 +37,7 @@ export const StorageForm = ({ isOpen, onClose }: Props) => {
         <DrawerCloseButton />
         <DrawerHeader borderBottomWidth="1px">ストレージ新規作成</DrawerHeader>
         <DrawerBody>
-          <Stack>
+          <Stack py={3} spacing={5}>
             <Box>
               <FormLabel htmlFor="storageName">ストレージ名</FormLabel>
               <Input
@@ -42,6 +45,13 @@ export const StorageForm = ({ isOpen, onClose }: Props) => {
                 id="storageName"
                 placeholder="〇〇のストレージ"
               />
+            </Box>
+            <Box>
+              <FormLabel htmlFor="storageName">メンバー</FormLabel>
+              <AutoComplete placeholder="メンバーIDを入力してください" />
+            </Box>
+            <Box>
+              <Button>新規作成</Button>
             </Box>
           </Stack>
         </DrawerBody>
