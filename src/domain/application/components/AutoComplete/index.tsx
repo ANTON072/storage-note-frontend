@@ -1,19 +1,29 @@
 import { useEffect, useRef, useState } from "react";
 
-import { Box, Input, Text } from "@chakra-ui/react";
+import { Box, Input } from "@chakra-ui/react";
+
+import { NoResult } from "./NoResult";
+import { SuggestListItem } from "./SuggestListItem";
 
 import type { InputProps } from "@chakra-ui/react";
 
 type Props = InputProps & {
   options: Option[];
+  inputText: string;
+  setInputText: (text: string) => void;
+  noResultText?: string;
 };
 
 export type Option = { id: string | number; text: string };
 
-export const Autocomplete = ({ placeholder, options }: Props) => {
+export const Autocomplete = ({
+  placeholder,
+  options,
+  inputText,
+  setInputText,
+  noResultText,
+}: Props) => {
   const [isFocus, setFocus] = useState(false);
-
-  const [text, setText] = useState("");
 
   const suggestRef = useRef<HTMLDivElement | null>(null);
 
@@ -47,8 +57,8 @@ export const Autocomplete = ({ placeholder, options }: Props) => {
           setFocus(true);
         }}
         placeholder={placeholder}
-        onChange={(e) => [setText(e.target.value)]}
-        value={text}
+        onChange={(e) => [setInputText(e.target.value)]}
+        value={inputText}
       />
       <Box
         w={`100%`}
@@ -60,21 +70,15 @@ export const Autocomplete = ({ placeholder, options }: Props) => {
         zIndex={1}
         style={{ display: isFocus ? "block" : "none" }}
       >
+        {/* <NoResult noResultText={noResultText} /> */}
         {options.map((option) => (
-          <Text
+          <SuggestListItem
             key={option.id}
-            px={2}
-            py={1}
-            cursor={`pointer`}
-            _hover={{
-              bg: "gray.200",
-            }}
+            label={option.text}
             onClick={() => {
               setFocus(false);
             }}
-          >
-            {option.text}
-          </Text>
+          />
         ))}
       </Box>
     </Box>

@@ -10,3 +10,4 @@ export type { UserMeta, FirebaseUser } from "./types";
 
 /** hooks */
 export { useUser } from "./api/useUser";
+export { useSuggestUsers } from "./hooks/useSuggestUsers";

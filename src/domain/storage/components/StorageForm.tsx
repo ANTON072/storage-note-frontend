@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 import {
   Drawer,
@@ -12,9 +12,11 @@ import {
   Stack,
   Box,
   Button,
+  Divider,
 } from "@chakra-ui/react";
 
-import { Autocomplete } from "@/domain/application";
+import { FileUpload } from "@/domain/application";
+import { useSuggestUsers } from "@/domain/users";
 
 type Props = {
   isOpen: boolean;
@@ -23,6 +25,8 @@ type Props = {
 
 export const StorageForm = ({ isOpen, onClose }: Props) => {
   const firstField = useRef<HTMLInputElement>(null);
+
+  const { SuggestUsers } = useSuggestUsers();
 
   return (
     <Drawer
@@ -45,24 +49,20 @@ export const StorageForm = ({ isOpen, onClose }: Props) => {
               />
             </Box>
             <Box>
-              <FormLabel htmlFor="storageName">メンバー</FormLabel>
-              <Autocomplete
-                placeholder="メンバーIDを入力してください"
-                options={[
-                  { id: 1, text: "React" },
-                  { id: 2, text: "Ruby on Rails" },
-                  { id: 3, text: "JavaScript" },
-                  { id: 4, text: "TypeScript" },
-                  { id: 5, text: "Go" },
-                  { id: 6, text: "HTML" },
-                  { id: 7, text: "CSS" },
-                ]}
-              />
+              <FormLabel htmlFor="storageName">メンバーの追加</FormLabel>
+              <SuggestUsers />
             </Box>
             <Box>
-              <Button>新規作成</Button>
+              <FormLabel htmlFor="storageName">サムネイル</FormLabel>
+              <FileUpload />
             </Box>
           </Stack>
+          <Divider my={3} />
+          <Box>
+            <Button w={`100%`} colorScheme="blue">
+              新規作成
+            </Button>
+          </Box>
         </DrawerBody>
       </DrawerContent>
       <DrawerOverlay />

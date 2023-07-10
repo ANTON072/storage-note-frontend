@@ -10,7 +10,6 @@ import {
   Badge,
   Flex,
   Button,
-  Box,
 } from "@chakra-ui/react";
 
 export const StockListItem = () => {

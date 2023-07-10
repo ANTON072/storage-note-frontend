@@ -14,7 +14,7 @@ import {
 //   storageName: string;
 // };
 
-export const StorageListItem = () => {
+export const StorageListItem: React.FC = () => {
   return (
     <Card
       direction={{ base: "column", sm: "row" }}

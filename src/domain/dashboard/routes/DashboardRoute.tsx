@@ -30,14 +30,16 @@ export const DashboardRoute = () => {
             >
               参加中のストレージ
             </AppHeading>
-            <SimpleGrid spacing={5} minChildWidth={`400px`}>
+            <SimpleGrid spacing={5} minChildWidth={[`200px`, `500px`]}>
+              <StorageListItem />
+              <StorageListItem />
               <StorageListItem />
               <StorageListItem />
             </SimpleGrid>
           </Box>
           <Box>
             <AppHeading>在庫が少ないストック</AppHeading>
-            <SimpleGrid spacing={5} minChildWidth={`500px`}>
+            <SimpleGrid spacing={5} minChildWidth={[`200px`, `500px`]}>
               <StockListItem />
               <StockListItem />
               <StockListItem />

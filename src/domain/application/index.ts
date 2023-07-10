@@ -15,6 +15,7 @@ export { AppFooter } from "./components/AppFooter";
 export { PageHead } from "./components/PageHead";
 export { AppHeading } from "./components/AppHeading";
 export { Autocomplete } from "./components/Autocomplete";
+export { FileUpload } from "./components/FileUpload";
 
 /** libs */
 export {
