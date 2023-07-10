@@ -48,6 +48,8 @@ appApi.interceptors.response.use(
     const errors = error.response?.data.errors;
     const title = errors ? errors[0].title : undefined;
 
+    console.log("--------------------------------------->");
+
     // トークンの期限切れ
     if (
       statusCode === 401 &&

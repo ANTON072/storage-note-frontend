@@ -13,6 +13,7 @@ export { AppGlobalErrorContainer } from "./containers/AppGlobalErrorContainer";
 /** Components */
 export { AppFooter } from "./components/AppFooter";
 export { PageHead } from "./components/PageHead";
+export { AppHeading } from "./components/AppHeading";
 
 /** libs */
 export {
