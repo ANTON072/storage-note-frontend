@@ -4,20 +4,13 @@ import { Box, Input, Text } from "@chakra-ui/react";
 
 import type { InputProps } from "@chakra-ui/react";
 
-type Props = InputProps;
+type Props = InputProps & {
+  options: Option[];
+};
 
-// 仮
-const options = [
-  { id: 1, text: "React" },
-  { id: 2, text: "Ruby on Rails" },
-  { id: 3, text: "JavaScript" },
-  { id: 4, text: "TypeScript" },
-  { id: 5, text: "Go" },
-  { id: 6, text: "HTML" },
-  { id: 7, text: "CSS" },
-];
+export type Option = { id: string | number; text: string };
 
-export const Autocomplete = ({ placeholder }: Props) => {
+export const Autocomplete = ({ placeholder, options }: Props) => {
   const [isFocus, setFocus] = useState(false);
 
   const [text, setText] = useState("");
