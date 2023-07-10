@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import {
   Drawer,
@@ -14,7 +14,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-import { AutoComplete } from "@/domain/application";
+import { Autocomplete } from "@/domain/application";
 
 type Props = {
   isOpen: boolean;
@@ -29,10 +29,8 @@ export const StorageForm = ({ isOpen, onClose }: Props) => {
       placement="right"
       initialFocusRef={firstField}
       onClose={onClose}
-      isOpen={true}
+      isOpen={isOpen}
     >
-      <DrawerOverlay />
-      <DrawerCloseButton />
       <DrawerContent>
         <DrawerCloseButton />
         <DrawerHeader borderBottomWidth="1px">ストレージ新規作成</DrawerHeader>
@@ -48,7 +46,7 @@ export const StorageForm = ({ isOpen, onClose }: Props) => {
             </Box>
             <Box>
               <FormLabel htmlFor="storageName">メンバー</FormLabel>
-              <AutoComplete placeholder="メンバーIDを入力してください" />
+              <Autocomplete placeholder="メンバーIDを入力してください" />
             </Box>
             <Box>
               <Button>新規作成</Button>
@@ -56,6 +54,7 @@ export const StorageForm = ({ isOpen, onClose }: Props) => {
           </Stack>
         </DrawerBody>
       </DrawerContent>
+      <DrawerOverlay />
     </Drawer>
   );
 };

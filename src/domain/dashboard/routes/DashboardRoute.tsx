@@ -1,12 +1,5 @@
 import { AddIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  Button,
-  Container,
-  Stack,
-  SimpleGrid,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Box, Button, Container, Stack, SimpleGrid } from "@chakra-ui/react";
 
 import { PageHead, AppHeading } from "@/domain/application";
 import {

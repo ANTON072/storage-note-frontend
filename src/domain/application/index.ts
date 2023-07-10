@@ -14,7 +14,7 @@ export { AppGlobalErrorContainer } from "./containers/AppGlobalErrorContainer";
 export { AppFooter } from "./components/AppFooter";
 export { PageHead } from "./components/PageHead";
 export { AppHeading } from "./components/AppHeading";
-export { AutoComplete } from "./components/AutoComplete";
+export { Autocomplete } from "./components/Autocomplete";
 
 /** libs */
 export {
