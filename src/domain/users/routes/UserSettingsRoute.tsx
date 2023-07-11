@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import type { AppState } from "@/domain/application";
 
 import { ChangeLoginFormContainer } from "../containers/ChangeLoginFormContainer";
+import { UserSettingsContainer } from "../containers/UserSettingsContainer";
 
 export const UserSettingsRoute = () => {
   const provider = useSelector(
@@ -37,7 +38,7 @@ export const UserSettingsRoute = () => {
         </TabList>
         <TabPanels>
           <TabPanel>
-            <>Profile</>
+            <UserSettingsContainer />
           </TabPanel>
           <TabPanel>
             <ChangeLoginFormContainer />

@@ -11,6 +11,7 @@ import {
   AppHeaderContainer,
   AppFooter,
   firebaseGetAuth,
+  AppGlobalErrorContainer,
 } from "@/domain/application";
 import { setIdToken } from "@/domain/auth";
 import { setAppUser, setFirebaseUser } from "@/domain/users";
@@ -75,7 +76,10 @@ export const RootRoutes = () => {
 
   return (
     <>
-      <AppHeaderContainer />
+      <Box>
+        <AppHeaderContainer />
+        <AppGlobalErrorContainer />
+      </Box>
       <Box as="main">
         <Outlet />
       </Box>

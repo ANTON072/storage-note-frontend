@@ -1,47 +1,47 @@
 import { useCallback, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { useToast } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import * as yup from "yup";
 
 import { useFirebaseStorage, appApi, API_BASE_URL } from "@/domain/application";
 
-import { setAppUser, useUser } from "..";
-import { CreateUserForm } from "../components/CreateUserForm";
+import { useUser, setAppUser } from "..";
+import { UserSettingsForm } from "../components/UserSettingsForm";
 import { appUserSchema, type AppUser } from "../types";
-
-export const CreateUserFormContainer = () => {
-  const { firebaseUser } = useUser();
-
-  const { uploadImage } = useFirebaseStorage();
-
-  const [isLoading, setLoading] = useState(false);
-
-  const navigate = useNavigate();
-
-  const dispatch = useDispatch();
+export const UserSettingsContainer = () => {
+  const { appUser } = useUser();
 
   const toast = useToast();
 
+  const dispatch = useDispatch();
+
+  const [isLoading, setLoading] = useState(false);
+
+  const { uploadImage } = useFirebaseStorage();
+
   const defaultValues: AppUser = {
-    name: "",
-    photoUrl: firebaseUser?.photoURL || "",
+    name: appUser?.name || "",
+    photoUrl: appUser?.photoUrl || "",
   };
 
   const form = useForm<AppUser>({
     defaultValues,
-    resolver: yupResolver(appUserSchema),
+    resolver: yupResolver(
+      yup.object({
+        photoUrl: appUserSchema.fields.photoUrl,
+      })
+    ),
   });
 
-  const onCreateUser = useCallback(async (values: AppUser) => {
+  const onUpdateUser = useCallback(async (values: AppUser) => {
     const photoUrl = await uploadImage({
       url: values.photoUrl || "",
       namePrefix: "user_icon",
     });
-    const response = await appApi.post<AppUser>(`${API_BASE_URL}/v1/user`, {
-      name: values.name,
+    const response = await appApi.patch<AppUser>(`${API_BASE_URL}/v1/user`, {
       photoUrl,
     });
 
@@ -53,16 +53,15 @@ export const CreateUserFormContainer = () => {
     async (values: AppUser) => {
       try {
         setLoading(true);
-        const user = await onCreateUser(values);
+        const user = await onUpdateUser(values);
         dispatch(setAppUser(user));
-        navigate("/");
         toast({
-          title: "Storage Noteへようこそ！",
+          title: "ユーザー情報を更新しました",
         });
       } catch (error) {
         console.error(error);
         toast({
-          title: "ユーザー作成に失敗しました",
+          title: "ユーザー情報の更新に失敗しました",
           status: "error",
         });
       } finally {
@@ -77,7 +76,7 @@ export const CreateUserFormContainer = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <CreateUserForm form={form} isLoading={isLoading} />
+      <UserSettingsForm form={form} isLoading={isLoading} />
     </form>
   );
 };

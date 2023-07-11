@@ -11,14 +11,16 @@ import {
   MenuDivider,
 } from "@chakra-ui/react";
 
-import type { FirebaseUser } from "@/domain/users";
+import type { AppUser } from "@/domain/users/types";
 
 type Props = {
-  photoUrl: FirebaseUser["photoURL"];
   onLogout: () => void;
+  user: AppUser | null;
 };
 
-export const AvatarMenu = ({ photoUrl, onLogout }: Props) => {
+export const AvatarMenu = ({ onLogout, user }: Props) => {
+  const photUrl = user?.photoUrl;
+
   return (
     <Flex alignItems={"center"}>
       <Menu>
@@ -29,12 +31,14 @@ export const AvatarMenu = ({ photoUrl, onLogout }: Props) => {
           cursor={"pointer"}
           minW={0}
         >
-          <Avatar key={photoUrl} size={"sm"} src={photoUrl || undefined} />
+          <Avatar key={photUrl} size={"sm"} src={photUrl} />
         </MenuButton>
         <MenuList>
-          <MenuItem as={BrowserLink} to="/user/settings">
-            ユーザー設定
-          </MenuItem>
+          {user && (
+            <MenuItem as={BrowserLink} to="/user/settings">
+              ユーザー設定
+            </MenuItem>
+          )}
           <MenuDivider />
           <MenuItem onClick={onLogout}>ログアウト</MenuItem>
         </MenuList>

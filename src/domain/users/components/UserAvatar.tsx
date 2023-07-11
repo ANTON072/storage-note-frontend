@@ -1,7 +1,13 @@
 import { useEffect } from "react";
 
 import { SmallCloseIcon, SmallAddIcon } from "@chakra-ui/icons";
-import { Avatar, IconButton, AvatarBadge } from "@chakra-ui/react";
+import {
+  Avatar,
+  IconButton,
+  AvatarBadge,
+  FormErrorMessage,
+  FormControl,
+} from "@chakra-ui/react";
 
 import { useImageEditor } from "@/domain/application";
 
@@ -14,6 +20,8 @@ type Props = {
 
 export const UserAvatar = ({ form }: Props) => {
   const photoUrl = form.watch("photoUrl");
+
+  const errors = form.formState.errors;
 
   const { ImageEditor, imageFileInputRef, croppedDataURL, isLoading } =
     useImageEditor({
@@ -52,6 +60,11 @@ export const UserAvatar = ({ form }: Props) => {
           }}
         />
       </Avatar>
+      <FormControl isInvalid={!!errors.photoUrl}>
+        <FormErrorMessage justifyContent={`center`}>
+          {errors.photoUrl?.message}
+        </FormErrorMessage>
+      </FormControl>
       <ImageEditor />
     </>
   );

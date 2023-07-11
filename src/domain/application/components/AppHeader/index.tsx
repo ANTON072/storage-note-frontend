@@ -89,7 +89,7 @@ export const AppHeader = ({ user, isLoggedIn, onLogout }: Props) => {
           spacing={6}
         >
           {isLoggedIn ? (
-            <AvatarMenu photoUrl={user?.photoUrl || null} onLogout={onLogout} />
+            <AvatarMenu user={user} onLogout={onLogout} />
           ) : (
             <LoginStack />
           )}
