@@ -6,22 +6,21 @@ import { setError } from "@/domain/application";
 import { useUser } from "@/domain/users";
 
 export const AuthRoute = () => {
-  const { user, isLoading, error } = useUser();
+  const { appUser, firebaseUser } = useUser();
 
-  const dispatch = useDispatch();
-
-  if (isLoading) {
-    return null;
+  // Firebaseユーザーがない or メール未認証の場合はログイン画面へ遷移
+  if (!firebaseUser || !firebaseUser.emailVerified) {
+    return <Navigate to={`/auth/login`} />;
   }
 
-  // ユーザーIDが未設定な場合はユーザー作成ページへ遷移
-  if (!user?.name) {
+  // ユーザー情報が無い場合はユーザー作成画面へ遷移
+  if (!appUser) {
     return <Navigate to={`/create-user`} />;
   }
 
-  if (error) {
-    dispatch(setError(error));
-  }
+  // if (error) {
+  //   dispatch(setError(error));
+  // }
 
   return <Outlet />;
 };

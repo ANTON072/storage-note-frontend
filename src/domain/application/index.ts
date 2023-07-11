@@ -3,7 +3,6 @@ export { APP_NAME, API_BASE_URL, MOCK_API_BASE_URL } from "./constants";
 
 /** Routes */
 export { RootRoutes } from "./routes/RootRoutes";
-export { ErrorRoutes } from "./routes/ErrorRoutes";
 
 /** Containers */
 export { AppProviderContainer } from "./containers/AppProviderContainer";
