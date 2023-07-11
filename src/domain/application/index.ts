@@ -3,7 +3,6 @@ export { APP_NAME, API_BASE_URL, MOCK_API_BASE_URL } from "./constants";
 
 /** Routes */
 export { RootRoutes } from "./routes/RootRoutes";
-export { ErrorRoutes } from "./routes/ErrorRoutes";
 
 /** Containers */
 export { AppProviderContainer } from "./containers/AppProviderContainer";
@@ -32,7 +31,7 @@ export { useFullScreenLoading } from "./components/FullScreenLoading/useFullScre
 export { useGoogleLogin } from "./firebase/useGoogleLogin";
 export { useReSendMail } from "./firebase/useReSendMail";
 export { useReauthenticate } from "./firebase/useReauthenticate";
-export {useFirebaseStorage} from "./firebase/useFirebaseStorage";
+export { useFirebaseStorage } from "./firebase/useFirebaseStorage";
 
 /** types */
 export type { FlashMessageState } from "./helpers/useFlashMessage";

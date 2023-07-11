@@ -6,9 +6,13 @@ import { useUser } from "..";
 import { CreateUserFormContainer } from "../containers/CreateUserFormContainer";
 
 export const CreateUserRoute = () => {
-  const { user } = useUser();
+  const { appUser, firebaseUser } = useUser();
 
-  if (user) {
+  if (!firebaseUser || !firebaseUser.emailVerified) {
+    return <Navigate to={`/auth/login`} />;
+  }
+
+  if (appUser) {
     return <Navigate to={`/`} />;
   }
 

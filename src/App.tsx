@@ -1,18 +1,12 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import {
-  AppProviderContainer,
-  RootRoutes,
-  ErrorRoutes,
-} from "@/domain/application";
+import { AppProviderContainer, RootRoutes } from "@/domain/application";
 import {
   AuthRoute,
   AuthFormRootRoute,
   LoginRoute,
   RegisterRoute,
   PasswordReminderRoute,
-  authLoader,
-  nonAuthLoader,
 } from "@/domain/auth";
 import { DashboardRoute } from "@/domain/dashboard";
 import { UserSettingsRoute, CreateUserRoute } from "@/domain/users";
@@ -20,11 +14,9 @@ import { UserSettingsRoute, CreateUserRoute } from "@/domain/users";
 const router = createBrowserRouter([
   {
     element: <RootRoutes />,
-    errorElement: <ErrorRoutes />,
     children: [
       // 認証が必要なページ
       {
-        loader: authLoader,
         children: [
           // app
           {
@@ -50,7 +42,6 @@ const router = createBrowserRouter([
       {
         // 認証フォーム系
         element: <AuthFormRootRoute />,
-        loader: nonAuthLoader,
         children: [
           {
             path: "/auth/login",

@@ -13,9 +13,9 @@ export const AppHeaderContainer = () => {
 
   const toast = useToast();
 
-  const { onLogout } = useLogout();
+  const { appUser, isFirebaseLoggedIn } = useUser();
 
-  const { user, isLoggedIn } = useUser();
+  const { onLogout } = useLogout();
 
   const handleLogout = useCallback(async () => {
     await onLogout();
@@ -27,6 +27,10 @@ export const AppHeaderContainer = () => {
   }, []);
 
   return (
-    <AppHeader user={user} isLoggedIn={isLoggedIn} onLogout={handleLogout} />
+    <AppHeader
+      user={appUser}
+      isLoggedIn={isFirebaseLoggedIn}
+      onLogout={handleLogout}
+    />
   );
 };
