@@ -4,21 +4,16 @@ import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
-import {
-  useFirebaseStorage,
-  appApi,
-  API_BASE_URL,
-  type AppState,
-} from "@/domain/application";
+import { useFirebaseStorage, appApi, API_BASE_URL } from "@/domain/application";
 
-import { setAppUser } from "..";
+import { setAppUser, useUser } from "..";
 import { CreateUserForm } from "../components/CreateUserForm";
 import { appUserSchema, type AppUser } from "../types";
 
 export const CreateUserFormContainer = () => {
-  const firebaseUser = useSelector((state: AppState) => state.user.firebase);
+  const { firebaseUser } = useUser();
 
   const { uploadImage } = useFirebaseStorage();
 
