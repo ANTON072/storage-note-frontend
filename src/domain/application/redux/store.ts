@@ -9,8 +9,8 @@ export const store = configureStore({
     auth: authReducer,
     user: userReducer,
   },
-  preloadedState: load(),
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(save()),
+  // preloadedState: load(),
+  // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(save()),
 });
 
 export type AppState = ReturnType<typeof store.getState>;

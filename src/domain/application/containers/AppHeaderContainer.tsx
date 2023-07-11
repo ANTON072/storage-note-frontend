@@ -2,9 +2,10 @@ import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useToast } from "@chakra-ui/react";
+import { useSelector } from "react-redux";
 
+import type { AppState } from "@/domain/application";
 import { useLogout } from "@/domain/application";
-import { useUser } from "@/domain/users";
 
 import { AppHeader } from "../components/AppHeader";
 
@@ -13,9 +14,10 @@ export const AppHeaderContainer = () => {
 
   const toast = useToast();
 
-  const { onLogout } = useLogout();
+  const appUser = useSelector((state: AppState) => state.user.appUser);
+  const firebaseUser = useSelector((state: AppState) => state.user.firebase);
 
-  const { user, isLoggedIn } = useUser();
+  const { onLogout } = useLogout();
 
   const handleLogout = useCallback(async () => {
     await onLogout();
@@ -27,6 +29,10 @@ export const AppHeaderContainer = () => {
   }, []);
 
   return (
-    <AppHeader user={user} isLoggedIn={isLoggedIn} onLogout={handleLogout} />
+    <AppHeader
+      user={appUser}
+      isLoggedIn={!!firebaseUser}
+      onLogout={handleLogout}
+    />
   );
 };
