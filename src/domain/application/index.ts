@@ -13,7 +13,8 @@ export { AppGlobalErrorContainer } from "./containers/AppGlobalErrorContainer";
 export { AppFooter } from "./components/AppFooter";
 export { PageHead } from "./components/PageHead";
 export { AppHeading } from "./components/AppHeading";
-export { Autocomplete } from "./components/Autocomplete";
+export { SuggestField } from "./components/SuggestField";
+export { SuggestListItem } from "./components/SuggestField/SuggestListItem";
 export { FileUpload } from "./components/FileUpload";
 
 /** libs */

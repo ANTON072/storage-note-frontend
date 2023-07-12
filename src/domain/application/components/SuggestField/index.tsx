@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 
 import { Box, Input } from "@chakra-ui/react";
 
-import { NoResult } from "./NoResult";
 import { SuggestListItem } from "./SuggestListItem";
 
 import type { InputProps } from "@chakra-ui/react";
@@ -11,17 +10,17 @@ type Props = InputProps & {
   options: Option[];
   inputText: string;
   setInputText: (text: string) => void;
-  noResultText?: string;
+  onSelectItem: (option: Option) => void;
 };
 
-export type Option = { id: string | number; text: string };
+export type Option = { id: string | number; text: string; icon?: string };
 
-export const Autocomplete = ({
+export const SuggestField = ({
   placeholder,
   options,
   inputText,
   setInputText,
-  noResultText,
+  onSelectItem,
 }: Props) => {
   const [isFocus, setFocus] = useState(false);
 
@@ -60,27 +59,30 @@ export const Autocomplete = ({
         onChange={(e) => [setInputText(e.target.value)]}
         value={inputText}
       />
-      <Box
-        w={`100%`}
-        position={`absolute`}
-        boxShadow={`0 2px 5px 2px rgba(0, 0, 0, 0.2)`}
-        bg={`white`}
-        mt={`5px`}
-        borderRadius={`sm`}
-        zIndex={1}
-        style={{ display: isFocus ? "block" : "none" }}
-      >
-        {/* <NoResult noResultText={noResultText} /> */}
-        {options.map((option) => (
-          <SuggestListItem
-            key={option.id}
-            label={option.text}
-            onClick={() => {
-              setFocus(false);
-            }}
-          />
-        ))}
-      </Box>
+      {options.length > 0 && (
+        <Box
+          w={`100%`}
+          position={`absolute`}
+          boxShadow={`0 2px 5px 2px rgba(0, 0, 0, 0.2)`}
+          bg={`white`}
+          mt={`5px`}
+          borderRadius={`sm`}
+          zIndex={1}
+          style={{ display: isFocus ? "block" : "none" }}
+        >
+          {options.map((option) => (
+            <SuggestListItem
+              key={option.id}
+              label={option.text}
+              icon={option.icon}
+              onClick={() => {
+                setFocus(false);
+                onSelectItem(option);
+              }}
+            />
+          ))}
+        </Box>
+      )}
     </Box>
   );
 };

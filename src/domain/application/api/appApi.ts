@@ -1,9 +1,9 @@
 import axios from "axios";
+import camelcaseKeys from "camelcase-keys";
+import snakecaseKeys from "snakecase-keys";
 
 import type { ApiError } from "@/domain/application";
 import { store, refreshIdToken } from "@/domain/application";
-
-import { camelcaseKeys, snakecaseKeys } from "../libs/convertKeys";
 
 import type { AxiosError } from "axios";
 
@@ -47,8 +47,6 @@ appApi.interceptors.response.use(
     const statusCode = error.response?.status;
     const errors = error.response?.data.errors;
     const title = errors ? errors[0].title : undefined;
-
-    console.log("--------------------------------------->");
 
     // トークンの期限切れ
     if (
