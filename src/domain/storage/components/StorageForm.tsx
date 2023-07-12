@@ -14,10 +14,11 @@ import {
   Button,
   Divider,
   FormControl,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import { Controller, type UseFormReturn } from "react-hook-form";
 
-import { FileUpload } from "@/domain/application";
+import { useFileUpload } from "@/domain/application";
 import { useSuggestUsers } from "@/domain/users";
 
 import type { Storage } from "../types";
@@ -34,12 +35,19 @@ export const StorageForm = ({ isOpen, onClose, form, onSubmit }: Props) => {
 
   const { SuggestUsers, selectList: selectMemberList } = useSuggestUsers();
 
+  const { FileUpload, imageValue } = useFileUpload();
+
   const errors = form.formState.errors;
 
   useEffect(() => {
     form.setValue("members", selectMemberList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectMemberList]);
+
+  useEffect(() => {
+    form.setValue("imageUrl", imageValue);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [imageValue]);
 
   return (
     <Drawer
@@ -67,6 +75,7 @@ export const StorageForm = ({ isOpen, onClose, form, onSubmit }: Props) => {
                     />
                   )}
                 />
+                <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
               </FormControl>
               <Box>
                 <FormLabel htmlFor="storageName">メンバーの追加</FormLabel>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { SmallAddIcon } from "@chakra-ui/icons";
 import { Button } from "@chakra-ui/react";
@@ -7,28 +7,31 @@ import { useImageEditor } from "@/domain/application";
 
 import { Image } from "./Image";
 
-export const FileUpload = () => {
+type Props = {
+  imageValue: string;
+  setImageValue: (value: string) => void;
+};
+
+export const FileUpload = ({ imageValue, setImageValue }: Props) => {
   const { ImageEditor, imageFileInputRef, croppedDataURL, isLoading } =
     useImageEditor({
       maxSizePx: 300 * 2,
     });
 
-  const [tmpImage, setTmpImage] = useState("");
-
   useEffect(() => {
     if (croppedDataURL) {
-      setTmpImage(croppedDataURL);
+      setImageValue(croppedDataURL);
     }
-  }, [croppedDataURL]);
+  }, [croppedDataURL, setImageValue]);
 
   return (
     <>
-      {tmpImage ? (
+      {imageValue ? (
         <Image
           w={`100%`}
-          src={tmpImage}
+          src={imageValue}
           onClose={() => {
-            setTmpImage("");
+            setImageValue("");
           }}
         />
       ) : (
