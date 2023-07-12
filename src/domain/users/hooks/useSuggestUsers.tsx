@@ -11,10 +11,10 @@ import { UserIdTag } from "../components/UserIdTag";
 import type { AppUser } from "../types";
 
 export const useSuggestUsers = () => {
+  const [selectList, setSelectList] = useState<AppUser[]>([]);
+
   const SuggestUsers: React.FC = () => {
     const [inputText, setInputText] = useState("");
-
-    const [selectList, setSelectList] = useState<AppUser[]>([]);
 
     const selectListNames = selectList.map((user) => user.name);
 
@@ -41,13 +41,10 @@ export const useSuggestUsers = () => {
       return !selectListNames.includes(user.name);
     });
 
-    const handleCloseTag = useCallback(
-      (name: string) => {
-        const newList = selectList.filter((user) => user.name !== name);
-        setSelectList(newList);
-      },
-      [selectList]
-    );
+    const handleCloseTag = useCallback((name: string) => {
+      const newList = selectList.filter((user) => user.name !== name);
+      setSelectList(newList);
+    }, []);
 
     return (
       <Box>
@@ -85,5 +82,5 @@ export const useSuggestUsers = () => {
     );
   };
 
-  return { SuggestUsers };
+  return { SuggestUsers, selectList };
 };
