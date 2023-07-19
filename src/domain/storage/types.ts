@@ -14,3 +14,5 @@ export const storageSchema = yup.object({
 });
 
 export type Storage = yup.InferType<typeof storageSchema>;
+
+export type StorageRequest = Omit<Storage, "members"> & { members: string[] };

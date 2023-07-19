@@ -29,9 +29,16 @@ type Props = {
   onClose: () => void;
   form: UseFormReturn<Storage>;
   onSubmit: (values: Storage) => void;
+  isLoading: boolean;
 };
 
-export const StorageForm = ({ isOpen, onClose, form, onSubmit }: Props) => {
+export const StorageForm = ({
+  isOpen,
+  onClose,
+  form,
+  onSubmit,
+  isLoading,
+}: Props) => {
   const firstField = useRef<HTMLInputElement>(null);
 
   const { SuggestUsers, selectList: selectMemberList } = useSuggestUsers();
@@ -102,7 +109,12 @@ export const StorageForm = ({ isOpen, onClose, form, onSubmit }: Props) => {
             </Stack>
             <Divider my={3} />
             <Box>
-              <Button w={`100%`} colorScheme="blue" type="submit">
+              <Button
+                w={`100%`}
+                colorScheme="blue"
+                type="submit"
+                isLoading={isLoading}
+              >
                 新規作成
               </Button>
             </Box>
