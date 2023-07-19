@@ -8,6 +8,7 @@ export const storageSchema = yup.object({
     .min(5, "5文字以上で入力してください")
     .max(20, "20文字以内で入力してください")
     .required(),
+  description: yup.string().max(140, "140文字以内で入力してください"),
   members: yup.array().of(appUserSchema),
   imageUrl: yup.string(),
 });

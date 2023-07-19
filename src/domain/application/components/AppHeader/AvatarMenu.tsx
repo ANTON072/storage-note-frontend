@@ -9,6 +9,11 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
+  MenuGroup,
+  Text,
+  Box,
+  HStack,
+  useBreakpoint,
 } from "@chakra-ui/react";
 
 import type { AppUser } from "@/domain/users/types";
@@ -21,28 +26,39 @@ type Props = {
 export const AvatarMenu = ({ onLogout, user }: Props) => {
   const photUrl = user?.photoUrl;
 
+  const breakpoint = useBreakpoint();
+
+  console.log("breakpoint", breakpoint);
+
   return (
-    <Flex alignItems={"center"}>
-      <Menu>
-        <MenuButton
-          as={Button}
-          rounded={"full"}
-          variant={"link"}
-          cursor={"pointer"}
-          minW={0}
-        >
-          <Avatar key={photUrl} size={"sm"} src={photUrl} />
-        </MenuButton>
-        <MenuList>
-          {user && (
-            <MenuItem as={BrowserLink} to="/user/settings">
-              ユーザー設定
-            </MenuItem>
-          )}
-          <MenuDivider />
-          <MenuItem onClick={onLogout}>ログアウト</MenuItem>
-        </MenuList>
-      </Menu>
-    </Flex>
+    <HStack>
+      <Text color={`gray.500`} display={{ sm: "none", md: "block" }}>
+        {user?.name}
+      </Text>
+      <Flex alignItems={"center"}>
+        <Menu>
+          <MenuButton
+            as={Button}
+            rounded={"full"}
+            variant={"link"}
+            cursor={"pointer"}
+            minW={0}
+          >
+            <Avatar key={photUrl} size={"sm"} src={photUrl} />
+          </MenuButton>
+          <MenuList>
+            {user && (
+              <MenuGroup title={breakpoint === "sm" ? user.name : ""}>
+                <MenuItem as={BrowserLink} to="/user/settings">
+                  ユーザー設定
+                </MenuItem>
+              </MenuGroup>
+            )}
+            {user && <MenuDivider />}
+            <MenuItem onClick={onLogout}>ログアウト</MenuItem>
+          </MenuList>
+        </Menu>
+      </Flex>
+    </HStack>
   );
 };

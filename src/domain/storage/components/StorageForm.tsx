@@ -15,6 +15,7 @@ import {
   Divider,
   FormControl,
   FormErrorMessage,
+  Textarea,
 } from "@chakra-ui/react";
 import { Controller, type UseFormReturn } from "react-hook-form";
 
@@ -76,6 +77,19 @@ export const StorageForm = ({ isOpen, onClose, form, onSubmit }: Props) => {
                   )}
                 />
                 <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+              </FormControl>
+              <FormControl isInvalid={!!errors["description"]}>
+                <FormLabel>ストレージの説明</FormLabel>
+                <Controller
+                  name="description"
+                  control={form.control}
+                  render={({ field }) => (
+                    <Textarea resize={`vertical`} {...field} />
+                  )}
+                />
+                <FormErrorMessage>
+                  {errors.description?.message}
+                </FormErrorMessage>
               </FormControl>
               <Box>
                 <FormLabel htmlFor="storageName">メンバーの追加</FormLabel>
