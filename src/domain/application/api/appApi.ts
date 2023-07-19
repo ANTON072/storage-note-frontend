@@ -10,6 +10,7 @@ import type { AxiosError } from "axios";
 export const appApi = axios.create();
 
 appApi.defaults.headers.common["Content-Type"] = "application/json";
+appApi.defaults.headers.common["Accept"] = "application/json";
 
 // 共通リクエスト処理
 appApi.interceptors.request.use(

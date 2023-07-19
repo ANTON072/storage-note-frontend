@@ -11,7 +11,6 @@ import {
   MenuDivider,
   MenuGroup,
   Text,
-  Box,
   HStack,
   useBreakpoint,
 } from "@chakra-ui/react";
@@ -27,8 +26,6 @@ export const AvatarMenu = ({ onLogout, user }: Props) => {
   const photUrl = user?.photoUrl;
 
   const breakpoint = useBreakpoint();
-
-  console.log("breakpoint", breakpoint);
 
   return (
     <HStack>

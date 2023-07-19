@@ -9,10 +9,12 @@ export const storageSchema = yup.object({
     .max(20, "20文字以内で入力してください")
     .required(),
   description: yup.string().max(140, "140文字以内で入力してください"),
-  members: yup.array().of(appUserSchema),
+  members: yup.array().of(appUserSchema).required(),
   imageUrl: yup.string(),
 });
 
 export type Storage = yup.InferType<typeof storageSchema>;
 
 export type StorageRequest = Omit<Storage, "members"> & { members: string[] };
+
+export type StorageResponse = Storage & { id: string };

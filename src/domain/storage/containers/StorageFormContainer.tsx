@@ -38,9 +38,11 @@ export const StorageFormContainer = ({ isOpen, onClose }: Props) => {
       });
       const memberIds = values.members?.map((member) => member.name) || [];
       return appApi.post<StorageRequest>(`${API_BASE_URL}/v1/storages`, {
-        ...omit(values, "members"),
-        members: memberIds,
-        imageUrl,
+        storage: {
+          ...omit(values, "members"),
+          members: memberIds,
+          imageUrl,
+        },
       });
     },
     onSuccess: () => {
