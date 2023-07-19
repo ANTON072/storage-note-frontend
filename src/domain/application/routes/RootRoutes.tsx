@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Outlet, ScrollRestoration } from "react-router-dom";
 
-import { Box } from "@chakra-ui/react";
+import { Box, Spinner, Flex } from "@chakra-ui/react";
 import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
 
@@ -70,8 +70,23 @@ export const RootRoutes = () => {
   }, []);
 
   if (!isFetched) {
-    // TODO: ローディング画面を表示
-    return null;
+    return (
+      <Flex
+        w={`100vw`}
+        h={`100vh`}
+        bg={`white`}
+        align={`center`}
+        justify={`center`}
+      >
+        <Spinner
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.500"
+          size="xl"
+        />
+      </Flex>
+    );
   }
 
   return (

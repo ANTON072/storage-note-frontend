@@ -19,7 +19,7 @@ export const SuggestListItem = ({ label, onClick, icon }: Props) => {
       gap={2}
       alignItems={`center`}
     >
-      {icon && <Avatar src={icon} size={`sm`} />}
+      {(icon === "" || !!icon) && <Avatar src={icon} size={`sm`} />}
       <Box>{label}</Box>
     </Flex>
   );

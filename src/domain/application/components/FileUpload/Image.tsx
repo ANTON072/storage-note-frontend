@@ -10,7 +10,7 @@ type Props = ImageProps & {
 export const Image = ({ onClose, ...rest }: Props) => {
   return (
     <Box position={`relative`}>
-      <CImage src="https://bit.ly/dan-abramov" alt="Dan Abramov" {...rest} />
+      <CImage {...rest} />
       <IconButton
         rounded={`100%`}
         aria-label="画像を削除"

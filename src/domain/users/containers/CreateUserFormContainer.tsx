@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import { useMutation } from "react-query";
 import { useDispatch } from "react-redux";
 
 import { useFirebaseStorage, appApi, API_BASE_URL } from "@/domain/application";
@@ -16,8 +17,6 @@ export const CreateUserFormContainer = () => {
   const { firebaseUser } = useUser();
 
   const { uploadImage } = useFirebaseStorage();
-
-  const [isLoading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -35,49 +34,38 @@ export const CreateUserFormContainer = () => {
     resolver: yupResolver(appUserSchema),
   });
 
-  const onCreateUser = useCallback(async (values: AppUser) => {
-    const photoUrl = await uploadImage({
-      url: values.photoUrl || "",
-      namePrefix: "user_icon",
-    });
-    const response = await appApi.post<AppUser>(`${API_BASE_URL}/v1/user`, {
-      name: values.name,
-      photoUrl,
-    });
-
-    return response.data;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const onSubmit = useCallback(
-    async (values: AppUser) => {
-      try {
-        setLoading(true);
-        const user = await onCreateUser(values);
-        dispatch(setAppUser(user));
-        navigate("/");
-        toast({
-          title: "Storage Noteへようこそ！",
-        });
-      } catch (error) {
-        console.error(error);
-        toast({
-          title: "ユーザー作成に失敗しました",
-          status: "error",
-        });
-      } finally {
-        setLoading(false);
-      }
+  const mutation = useMutation({
+    mutationFn: async (values: AppUser) => {
+      const photoUrl = await uploadImage({
+        url: values.photoUrl || "",
+        namePrefix: "user_icon",
+      });
+      return appApi.post<AppUser>(`${API_BASE_URL}/v1/user`, {
+        name: values.name,
+        photoUrl,
+      });
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
+    onSuccess: (response) => {
+      dispatch(setAppUser(response.data));
+      navigate("/");
+      toast({
+        title: "Storage Noteへようこそ！",
+      });
+    },
+    onError: (error) => {
+      console.error(error);
+      toast({
+        title: "ユーザー作成に失敗しました",
+        status: "error",
+      });
+    },
+  });
 
-  const handleSubmit = form.handleSubmit((values) => onSubmit(values));
+  const handleSubmit = form.handleSubmit((values) => mutation.mutate(values));
 
   return (
     <form onSubmit={handleSubmit}>
-      <CreateUserForm form={form} isLoading={isLoading} />
+      <CreateUserForm form={form} isLoading={mutation.isLoading} />
     </form>
   );
 };

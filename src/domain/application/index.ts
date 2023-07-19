@@ -13,7 +13,8 @@ export { AppGlobalErrorContainer } from "./containers/AppGlobalErrorContainer";
 export { AppFooter } from "./components/AppFooter";
 export { PageHead } from "./components/PageHead";
 export { AppHeading } from "./components/AppHeading";
-export { Autocomplete } from "./components/Autocomplete";
+export { SuggestField } from "./components/SuggestField";
+export { SuggestListItem } from "./components/SuggestField/SuggestListItem";
 export { FileUpload } from "./components/FileUpload";
 
 /** libs */
@@ -36,6 +37,7 @@ export { useGoogleLogin } from "./firebase/useGoogleLogin";
 export { useReSendMail } from "./firebase/useReSendMail";
 export { useReauthenticate } from "./firebase/useReauthenticate";
 export { useFirebaseStorage } from "./firebase/useFirebaseStorage";
+export { useFileUpload } from "./components/FileUpload/useFileUpload";
 
 /** types */
 export type { FlashMessageState } from "./helpers/useFlashMessage";
