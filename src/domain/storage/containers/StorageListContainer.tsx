@@ -1,14 +1,6 @@
-import {
-  Box,
-  Button,
-  Container,
-  Stack,
-  SimpleGrid,
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  AlertTitle,
-} from "@chakra-ui/react";
+import { useCallback } from "react";
+
+import { Box, SimpleGrid, CircularProgress } from "@chakra-ui/react";
 import { useQuery } from "react-query";
 
 import { API_BASE_URL, appApi } from "@/domain/application";
@@ -16,7 +8,7 @@ import { useUser } from "@/domain/users";
 
 import { StorageListItem } from "..";
 
-import type { Storage, StorageResponse } from "../types";
+import type { StorageResponse } from "../types";
 
 type Props = {
   noStorageAlert: React.ReactNode;
@@ -36,10 +28,25 @@ export const StorageListContainer = ({ noStorageAlert }: Props) => {
     },
   });
 
+  const isOwner = useCallback(
+    (members: StorageResponse["members"]) => {
+      if (!appUser) return false;
+
+      return !!members
+        .filter((member) => member.isOwner)
+        .find((member) => member.name === appUser.name);
+    },
+    [appUser]
+  );
+
   const storages = query.data || [];
 
   if (query.isFetching) {
-    return <div>Loading...</div>;
+    return (
+      <Box h={`300px`}>
+        <CircularProgress isIndeterminate />
+      </Box>
+    );
   }
 
   if (query.isSuccess && storages.length < 1) {
@@ -49,7 +56,11 @@ export const StorageListContainer = ({ noStorageAlert }: Props) => {
   return (
     <SimpleGrid spacing={5} minChildWidth={[`200px`, `500px`]}>
       {storages.map((storage) => (
-        <StorageListItem key={storage.id} {...storage} />
+        <StorageListItem
+          isOwner={isOwner(storage.members)}
+          key={storage.id}
+          {...storage}
+        />
       ))}
     </SimpleGrid>
   );

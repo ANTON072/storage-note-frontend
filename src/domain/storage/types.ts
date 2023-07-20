@@ -2,6 +2,8 @@ import * as yup from "yup";
 
 import { appUserSchema } from "@/domain/users";
 
+import type { StorageMemberResponse } from "../users/types";
+
 export const storageSchema = yup.object({
   name: yup
     .string()
@@ -17,4 +19,7 @@ export type Storage = yup.InferType<typeof storageSchema>;
 
 export type StorageRequest = Omit<Storage, "members"> & { members: string[] };
 
-export type StorageResponse = Storage & { id: string };
+export type StorageResponse = Omit<Storage, "members"> & {
+  id: string;
+  members: StorageMemberResponse[];
+};

@@ -2,9 +2,10 @@ import { useToast } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { omit } from "lodash";
 import { useForm } from "react-hook-form";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 
 import { appApi, useFirebaseStorage, API_BASE_URL } from "@/domain/application";
+import { useUser } from "@/domain/users";
 
 import { StorageForm } from "../components/StorageForm";
 import { storageSchema } from "../types";
@@ -26,6 +27,10 @@ export const StorageFormContainer = ({ isOpen, onClose }: Props) => {
     resolver: yupResolver(storageSchema),
   });
 
+  const queryClient = useQueryClient();
+
+  const { appUser } = useUser();
+
   const toast = useToast();
 
   const { uploadImage } = useFirebaseStorage();
@@ -46,11 +51,13 @@ export const StorageFormContainer = ({ isOpen, onClose }: Props) => {
       });
     },
     onSuccess: () => {
+      if (appUser) {
+        queryClient.refetchQueries([`storages`, appUser.name]);
+      }
       toast({
         title: "ストレージを作成しました",
       });
       onClose();
-      //TODO: 一覧のrefetchを実行する
     },
     onError: (error) => {
       console.error(error);
