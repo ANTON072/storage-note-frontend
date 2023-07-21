@@ -94,6 +94,7 @@ export const StorageForm = ({
       initialFocusRef={firstField}
       onClose={onClose}
       isOpen={isOpen}
+      size={`md`}
     >
       <DrawerContent>
         <DrawerCloseButton />
