@@ -9,7 +9,8 @@ import {
 import { NoStorageAlert } from "@/domain/storage/components/NoStorageAlert";
 
 export const DashboardRoute = () => {
-  const { StorageFormDrawer, CreateStorageButton } = useStorageForm();
+  const { StorageFormDrawer, CreateStorageButton, onDrawerOpen } =
+    useStorageForm();
 
   return (
     <>
@@ -21,6 +22,9 @@ export const DashboardRoute = () => {
               参加中のストレージ
             </AppHeading>
             <StorageListContainer
+              onOpenForm={(values) => {
+                onDrawerOpen(values);
+              }}
               noStorageAlert={
                 <NoStorageAlert createButton={<CreateStorageButton />} />
               }

@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+
 import { useToast } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { omit } from "lodash";
@@ -10,22 +12,41 @@ import { useUser } from "@/domain/users";
 import { StorageForm } from "../components/StorageForm";
 import { storageSchema } from "../types";
 
-import type { Storage, StorageRequest } from "../types";
+import type { Storage, StorageRequest, StorageResponse } from "../types";
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
+  defaultValues?: StorageResponse;
 };
 
-export const StorageFormContainer = ({ isOpen, onClose }: Props) => {
+type TextValues = {
+  successMessage: string;
+  errorMessage: string;
+};
+
+export const StorageFormContainer = ({
+  isOpen,
+  defaultValues,
+  onClose,
+}: Props) => {
+  const {
+    name = "",
+    description = "",
+    members = [],
+    imageUrl = "",
+  } = defaultValues || {};
   const form = useForm<Storage>({
     defaultValues: {
-      name: "",
-      members: [],
-      imageUrl: "",
+      name,
+      description,
+      members,
+      imageUrl,
     },
     resolver: yupResolver(storageSchema),
   });
+
+  const isEdit = !!defaultValues;
 
   const queryClient = useQueryClient();
 
@@ -35,6 +56,17 @@ export const StorageFormContainer = ({ isOpen, onClose }: Props) => {
 
   const { uploadImage } = useFirebaseStorage();
 
+  const textValues: TextValues = useMemo(() => {
+    return {
+      successMessage: isEdit
+        ? "ストレージを編集しました"
+        : "ストレージを作成しました",
+      errorMessage: isEdit
+        ? "ストレージの編集に失敗しました"
+        : "ストレージの作成に失敗しました",
+    };
+  }, [defaultValues]);
+
   const mutation = useMutation({
     mutationFn: async (values: Storage) => {
       const imageUrl = await uploadImage({
@@ -42,6 +74,20 @@ export const StorageFormContainer = ({ isOpen, onClose }: Props) => {
         namePrefix: "storage_",
       });
       const memberIds = values.members?.map((member) => member.name) || [];
+
+      if (isEdit) {
+        return appApi.patch<StorageRequest>(
+          `${API_BASE_URL}/v1/storages/${defaultValues.id}`,
+          {
+            storage: {
+              ...omit(values, "members"),
+              members: memberIds,
+              imageUrl,
+            },
+          }
+        );
+      }
+
       return appApi.post<StorageRequest>(`${API_BASE_URL}/v1/storages`, {
         storage: {
           ...omit(values, "members"),
@@ -55,14 +101,14 @@ export const StorageFormContainer = ({ isOpen, onClose }: Props) => {
         queryClient.refetchQueries([`storages`, appUser.name]);
       }
       toast({
-        title: "ストレージを作成しました",
+        title: textValues.successMessage,
       });
       onClose();
     },
     onError: (error) => {
       console.error(error);
       toast({
-        title: "ストレージの作成に失敗しました",
+        title: textValues.errorMessage,
         status: "error",
       });
     },
@@ -75,6 +121,7 @@ export const StorageFormContainer = ({ isOpen, onClose }: Props) => {
       isOpen={isOpen}
       isLoading={mutation.isLoading}
       onClose={onClose}
+      isEdit={isEdit}
     />
   );
 };

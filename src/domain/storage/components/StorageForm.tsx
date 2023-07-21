@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
 import {
   Drawer,
@@ -30,6 +30,12 @@ type Props = {
   form: UseFormReturn<Storage>;
   onSubmit: (values: Storage) => void;
   isLoading: boolean;
+  isEdit: boolean;
+};
+
+type TextValues = {
+  title: string;
+  submitButton: string;
 };
 
 export const StorageForm = ({
@@ -38,12 +44,20 @@ export const StorageForm = ({
   form,
   onSubmit,
   isLoading,
+  isEdit,
 }: Props) => {
   const firstField = useRef<HTMLInputElement>(null);
 
   const { SuggestUsers, selectList: selectMemberList } = useSuggestUsers();
 
   const { FileUpload, imageValue } = useFileUpload();
+
+  const textValues: TextValues = useMemo(() => {
+    return {
+      title: isEdit ? "ストレージ編集" : "ストレージ新規作成",
+      submitButton: isEdit ? "編集完了" : "新規作成",
+    };
+  }, [isEdit]);
 
   const errors = form.formState.errors;
 
@@ -66,7 +80,7 @@ export const StorageForm = ({
     >
       <DrawerContent>
         <DrawerCloseButton />
-        <DrawerHeader borderBottomWidth="1px">ストレージ新規作成</DrawerHeader>
+        <DrawerHeader borderBottomWidth="1px">{textValues.title}</DrawerHeader>
         <DrawerBody>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <Stack py={3} spacing={5}>
@@ -78,6 +92,7 @@ export const StorageForm = ({
                   render={({ field }) => (
                     <Input
                       {...field}
+                      autoComplete="off"
                       placeholder="〇〇のストレージ"
                       ref={firstField}
                     />
@@ -115,7 +130,7 @@ export const StorageForm = ({
                 type="submit"
                 isLoading={isLoading}
               >
-                新規作成
+                {textValues.submitButton}
               </Button>
             </Box>
           </form>

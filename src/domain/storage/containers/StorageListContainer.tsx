@@ -12,9 +12,10 @@ import type { StorageResponse } from "../types";
 
 type Props = {
   noStorageAlert: React.ReactNode;
+  onOpenForm: (values: StorageResponse) => void;
 };
 
-export const StorageListContainer = ({ noStorageAlert }: Props) => {
+export const StorageListContainer = ({ noStorageAlert, onOpenForm }: Props) => {
   const { appUser } = useUser();
 
   const query = useQuery({
@@ -59,6 +60,10 @@ export const StorageListContainer = ({ noStorageAlert }: Props) => {
         <StorageListItem
           isOwner={isOwner(storage.members)}
           key={storage.id}
+          onClickSettings={() => {
+            console.log("storage", storage);
+            onOpenForm(storage);
+          }}
           {...storage}
         />
       ))}

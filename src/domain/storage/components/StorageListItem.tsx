@@ -21,6 +21,7 @@ import type { StorageResponse } from "../types";
 
 type Props = StorageResponse & {
   isOwner: boolean;
+  onClickSettings: () => void;
 };
 
 export const StorageListItem = ({
@@ -30,6 +31,7 @@ export const StorageListItem = ({
   imageUrl,
   members,
   isOwner,
+  onClickSettings,
 }: Props) => {
   return (
     <Card
@@ -67,7 +69,7 @@ export const StorageListItem = ({
                   top={`-5px`}
                   onClick={(e) => {
                     e.preventDefault();
-                    console.log("click");
+                    onClickSettings();
                   }}
                 />
               )}
