@@ -38,6 +38,7 @@ export { useReSendMail } from "./firebase/useReSendMail";
 export { useReauthenticate } from "./firebase/useReauthenticate";
 export { useFirebaseStorage } from "./firebase/useFirebaseStorage";
 export { useFileUpload } from "./components/FileUpload/useFileUpload";
+export { useConfirm } from "./hooks/useConfirm";
 
 /** types */
 export type { FlashMessageState } from "./hooks/useFlashMessage";

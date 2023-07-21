@@ -1,18 +1,19 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 
 import { useToast } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { omit } from "lodash";
 import { useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "react-query";
+import { useQueryClient } from "react-query";
 
-import { appApi, useFirebaseStorage, API_BASE_URL } from "@/domain/application";
+import { useConfirm } from "@/domain/application";
 import { useUser } from "@/domain/users";
 
 import { StorageForm } from "../components/StorageForm";
+import { useCreateAndUpdateStorageMutation } from "../hooks/useCreateAndUpdateStorageMutation";
+import { useDeleteStorageMutation } from "../hooks/useDeleteStorageMutation";
 import { storageSchema } from "../types";
 
-import type { Storage, StorageRequest, StorageResponse } from "../types";
+import type { Storage, StorageResponse } from "../types";
 
 type Props = {
   isOpen: boolean;
@@ -39,6 +40,10 @@ export const StorageFormContainer = ({
 
   const excludeOwnerMembers = members.filter((m) => !m.isOwner);
 
+  const { appUser } = useUser();
+
+  const queryClient = useQueryClient();
+
   const form = useForm<Storage>({
     defaultValues: {
       name,
@@ -51,14 +56,6 @@ export const StorageFormContainer = ({
 
   const isEdit = !!defaultValues;
 
-  const queryClient = useQueryClient();
-
-  const { appUser } = useUser();
-
-  const toast = useToast();
-
-  const { uploadImage } = useFirebaseStorage();
-
   const textValues: TextValues = useMemo(() => {
     return {
       successMessage: isEdit
@@ -70,61 +67,74 @@ export const StorageFormContainer = ({
     };
   }, [isEdit]);
 
-  const mutation = useMutation({
-    mutationFn: async (values: Storage) => {
-      const imageUrl = await uploadImage({
-        url: values.imageUrl || "",
-        namePrefix: "storage_",
-      });
-      const memberIds = values.members?.map((member) => member.name) || [];
+  const refetchStorages = useCallback(() => {
+    if (appUser) {
+      return queryClient.refetchQueries([`storages`, appUser.name]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [appUser]);
 
-      if (isEdit) {
-        return appApi.patch<StorageRequest>(
-          `${API_BASE_URL}/v1/storages/${defaultValues.id}`,
-          {
-            storage: {
-              ...omit(values, "members"),
-              members: memberIds,
-              imageUrl,
-            },
-          }
-        );
-      }
+  const { mutation: createAndUpdateMutation } =
+    useCreateAndUpdateStorageMutation({
+      isEdit,
+      storageId: defaultValues?.id,
+      onSuccess: async () => {
+        await refetchStorages();
+        onClose();
+        toast({
+          title: textValues.successMessage,
+        });
+      },
+      onError: () => {
+        toast({
+          title: textValues.errorMessage,
+          status: "error",
+        });
+      },
+    });
 
-      return appApi.post<StorageRequest>(`${API_BASE_URL}/v1/storages`, {
-        storage: {
-          ...omit(values, "members"),
-          members: memberIds,
-          imageUrl,
-        },
-      });
-    },
-    onSuccess: () => {
-      if (appUser) {
-        queryClient.refetchQueries([`storages`, appUser.name]);
-      }
-      toast({
-        title: textValues.successMessage,
-      });
+  const { mutation: deleteMutation } = useDeleteStorageMutation({
+    storageId: defaultValues?.id,
+    onSuccess: async (values) => {
       onClose();
-    },
-    onError: (error) => {
-      console.error(error);
+      await refetchStorages();
       toast({
-        title: textValues.errorMessage,
+        title: `ストレージ「${values.name}」を削除しました`,
+      });
+    },
+    onError: () => {
+      toast({
+        title: `ストレージの削除に失敗しました`,
         status: "error",
       });
     },
   });
 
+  const { confirm, ConfirmDialog } = useConfirm();
+
+  const toast = useToast();
+
+  const handleDeleteStorage = async () => {
+    await confirm({
+      title: "ストレージの削除",
+      body: "本当に削除しますか？ストレージを削除すると復元できません。",
+      confirmColor: "red",
+    });
+    deleteMutation.mutate();
+  };
+
   return (
-    <StorageForm
-      form={form}
-      onSubmit={mutation.mutate}
-      isOpen={isOpen}
-      isLoading={mutation.isLoading}
-      onClose={onClose}
-      isEdit={isEdit}
-    />
+    <>
+      <StorageForm
+        form={form}
+        onSubmit={createAndUpdateMutation.mutate}
+        isOpen={isOpen}
+        isLoading={createAndUpdateMutation.isLoading}
+        onClose={onClose}
+        isEdit={isEdit}
+        onDeleteStorage={handleDeleteStorage}
+      />
+      <ConfirmDialog />
+    </>
   );
 };

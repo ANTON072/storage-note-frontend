@@ -31,6 +31,7 @@ type Props = {
   onSubmit: (values: Storage) => void;
   isLoading: boolean;
   isEdit: boolean;
+  onDeleteStorage: () => void;
 };
 
 type TextValues = {
@@ -45,6 +46,7 @@ export const StorageForm = ({
   onSubmit,
   isLoading,
   isEdit,
+  onDeleteStorage,
 }: Props) => {
   const firstField = useRef<HTMLInputElement>(null);
 
@@ -89,79 +91,88 @@ export const StorageForm = ({
   }, []);
 
   return (
-    <Drawer
-      placement="right"
-      initialFocusRef={firstField}
-      onClose={onClose}
-      isOpen={isOpen}
-      size={`md`}
-    >
-      <DrawerContent>
-        <DrawerCloseButton />
-        <DrawerHeader borderBottomWidth="1px">{textValues.title}</DrawerHeader>
-        <DrawerBody>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <Stack py={3} spacing={5}>
-              <FormControl isRequired isInvalid={!!errors["name"]}>
-                <FormLabel>ストレージ名</FormLabel>
-                <Controller
-                  name="name"
-                  control={form.control}
-                  render={({ field }) => (
-                    <Input
-                      {...field}
-                      autoComplete="off"
-                      placeholder="〇〇のストレージ"
-                      ref={firstField}
-                    />
-                  )}
-                />
-                <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
-              </FormControl>
-              <FormControl isInvalid={!!errors["description"]}>
-                <FormLabel>ストレージの説明</FormLabel>
-                <Controller
-                  name="description"
-                  control={form.control}
-                  render={({ field }) => (
-                    <Textarea resize={`vertical`} {...field} />
-                  )}
-                />
-                <FormErrorMessage>
-                  {errors.description?.message}
-                </FormErrorMessage>
-              </FormControl>
-              <Box>
-                <FormLabel htmlFor="storageName">メンバーの追加</FormLabel>
-                <SuggestUsers />
-              </Box>
-              <Box>
-                <FormLabel htmlFor="storageName">サムネイル</FormLabel>
-                <Box maxW={300} mx={`auto`}>
-                  <FileUpload />
+    <>
+      <Drawer
+        placement="right"
+        initialFocusRef={firstField}
+        onClose={onClose}
+        isOpen={isOpen}
+        size={`md`}
+      >
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader borderBottomWidth="1px">
+            {textValues.title}
+          </DrawerHeader>
+          <DrawerBody>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <Stack py={3} spacing={5}>
+                <FormControl isRequired isInvalid={!!errors["name"]}>
+                  <FormLabel>ストレージ名</FormLabel>
+                  <Controller
+                    name="name"
+                    control={form.control}
+                    render={({ field }) => (
+                      <Input
+                        {...field}
+                        autoComplete="off"
+                        placeholder="〇〇のストレージ"
+                        ref={firstField}
+                      />
+                    )}
+                  />
+                  <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+                </FormControl>
+                <FormControl isInvalid={!!errors["description"]}>
+                  <FormLabel>ストレージの説明</FormLabel>
+                  <Controller
+                    name="description"
+                    control={form.control}
+                    render={({ field }) => (
+                      <Textarea resize={`vertical`} {...field} />
+                    )}
+                  />
+                  <FormErrorMessage>
+                    {errors.description?.message}
+                  </FormErrorMessage>
+                </FormControl>
+                <Box>
+                  <FormLabel htmlFor="storageName">メンバーの追加</FormLabel>
+                  <SuggestUsers />
                 </Box>
-              </Box>
-            </Stack>
-            <Divider my={3} />
-            <Button
-              w={`100%`}
-              colorScheme="blue"
-              type="submit"
-              isLoading={isLoading}
-            >
-              {textValues.submitButton}
-            </Button>
-            {isEdit && (
-              <Box mt={10} textAlign={`right`}>
-                <Button variant={`ghost`} size={`sm`} color={`gray.500`}>
-                  ストレージを削除する
-                </Button>
-              </Box>
-            )}
-          </form>
-        </DrawerBody>
-      </DrawerContent>
-      <DrawerOverlay />
-    </Drawer>
+                <Box>
+                  <FormLabel htmlFor="storageName">サムネイル</FormLabel>
+                  <Box maxW={300} mx={`auto`}>
+                    <FileUpload />
+                  </Box>
+                </Box>
+              </Stack>
+              <Divider my={3} />
+              <Button
+                w={`100%`}
+                colorScheme="blue"
+                type="submit"
+                isLoading={isLoading}
+              >
+                {textValues.submitButton}
+              </Button>
+              {isEdit && (
+                <Box mt={10} textAlign={`right`}>
+                  <Button
+                    onClick={onDeleteStorage}
+                    variant={`ghost`}
+                    size={`sm`}
+                    color={`gray.500`}
+                  >
+                    ストレージを削除する
+                  </Button>
+                </Box>
+              )}
+            </form>
+          </DrawerBody>
+        </DrawerContent>
+        <DrawerOverlay />
+      </Drawer>
+    </>
   );
 };
