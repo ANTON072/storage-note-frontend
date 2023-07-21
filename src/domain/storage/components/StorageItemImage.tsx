@@ -1,4 +1,4 @@
-import { Box, Image, Icon, Text, Center, VStack } from "@chakra-ui/react";
+import { Image, Icon, Text, Center, VStack } from "@chakra-ui/react";
 import { FiFolder } from "react-icons/fi";
 
 type Props = {

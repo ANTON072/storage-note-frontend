@@ -1,8 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
 
-import { useDispatch } from "react-redux";
-
-import { setError } from "@/domain/application";
 import { useUser } from "@/domain/users";
 
 export const AuthRoute = () => {
@@ -17,10 +14,6 @@ export const AuthRoute = () => {
   if (!appUser) {
     return <Navigate to={`/create-user`} />;
   }
-
-  // if (error) {
-  //   dispatch(setError(error));
-  // }
 
   return <Outlet />;
 };

@@ -1,15 +1,4 @@
-import {
-  Box,
-  VStack,
-  Button,
-  FormControl,
-  FormLabel,
-  FormHelperText,
-  Input,
-  Stack,
-  FormErrorMessage,
-  Text,
-} from "@chakra-ui/react";
+import { VStack, Button, Stack, Text } from "@chakra-ui/react";
 
 import { UserAvatar } from "./UserAvatar";
 
