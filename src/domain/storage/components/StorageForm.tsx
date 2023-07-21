@@ -137,20 +137,27 @@ export const StorageForm = ({
               </Box>
               <Box>
                 <FormLabel htmlFor="storageName">サムネイル</FormLabel>
-                <FileUpload />
+                <Box maxW={300} mx={`auto`}>
+                  <FileUpload />
+                </Box>
               </Box>
             </Stack>
             <Divider my={3} />
-            <Box>
-              <Button
-                w={`100%`}
-                colorScheme="blue"
-                type="submit"
-                isLoading={isLoading}
-              >
-                {textValues.submitButton}
-              </Button>
-            </Box>
+            <Button
+              w={`100%`}
+              colorScheme="blue"
+              type="submit"
+              isLoading={isLoading}
+            >
+              {textValues.submitButton}
+            </Button>
+            {isEdit && (
+              <Box mt={10} textAlign={`right`}>
+                <Button variant={`ghost`} size={`sm`} color={`gray.500`}>
+                  ストレージを削除する
+                </Button>
+              </Box>
+            )}
           </form>
         </DrawerBody>
       </DrawerContent>
