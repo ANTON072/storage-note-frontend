@@ -10,6 +10,7 @@ import type { AxiosError } from "axios";
 export const appApi = axios.create();
 
 appApi.defaults.headers.common["Content-Type"] = "application/json";
+appApi.defaults.headers.common["Accept"] = "application/json";
 
 // 共通リクエスト処理
 appApi.interceptors.request.use(
@@ -25,7 +26,7 @@ appApi.interceptors.request.use(
 
     // リクエストデータをスネークケースにキー変換
     if (config.data) {
-      config.data = snakecaseKeys(config.data);
+      config.data = snakecaseKeys(config.data, { deep: true });
     }
 
     return config;
@@ -37,7 +38,7 @@ appApi.interceptors.request.use(
 appApi.interceptors.response.use(
   (response) => {
     // レスポンスデータをキャメルケースに変換
-    response.data = camelcaseKeys(response.data);
+    response.data = camelcaseKeys(response.data, { deep: true });
 
     return response;
   },

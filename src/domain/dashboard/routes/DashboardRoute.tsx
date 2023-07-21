@@ -1,15 +1,16 @@
-import { AddIcon } from "@chakra-ui/icons";
-import { Box, Button, Container, Stack, SimpleGrid } from "@chakra-ui/react";
+import { Box, Container, Stack, SimpleGrid } from "@chakra-ui/react";
 
 import { PageHead, AppHeading } from "@/domain/application";
 import {
   StockListItem,
-  StorageListItem,
+  StorageListContainer,
   useStorageForm,
 } from "@/domain/storage";
+import { NoStorageAlert } from "@/domain/storage/components/NoStorageAlert";
 
 export const DashboardRoute = () => {
-  const { StorageFormDrawer, onOpen } = useStorageForm();
+  const { StorageFormDrawer, CreateStorageButton, onDrawerOpen } =
+    useStorageForm();
 
   return (
     <>
@@ -17,25 +18,17 @@ export const DashboardRoute = () => {
       <Container maxW="container.xl">
         <Stack spacing={10}>
           <Box>
-            <AppHeading
-              button={
-                <Button
-                  leftIcon={<AddIcon />}
-                  colorScheme="blue"
-                  onClick={() => onOpen()}
-                >
-                  新規ストレージ作成
-                </Button>
-              }
-            >
+            <AppHeading button={<CreateStorageButton />}>
               参加中のストレージ
             </AppHeading>
-            <SimpleGrid spacing={5} minChildWidth={[`200px`, `500px`]}>
-              <StorageListItem />
-              <StorageListItem />
-              <StorageListItem />
-              <StorageListItem />
-            </SimpleGrid>
+            <StorageListContainer
+              onOpenForm={(values) => {
+                onDrawerOpen(values);
+              }}
+              noStorageAlert={
+                <NoStorageAlert createButton={<CreateStorageButton />} />
+              }
+            />
           </Box>
           <Box>
             <AppHeading>在庫が少ないストック</AppHeading>

@@ -29,3 +29,5 @@ export const appUserSchema = yup.object({
 });
 
 export type AppUser = yup.InferType<typeof appUserSchema>;
+
+export type StorageMemberResponse = AppUser & { isOwner: boolean };

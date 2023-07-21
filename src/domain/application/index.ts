@@ -29,8 +29,8 @@ export { AuthError } from "./api/AppError";
 export { appApi } from "./api/appApi";
 
 /** hooks */
-export { useFlashMessage } from "./helpers/useFlashMessage";
-export { useLogout } from "./helpers/useLogout";
+export { useFlashMessage } from "./hooks/useFlashMessage";
+export { useLogout } from "./hooks/useLogout";
 export { useImageEditor } from "./components/ImageEditor/useImageEditor";
 export { useFullScreenLoading } from "./components/FullScreenLoading/useFullScreenLoading";
 export { useGoogleLogin } from "./firebase/useGoogleLogin";
@@ -38,9 +38,10 @@ export { useReSendMail } from "./firebase/useReSendMail";
 export { useReauthenticate } from "./firebase/useReauthenticate";
 export { useFirebaseStorage } from "./firebase/useFirebaseStorage";
 export { useFileUpload } from "./components/FileUpload/useFileUpload";
+export { useConfirm } from "./hooks/useConfirm";
 
 /** types */
-export type { FlashMessageState } from "./helpers/useFlashMessage";
+export type { FlashMessageState } from "./hooks/useFlashMessage";
 export type { ApiError } from "./types";
 
 /** utils */

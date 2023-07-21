@@ -6,7 +6,7 @@ export { CreateUserRoute } from "./routes/CreateUserRoute";
 export { userReducer, setFirebaseUser, setAppUser } from "./redux/userReducer";
 
 /** Types */
-export type { UserMeta, FirebaseUser } from "./types";
+export type { UserMeta, FirebaseUser, StorageMemberResponse } from "./types";
 export { appUserSchema } from "./types";
 
 /** Hooks */
