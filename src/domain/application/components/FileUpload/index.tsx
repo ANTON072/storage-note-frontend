@@ -13,10 +13,9 @@ type Props = {
 };
 
 export const FileUpload = ({ imageValue, setImageValue }: Props) => {
-  const { ImageEditor, imageFileInputRef, croppedDataURL, isLoading } =
-    useImageEditor({
-      maxSizePx: 300 * 2,
-    });
+  const { ImageEditor, imageFileInputRef, croppedDataURL } = useImageEditor({
+    maxSizePx: 300 * 2,
+  });
 
   useEffect(() => {
     if (croppedDataURL) {
@@ -31,6 +30,7 @@ export const FileUpload = ({ imageValue, setImageValue }: Props) => {
           w={`100%`}
           src={imageValue}
           onClose={() => {
+            console.log("close");
             setImageValue("");
           }}
         />

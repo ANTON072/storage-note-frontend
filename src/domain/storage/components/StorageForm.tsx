@@ -48,9 +48,13 @@ export const StorageForm = ({
 }: Props) => {
   const firstField = useRef<HTMLInputElement>(null);
 
-  const { SuggestUsers, selectList: selectMemberList } = useSuggestUsers();
+  const {
+    SuggestUsers,
+    selectList: selectMemberList,
+    setSelectList,
+  } = useSuggestUsers();
 
-  const { FileUpload, imageValue } = useFileUpload();
+  const { FileUpload, imageValue, setImageValue } = useFileUpload();
 
   const textValues: TextValues = useMemo(() => {
     return {
@@ -61,6 +65,9 @@ export const StorageForm = ({
 
   const errors = form.formState.errors;
 
+  const defaultImageValue = form.getValues("imageUrl");
+  const defaultMembersValue = form.getValues("members");
+
   useEffect(() => {
     form.setValue("members", selectMemberList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -70,6 +77,16 @@ export const StorageForm = ({
     form.setValue("imageUrl", imageValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imageValue]);
+
+  useEffect(() => {
+    if (defaultImageValue) {
+      setImageValue(defaultImageValue);
+    }
+    if (defaultMembersValue) {
+      setSelectList(defaultMembersValue);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Drawer

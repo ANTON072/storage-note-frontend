@@ -82,5 +82,5 @@ export const useSuggestUsers = () => {
     );
   };
 
-  return { SuggestUsers, selectList };
+  return { SuggestUsers, selectList, setSelectList };
 };

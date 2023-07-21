@@ -36,11 +36,14 @@ export const StorageFormContainer = ({
     members = [],
     imageUrl = "",
   } = defaultValues || {};
+
+  const excludeOwnerMembers = members.filter((m) => !m.isOwner);
+
   const form = useForm<Storage>({
     defaultValues: {
       name,
       description,
-      members,
+      members: excludeOwnerMembers,
       imageUrl,
     },
     resolver: yupResolver(storageSchema),
@@ -65,7 +68,7 @@ export const StorageFormContainer = ({
         ? "ストレージの編集に失敗しました"
         : "ストレージの作成に失敗しました",
     };
-  }, [defaultValues]);
+  }, [isEdit]);
 
   const mutation = useMutation({
     mutationFn: async (values: Storage) => {
