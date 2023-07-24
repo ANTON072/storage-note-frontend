@@ -15,7 +15,7 @@ const RETRY_COUNT = import.meta.env.VITE_APP_ENV === "development" ? 0 : 3;
 const useErrorBoundary = (error: unknown) => {
   if (error instanceof AxiosError) {
     if (error.response) {
-      return error.response?.status >= 500;
+      return error.response?.status === 401 || error.response?.status >= 500;
     }
   }
   return false;
