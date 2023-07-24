@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "format": "prettier --write ./src",
     "test": "jest",
-    "emulate:storage": "firebase emulators:start --only storage"
+    "fb:deploy:storage": "firebase deploy --only storage"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.19",
