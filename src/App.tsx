@@ -4,6 +4,7 @@ import {
   AppProviderContainer,
   ErrorBoundary,
   RootRoutes,
+  PageNotFound,
 } from "@/domain/application";
 import {
   AuthRoute,
@@ -14,8 +15,6 @@ import {
 } from "@/domain/auth";
 import { DashboardRoute } from "@/domain/dashboard";
 import { UserSettingsRoute, CreateUserRoute } from "@/domain/users";
-
-import { PageNotFound } from "./domain/application/components/PageNotFound";
 
 const router = createBrowserRouter([
   {
