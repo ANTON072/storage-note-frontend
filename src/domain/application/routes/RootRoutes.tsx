@@ -62,6 +62,7 @@ export const RootRoutes = () => {
 
     onAuthStateChanged(auth, (firebaseUser) => {
       if (firebaseUser) {
+        setFetched(false);
         // ログイン時の処理
         fetchUserData(firebaseUser);
       } else {
