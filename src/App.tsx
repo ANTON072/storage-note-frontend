@@ -1,6 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import { AppProviderContainer, RootRoutes } from "@/domain/application";
+import {
+  AppProviderContainer,
+  ErrorBoundary,
+  RootRoutes,
+} from "@/domain/application";
 import {
   AuthRoute,
   AuthFormRootRoute,
@@ -14,6 +18,7 @@ import { UserSettingsRoute, CreateUserRoute } from "@/domain/users";
 const router = createBrowserRouter([
   {
     element: <RootRoutes />,
+    errorElement: <ErrorBoundary />,
     children: [
       // 認証が必要なページ
       {
