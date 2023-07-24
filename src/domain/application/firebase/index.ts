@@ -47,7 +47,7 @@ export const firebaseSignOut = () => {
 };
 
 export const refreshIdToken = async () => {
-  console.log("refresh token ------->");
+  console.info("refresh token");
   const auth = firebaseGetAuth();
   const currentUser = auth.currentUser;
   if (!currentUser) {
