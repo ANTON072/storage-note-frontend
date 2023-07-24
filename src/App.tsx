@@ -15,6 +15,8 @@ import {
 import { DashboardRoute } from "@/domain/dashboard";
 import { UserSettingsRoute, CreateUserRoute } from "@/domain/users";
 
+import { PageNotFound } from "./domain/application/components/PageNotFound";
+
 const router = createBrowserRouter([
   {
     element: <RootRoutes />,
@@ -42,6 +44,10 @@ const router = createBrowserRouter([
             path: "/create-user",
             element: <CreateUserRoute />,
           },
+          {
+            path: "*",
+            element: <PageNotFound />,
+          },
         ],
       },
       {
@@ -59,6 +65,10 @@ const router = createBrowserRouter([
           {
             path: "/auth/password-reminder",
             element: <PasswordReminderRoute />,
+          },
+          {
+            path: "*",
+            element: <PageNotFound />,
           },
         ],
       },
