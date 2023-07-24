@@ -39,6 +39,7 @@ export { useReauthenticate } from "./firebase/useReauthenticate";
 export { useFirebaseStorage } from "./firebase/useFirebaseStorage";
 export { useFileUpload } from "./components/FileUpload/useFileUpload";
 export { useConfirm } from "./hooks/useConfirm";
+export { useUserQuery } from "./hooks/useUserQuery";
 
 /** types */
 export type { FlashMessageState } from "./hooks/useFlashMessage";

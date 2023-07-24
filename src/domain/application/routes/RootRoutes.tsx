@@ -6,15 +6,13 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
 
 import {
-  API_BASE_URL,
-  appApi,
   AppHeaderContainer,
   AppFooter,
   firebaseGetAuth,
+  useUserQuery,
 } from "@/domain/application";
 import { setIdToken } from "@/domain/auth";
 import { setAppUser, setFirebaseUser } from "@/domain/users";
-import type { AppUser } from "@/domain/users/types";
 
 import type { User } from "firebase/auth";
 
@@ -24,6 +22,17 @@ export const RootRoutes = () => {
   const dispatch = useDispatch();
 
   const [isFetched, setFetched] = useState(false);
+
+  const { setFetch: setUserQueryFetch } = useUserQuery({
+    onSuccess: (user) => {
+      setFetched(true);
+      dispatch(setAppUser(user));
+    },
+    onError: (error) => {
+      console.log(error);
+      setFetched(true);
+    },
+  });
 
   // Mounted
   useEffect(() => {
@@ -49,14 +58,7 @@ export const RootRoutes = () => {
       );
       // 初回アクセス前はローディング画面を表示する
       if (!isFetched) {
-        try {
-          const { data } = await appApi.get<AppUser>(`${API_BASE_URL}/v1/user`);
-          dispatch(setAppUser(data));
-        } catch (error) {
-          console.log(error);
-        } finally {
-          setFetched(true);
-        }
+        setUserQueryFetch(true);
       }
     };
 
