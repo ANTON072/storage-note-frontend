@@ -47,21 +47,25 @@ export const RootRoutes = () => {
           uid: firebaseUser.uid,
         })
       );
+      // 初回アクセス前はローディング画面を表示する
       if (!isFetched) {
         try {
           const { data } = await appApi.get<AppUser>(`${API_BASE_URL}/v1/user`);
           dispatch(setAppUser(data));
         } catch (error) {
           console.log(error);
+        } finally {
+          setFetched(true);
         }
-        setFetched(true);
       }
     };
 
     onAuthStateChanged(auth, (firebaseUser) => {
       if (firebaseUser) {
+        // ログイン時の処理
         fetchUserData(firebaseUser);
       } else {
+        // 未ログイン時の処理
         setFetched(true);
       }
     });
