@@ -1,0 +1,14 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      // ログインユーザーはすべての画像を読み取り可能
+      allow read: if request.auth != null;
+      // ログインユーザーは画像のアップロードが可能
+      allow write: if request.auth != null && request.resource.metadata.uid == request.auth.uid;
+      // 自分がアップロードした画像のみ削除可能
+      allow delete: if request.auth.uid == resource.metadata.uid;
+    }
+  }
+}

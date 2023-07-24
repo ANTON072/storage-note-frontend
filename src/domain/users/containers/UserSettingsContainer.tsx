@@ -39,7 +39,7 @@ export const UserSettingsContainer = () => {
   const onUpdateUser = useCallback(async (values: AppUser) => {
     const photoUrl = await uploadImage({
       url: values.photoUrl || "",
-      namePrefix: "user_icon",
+      directory: "/images/user",
     });
     const response = await appApi.patch<AppUser>(`${API_BASE_URL}/v1/user`, {
       photoUrl,
