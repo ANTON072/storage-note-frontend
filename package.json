@@ -21,7 +21,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.4.0",
     "camelcase-keys": "^8.0.2",
-    "firebase": "^9.22.1",
+    "firebase": "^10.1.0",
     "framer-motion": "^10.12.16",
     "lodash": "^4.17.21",
     "pica": "^9.0.1",

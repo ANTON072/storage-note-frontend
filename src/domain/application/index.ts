@@ -15,6 +15,9 @@ export { AppHeading } from "./components/AppHeading";
 export { SuggestField } from "./components/SuggestField";
 export { SuggestListItem } from "./components/SuggestField/SuggestListItem";
 export { FileUpload } from "./components/FileUpload";
+export { ErrorBoundary } from "./components/ErrorBoundary";
+export { StaticHeader } from "./components/AppHeader/StaticHeader";
+export { PageNotFound } from "./components/PageNotFound";
 
 /** libs */
 export {
