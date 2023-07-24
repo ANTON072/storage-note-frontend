@@ -24,7 +24,7 @@ export const useCreateAndUpdateStorageMutation = ({
     mutationFn: async (values: Storage) => {
       const imageUrl = await uploadImage({
         url: values.imageUrl || "",
-        namePrefix: "storage_",
+        directory: "/images/storage",
       });
       const memberIds = values.members?.map((member) => member.name) || [];
 

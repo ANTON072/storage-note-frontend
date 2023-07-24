@@ -37,7 +37,7 @@ export const CreateUserFormContainer = () => {
     mutationFn: async (values: AppUser) => {
       const photoUrl = await uploadImage({
         url: values.photoUrl || "",
-        namePrefix: "user_icon",
+        directory: "/images/user",
       });
       return appApi.post<AppUser>(`${API_BASE_URL}/v1/user`, {
         name: values.name,

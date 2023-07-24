@@ -6,6 +6,8 @@ import {
   deleteObject,
 } from "firebase/storage";
 
+import { useUser } from "@/domain/users";
+
 import { firebaseGetStorage } from ".";
 
 const extractFileNameFromURL = (fileURL: string) => {
@@ -38,20 +40,26 @@ const getExtensionFromDataURL = (dataURL: string) => {
 
 type UploadImageToStorageArgs = {
   url: string;
-  namePrefix: string;
+  directory: string;
 };
 
 export const useFirebaseStorage = () => {
-  const uploadImage = async ({ url, namePrefix }: UploadImageToStorageArgs) => {
+  const { firebaseUser } = useUser();
+
+  const uploadImage = async ({ url, directory }: UploadImageToStorageArgs) => {
     // 空文字もしくはURLの場合は即終了
     if (!url || /^http.+/.test(url)) {
       return Promise.resolve(url);
     }
     const ext = getExtensionFromDataURL(url);
-    const name = `${namePrefix}-${nanoid()}${ext}`;
+    const name = `${directory}/${nanoid()}${ext}`;
     const storage = firebaseGetStorage();
     const storageRef = ref(storage, name);
-    await uploadString(storageRef, url, "data_url");
+    await uploadString(storageRef, url, "data_url", {
+      customMetadata: {
+        uid: firebaseUser?.uid || "",
+      },
+    });
     return await getDownloadURL(storageRef);
   };
 
