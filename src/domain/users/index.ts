@@ -1,6 +1,7 @@
 /** Routes */
 export { UserSettingsRoute } from "./routes/UserSettingsRoute";
 export { CreateUserRoute } from "./routes/CreateUserRoute";
+export { StorageDetailRoute } from "./routes/StorageDetailRoute";
 
 /** Redux */
 export { userReducer, setFirebaseUser, setAppUser } from "./redux/userReducer";
