@@ -6,16 +6,16 @@ type Props = {
   my?: number;
 };
 
-export const AppHeading = ({ children, button, my = 10 }: Props) => {
+export const DashboardHeading = ({ children, button, my = 5 }: Props) => {
   return (
     <Flex
       direction={["column", "column", "row"]}
       justifyContent={`space-between`}
       alignItems={`center`}
       my={my}
-      gap={[5, 5, 0]}
+      gap={[3, 3, 0]}
     >
-      <Heading>{children}</Heading>
+      <Heading size={`md`}>{children}</Heading>
       {button}
     </Flex>
   );

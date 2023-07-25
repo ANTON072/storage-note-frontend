@@ -11,7 +11,6 @@ export { AppHeaderContainer } from "./containers/AppHeaderContainer";
 /** Components */
 export { AppFooter } from "./components/AppFooter";
 export { PageHead } from "./components/PageHead";
-export { AppHeading } from "./components/AppHeading";
 export { SuggestField } from "./components/SuggestField";
 export { SuggestListItem } from "./components/SuggestField/SuggestListItem";
 export { FileUpload } from "./components/FileUpload";
