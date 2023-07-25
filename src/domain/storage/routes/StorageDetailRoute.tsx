@@ -1,11 +1,12 @@
 import { Box, Container, Flex, Stack } from "@chakra-ui/react";
 
 import { PageHead } from "@/domain/application";
-import { StockListItem } from "@/domain/storage";
-import { FooterNav } from "@/domain/storage/components/FooterNav";
-import { QueryPanel } from "@/domain/storage/components/QueryPanel";
-import { StorageHeading } from "@/domain/storage/components/StorageHeading";
-import { StorageMembers } from "@/domain/storage/components/StorageMembers";
+import { StockListItem } from "@/domain/stock";
+
+import { FooterNav } from "../components/FooterNav";
+import { QueryPanel } from "../components/QueryPanel";
+import { StorageHeading } from "../components/StorageHeading";
+import { StorageMembers } from "../components/StorageMembers";
 
 export const StorageDetailRoute = () => {
   return (

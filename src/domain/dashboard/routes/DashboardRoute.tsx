@@ -1,12 +1,12 @@
-import { Box, Container, Stack, SimpleGrid } from "@chakra-ui/react";
+import { Box, Container, Stack } from "@chakra-ui/react";
 
 import { PageHead } from "@/domain/application";
+import { StockListItem } from "@/domain/stock";
 import {
-  StockListItem,
   StorageListContainer,
   useStorageForm,
+  NoStorageAlert,
 } from "@/domain/storage";
-import { NoStorageAlert } from "@/domain/storage/components/NoStorageAlert";
 
 import { DashboardHeading } from "../components/DashboardHeading";
 
