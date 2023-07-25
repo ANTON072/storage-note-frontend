@@ -14,7 +14,11 @@ import {
   PasswordReminderRoute,
 } from "@/domain/auth";
 import { DashboardRoute } from "@/domain/dashboard";
-import { UserSettingsRoute, CreateUserRoute } from "@/domain/users";
+import {
+  UserSettingsRoute,
+  CreateUserRoute,
+  StorageDetailRoute,
+} from "@/domain/users";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +39,10 @@ const router = createBrowserRouter([
               {
                 path: "/user/settings",
                 element: <UserSettingsRoute />,
+              },
+              {
+                path: "/storages/:storageId",
+                element: <StorageDetailRoute />,
               },
             ],
           },
