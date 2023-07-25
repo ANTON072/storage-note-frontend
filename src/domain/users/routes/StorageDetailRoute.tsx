@@ -1,6 +1,7 @@
 import { Box, Container, Flex, Stack } from "@chakra-ui/react";
 
 import { PageHead } from "@/domain/application";
+import { StockListItem } from "@/domain/storage";
 import { FooterNav } from "@/domain/storage/components/FooterNav";
 import { QueryPanel } from "@/domain/storage/components/QueryPanel";
 import { StorageHeading } from "@/domain/storage/components/StorageHeading";
@@ -22,6 +23,14 @@ export const StorageDetailRoute = () => {
             <Box>
               <QueryPanel />
             </Box>
+            <Stack spacing={3}>
+              <StockListItem />
+              <StockListItem />
+              <StockListItem />
+              <StockListItem />
+              <StockListItem />
+              <StockListItem />
+            </Stack>
           </Stack>
         </Container>
         <FooterNav />
