@@ -55,7 +55,7 @@ export const StorageListContainer = ({ noStorageAlert, onOpenForm }: Props) => {
   }
 
   return (
-    <SimpleGrid spacing={5} minChildWidth={[`200px`, `500px`]}>
+    <SimpleGrid spacing={3} minChildWidth={[`200px`, `500px`]}>
       {storages.map((storage) => (
         <StorageListItem
           isOwner={isOwner(storage.members)}

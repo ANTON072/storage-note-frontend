@@ -1,12 +1,14 @@
 import { Box, Container, Stack, SimpleGrid } from "@chakra-ui/react";
 
-import { PageHead, AppHeading } from "@/domain/application";
+import { PageHead } from "@/domain/application";
 import {
   StockListItem,
   StorageListContainer,
   useStorageForm,
 } from "@/domain/storage";
 import { NoStorageAlert } from "@/domain/storage/components/NoStorageAlert";
+
+import { DashboardHeading } from "../components/DashboardHeading";
 
 export const DashboardRoute = () => {
   const { StorageFormDrawer, CreateStorageButton, onDrawerOpen } =
@@ -15,12 +17,12 @@ export const DashboardRoute = () => {
   return (
     <>
       <PageHead title={`ダッシュボード`} />
-      <Container maxW="container.xl">
-        <Stack spacing={10}>
+      <Container maxW="container.xl" pb={3}>
+        <Stack spacing={2}>
           <Box>
-            <AppHeading button={<CreateStorageButton />}>
+            <DashboardHeading button={<CreateStorageButton />}>
               参加中のストレージ
-            </AppHeading>
+            </DashboardHeading>
             <StorageListContainer
               onOpenForm={(values) => {
                 onDrawerOpen(values);
@@ -31,13 +33,13 @@ export const DashboardRoute = () => {
             />
           </Box>
           <Box>
-            <AppHeading>在庫が少ないストック</AppHeading>
-            <SimpleGrid spacing={5} minChildWidth={[`200px`, `500px`]}>
+            <DashboardHeading>在庫が少ないストック</DashboardHeading>
+            <Stack spacing={3}>
               <StockListItem />
               <StockListItem />
               <StockListItem />
               <StockListItem />
-            </SimpleGrid>
+            </Stack>
           </Box>
         </Stack>
       </Container>

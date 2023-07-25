@@ -28,6 +28,7 @@ export const useStorageForm = () => {
         leftIcon={<AddIcon />}
         colorScheme="blue"
         onClick={() => onOpen()}
+        size={`sm`}
       >
         新規ストレージ作成
       </Button>
