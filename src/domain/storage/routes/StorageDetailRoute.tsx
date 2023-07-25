@@ -2,6 +2,7 @@ import { Box, Container, Flex, Stack } from "@chakra-ui/react";
 
 import { PageHead } from "@/domain/application";
 import { StockListItem } from "@/domain/stock";
+import { StockForm } from "@/domain/stock/components/StockForm";
 
 import { FooterNav } from "../components/FooterNav";
 import { QueryPanel } from "../components/QueryPanel";
@@ -36,6 +37,7 @@ export const StorageDetailRoute = () => {
         </Container>
         <FooterNav />
       </Flex>
+      <StockForm />
     </>
   );
 };
