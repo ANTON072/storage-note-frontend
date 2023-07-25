@@ -12,7 +12,7 @@ import {
   Grid,
   GridItem,
 } from "@chakra-ui/react";
-import { BiStar } from "react-icons/bi";
+import { BiStar, BiEdit } from "react-icons/bi";
 
 import { Counter } from "./Counter";
 
@@ -62,7 +62,16 @@ export const StockListItem = () => {
             </Box>
           </GridItem>
           <GridItem area={`footer`}>
-            <Counter />
+            <HStack justifyContent={`flex-end`}>
+              <Counter />
+              <IconButton
+                size={`xs`}
+                rounded={`100%`}
+                aria-label="編集"
+                color={`gray.500`}
+                icon={<BiEdit />}
+              />
+            </HStack>
           </GridItem>
         </Grid>
       </CardBody>
