@@ -17,7 +17,7 @@ export const DashboardRoute = () => {
   return (
     <>
       <PageHead title={`ダッシュボード`} />
-      <Container maxW="container.xl" pb={3}>
+      <Container maxW="container.md" pb={3}>
         <Stack spacing={2}>
           <Box>
             <DashboardHeading button={<CreateStorageButton />}>

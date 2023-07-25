@@ -1,6 +1,13 @@
 import { useCallback } from "react";
 
-import { Box, SimpleGrid, CircularProgress } from "@chakra-ui/react";
+import {
+  Box,
+  SimpleGrid,
+  CircularProgress,
+  Wrap,
+  WrapItem,
+  Stack,
+} from "@chakra-ui/react";
 import { useQuery } from "react-query";
 
 import { API_BASE_URL, appApi } from "@/domain/application";
@@ -55,7 +62,7 @@ export const StorageListContainer = ({ noStorageAlert, onOpenForm }: Props) => {
   }
 
   return (
-    <SimpleGrid spacing={3} minChildWidth={[`200px`, `500px`]}>
+    <Stack spacing={3}>
       {storages.map((storage) => (
         <StorageListItem
           isOwner={isOwner(storage.members)}
@@ -67,6 +74,6 @@ export const StorageListContainer = ({ noStorageAlert, onOpenForm }: Props) => {
           {...storage}
         />
       ))}
-    </SimpleGrid>
+    </Stack>
   );
 };
