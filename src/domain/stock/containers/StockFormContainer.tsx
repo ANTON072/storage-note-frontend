@@ -13,6 +13,14 @@ type Props = {
 };
 
 export const StockFormContainer = ({ isOpen, onClose, storageId }: Props) => {
+  const { categoriesQuery } = useCategoriesQuery(storageId);
+
+  const categories = categoriesQuery.data || [];
+
+  const defaultCategory = categories.find(
+    (category) => category.name === "未分類"
+  );
+
   const form = useForm<StockFormValues>({
     defaultValues: {
       name: "",
@@ -23,13 +31,10 @@ export const StockFormContainer = ({ isOpen, onClose, storageId }: Props) => {
       itemCount: 0,
       unitName: "個",
       alertThreshold: 1,
+      category: defaultCategory?.id,
     },
     resolver: yupResolver(stockSchema),
   });
-
-  const { categoriesQuery } = useCategoriesQuery(storageId);
-
-  const categories = categoriesQuery.data || [];
 
   return (
     <>

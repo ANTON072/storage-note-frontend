@@ -1,5 +1,5 @@
 import type { ElementRef } from "react";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import {
   Drawer,
@@ -18,9 +18,11 @@ import {
   FormHelperText,
   Button,
   Divider,
+  Box,
 } from "@chakra-ui/react";
 import { Controller, type UseFormReturn } from "react-hook-form";
 
+import { useFileUpload } from "@/domain/application";
 import type { CategoryResponse } from "@/domain/category/types";
 
 import type { StockFormValues } from "../../types";
@@ -41,6 +43,13 @@ export const StockForm = ({
   categories,
 }: Props) => {
   const firstField = useRef<ElementRef<"input">>(null);
+
+  const { FileUpload, imageValue, setImageValue } = useFileUpload();
+
+  useEffect(() => {
+    form.setValue("imageUrl", imageValue);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [imageValue]);
 
   return (
     <>
@@ -69,45 +78,84 @@ export const StockForm = ({
                 </FormControl>
                 <FormControl>
                   <FormLabel>写真</FormLabel>
+                  <Box maxW={300} mx={`auto`}>
+                    <FileUpload />
+                  </Box>
                 </FormControl>
                 <FormControl>
                   <FormLabel>カテゴリー</FormLabel>
-                  <Select>
-                    {categories.map((category) => (
-                      <option key={category.id} value={category.id}>
-                        {category.name}
-                      </option>
-                    ))}
-                  </Select>
+                  <Controller
+                    name="category"
+                    control={form.control}
+                    render={({ field }) => (
+                      <Select {...field}>
+                        {categories.map((category) => (
+                          <option key={category.id} value={category.id}>
+                            {category.name}
+                          </option>
+                        ))}
+                      </Select>
+                    )}
+                  />
                 </FormControl>
                 <FormControl>
                   <FormLabel>購入場所</FormLabel>
-                  <Input autoComplete="off" placeholder="店舗名かURLを入力" />
+                  <Controller
+                    name="purchaseLocation"
+                    control={form.control}
+                    render={({ field }) => (
+                      <Input {...field} placeholder="店舗名かURLを入力" />
+                    )}
+                  />
                 </FormControl>
                 <FormControl>
                   <FormLabel>購入金額</FormLabel>
-                  <Input autoComplete="off" placeholder="1,000円" />
+                  <Controller
+                    name="price"
+                    control={form.control}
+                    render={({ field }) => (
+                      <Input {...field} placeholder="1,000円" />
+                    )}
+                  />
                 </FormControl>
                 <HStack>
                   <FormControl isRequired>
                     <FormLabel>初期在庫数</FormLabel>
-                    <Input type="number" defaultValue={0} />
+                    <Controller
+                      name="itemCount"
+                      control={form.control}
+                      render={({ field }) => <Input {...field} type="number" />}
+                    />
                   </FormControl>
                   <FormControl isRequired>
                     <FormLabel>単位</FormLabel>
-                    <Input defaultValue={`個`} />
+                    <Controller
+                      name="unitName"
+                      control={form.control}
+                      render={({ field }) => <Input {...field} />}
+                    />
                   </FormControl>
                 </HStack>
                 <FormControl isRequired>
                   <FormLabel>在庫減少アラート通知個数</FormLabel>
-                  <Input type="number" defaultValue={1} />
+                  <Controller
+                    name="alertThreshold"
+                    control={form.control}
+                    render={({ field }) => <Input {...field} type="number" />}
+                  />
                   <FormHelperText>
                     この個数以下になるとアラート表示になります
                   </FormHelperText>
                 </FormControl>
                 <FormControl>
                   <FormLabel>メモ</FormLabel>
-                  <Textarea resize={`vertical`} />
+                  <Controller
+                    name="description"
+                    control={form.control}
+                    render={({ field }) => (
+                      <Textarea {...field} resize={`vertical`} />
+                    )}
+                  />
                 </FormControl>
               </Stack>
               <Divider my={3} />
