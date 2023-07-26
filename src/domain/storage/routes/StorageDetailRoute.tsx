@@ -1,8 +1,7 @@
 import { Box, Container, Flex, Stack } from "@chakra-ui/react";
 
 import { PageHead } from "@/domain/application";
-import { StockListItem } from "@/domain/stock";
-import { StockForm } from "@/domain/stock/components/StockForm";
+import { StockListItem, useStockForm } from "@/domain/stock";
 
 import { FooterNav } from "../components/FooterNav";
 import { QueryPanel } from "../components/QueryPanel";
@@ -10,6 +9,8 @@ import { StorageHeading } from "../components/StorageHeading";
 import { StorageMembers } from "../components/StorageMembers";
 
 export const StorageDetailRoute = () => {
+  const { StockFormDrawer, onDrawerOpen } = useStockForm();
+
   return (
     <>
       <PageHead title={`ストレージ`} />
@@ -35,9 +36,9 @@ export const StorageDetailRoute = () => {
             </Stack>
           </Stack>
         </Container>
-        <FooterNav />
+        <FooterNav onClick={onDrawerOpen} />
       </Flex>
-      <StockForm />
+      <StockFormDrawer />
     </>
   );
 };

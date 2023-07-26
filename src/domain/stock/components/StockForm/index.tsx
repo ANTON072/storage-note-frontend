@@ -1,3 +1,5 @@
+import { useRef } from "react";
+
 import {
   Drawer,
   DrawerBody,
@@ -16,27 +18,44 @@ import {
   Button,
   Divider,
 } from "@chakra-ui/react";
+import { Controller, type UseFormReturn } from "react-hook-form";
 
-export const StockForm = () => {
+import type { StockFormValues } from "../../types";
+
+type Props = {
+  form: UseFormReturn<StockFormValues>;
+  onSubmit: (values: StockFormValues) => void;
+  isOpen: boolean;
+  onClose: () => void;
+};
+
+export const StockForm = ({ form, onSubmit, isOpen, onClose }: Props) => {
+  const firstField = useRef<HTMLInputElement>(null);
+
   return (
     <>
       <Drawer
         placement="right"
-        onClose={() => {
-          //
-        }}
-        isOpen={true}
+        initialFocusRef={firstField}
+        onClose={onClose}
+        isOpen={isOpen}
         size={`md`}
       >
         <DrawerContent>
           <DrawerCloseButton />
           <DrawerHeader borderBottomWidth="1px">ストック新規追加</DrawerHeader>
           <DrawerBody>
-            <form>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
               <Stack py={2} spacing={2}>
                 <FormControl isRequired>
                   <FormLabel>商品名</FormLabel>
-                  <Input autoComplete="off" />
+                  <Controller
+                    name="name"
+                    control={form.control}
+                    render={({ field }) => (
+                      <Input {...field} autoComplete="off" ref={firstField} />
+                    )}
+                  />
                 </FormControl>
                 <FormControl>
                   <FormLabel>写真</FormLabel>
