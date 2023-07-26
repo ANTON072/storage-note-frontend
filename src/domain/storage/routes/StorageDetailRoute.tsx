@@ -19,7 +19,11 @@ export const StorageDetailRoute = () => {
 
   const { StockFormDrawer, onDrawerOpen } = useStockForm();
 
+  const storage = storageQuery.data;
+
   if (!storageId || storageQuery.isError) return <PageNotFound />;
+
+  if (!storage) return null;
 
   return (
     <>
@@ -30,9 +34,9 @@ export const StorageDetailRoute = () => {
             <Loading />
           ) : (
             <>
-              <Stack spacing={2}>
+              <Stack spacing={3}>
                 <Box>
-                  <StorageHeading>扇家のストレージ</StorageHeading>
+                  <StorageHeading storage={storage} />
                 </Box>
                 <Box>
                   <StorageMembers />
