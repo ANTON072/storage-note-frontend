@@ -3,7 +3,7 @@ import { useMutation } from "react-query";
 
 import { appApi, useFirebaseStorage, API_BASE_URL } from "@/domain/application";
 
-import type { Storage, StorageResponse } from "../types";
+import type { StorageFormValues, StorageResponse } from "../types";
 
 type Args = {
   isEdit: boolean;
@@ -21,7 +21,7 @@ export const useCreateAndUpdateStorageMutation = ({
   const { uploadImage } = useFirebaseStorage();
 
   const mutation = useMutation({
-    mutationFn: async (values: Storage) => {
+    mutationFn: async (values: StorageFormValues) => {
       const imageUrl = await uploadImage({
         url: values.imageUrl || "",
         directory: "/images/storage",
