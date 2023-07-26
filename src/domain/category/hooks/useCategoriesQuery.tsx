@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 
-import { appApi } from "@/domain/application";
+import { API_BASE_URL, appApi } from "@/domain/application";
 
 import type { CategoryResponse } from "../types";
 
@@ -9,7 +9,7 @@ export const useCategoriesQuery = (storageId: string) => {
     ["categories", storageId],
     async () => {
       const { data } = await appApi.get<CategoryResponse[]>(
-        `/storages/${storageId}/categories`
+        `${API_BASE_URL}/v1/storages/${storageId}/categories`
       );
 
       return data;

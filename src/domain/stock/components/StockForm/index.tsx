@@ -21,6 +21,8 @@ import {
 } from "@chakra-ui/react";
 import { Controller, type UseFormReturn } from "react-hook-form";
 
+import type { CategoryResponse } from "@/domain/category/types";
+
 import type { StockFormValues } from "../../types";
 
 type Props = {
@@ -28,9 +30,16 @@ type Props = {
   onSubmit: (values: StockFormValues) => void;
   isOpen: boolean;
   onClose: () => void;
+  categories: CategoryResponse[];
 };
 
-export const StockForm = ({ form, onSubmit, isOpen, onClose }: Props) => {
+export const StockForm = ({
+  form,
+  onSubmit,
+  isOpen,
+  onClose,
+  categories,
+}: Props) => {
   const firstField = useRef<ElementRef<"input">>(null);
 
   return (
@@ -64,9 +73,11 @@ export const StockForm = ({ form, onSubmit, isOpen, onClose }: Props) => {
                 <FormControl>
                   <FormLabel>カテゴリー</FormLabel>
                   <Select>
-                    <option value={0}>未設定</option>
-                    <option value={1}>キッチン</option>
-                    <option value={2}>お掃除</option>
+                    {categories.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.name}
+                      </option>
+                    ))}
                   </Select>
                 </FormControl>
                 <FormControl>
