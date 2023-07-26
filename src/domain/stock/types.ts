@@ -11,7 +11,7 @@ export const stockSchema = yup.object({
   itemCount: yup.number().required().min(0),
   unitName: yup.string().required(),
   alertThreshold: yup.number().required().min(0),
-  category: yup.string().required(),
+  category: yup.number(),
 });
 
 export type StockFormValues = yup.InferType<typeof stockSchema>;

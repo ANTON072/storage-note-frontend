@@ -2,12 +2,18 @@ import { useCallback } from "react";
 
 import { useDisclosure } from "@chakra-ui/react";
 
-import { StorageResponse } from "@/domain/storage/types";
+import { useCategoriesQuery } from "@/domain/category";
 
 import { StockFormContainer } from "../containers/StockFormContainer";
 
-export const useStockForm = () => {
+type Args = {
+  storageId: string;
+};
+
+export const useStockForm = ({ storageId }: Args) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // const {} = useCategoriesQuery();
 
   const StockFormDrawer = () => {
     return <StockFormContainer isOpen={isOpen} onClose={onClose} />;

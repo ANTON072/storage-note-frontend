@@ -1,3 +1,5 @@
+import { useParams } from "react-router-dom";
+
 import { Box, Container, Flex, Stack } from "@chakra-ui/react";
 
 import { PageHead } from "@/domain/application";
@@ -9,7 +11,11 @@ import { StorageHeading } from "../components/StorageHeading";
 import { StorageMembers } from "../components/StorageMembers";
 
 export const StorageDetailRoute = () => {
-  const { StockFormDrawer, onDrawerOpen } = useStockForm();
+  const { storageId } = useParams<{ storageId: string }>();
+
+  // const { StockFormDrawer, onDrawerOpen } = useStockForm({
+  //   storageId,
+  // });
 
   return (
     <>
@@ -36,9 +42,9 @@ export const StorageDetailRoute = () => {
             </Stack>
           </Stack>
         </Container>
-        <FooterNav onClick={onDrawerOpen} />
+        {/* <FooterNav onClick={onDrawerOpen} /> */}
       </Flex>
-      <StockFormDrawer />
+      {/* <StockFormDrawer /> */}
     </>
   );
 };

@@ -1,3 +1,4 @@
+import type { ElementRef } from "react";
 import { useEffect, useMemo, useRef } from "react";
 
 import {
@@ -48,7 +49,7 @@ export const StorageForm = ({
   isEdit,
   onDeleteStorage,
 }: Props) => {
-  const firstField = useRef<HTMLInputElement>(null);
+  const firstField = useRef<ElementRef<"input">>(null);
 
   const {
     SuggestUsers,

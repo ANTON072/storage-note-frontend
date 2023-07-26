@@ -20,7 +20,6 @@ export const StockFormContainer = ({ isOpen, onClose }: Props) => {
       itemCount: 0,
       unitName: "個",
       alertThreshold: 1,
-      category: "未設定",
     },
     resolver: yupResolver(stockSchema),
   });

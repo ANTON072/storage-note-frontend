@@ -1,3 +1,4 @@
+import type { ElementRef } from "react";
 import { useRef } from "react";
 
 import {
@@ -30,7 +31,7 @@ type Props = {
 };
 
 export const StockForm = ({ form, onSubmit, isOpen, onClose }: Props) => {
-  const firstField = useRef<HTMLInputElement>(null);
+  const firstField = useRef<ElementRef<"input">>(null);
 
   return (
     <>
@@ -63,9 +64,9 @@ export const StockForm = ({ form, onSubmit, isOpen, onClose }: Props) => {
                 <FormControl>
                   <FormLabel>カテゴリー</FormLabel>
                   <Select>
-                    <option value="">未設定</option>
-                    <option value="">キッチン</option>
-                    <option value="">お掃除</option>
+                    <option value={0}>未設定</option>
+                    <option value={1}>キッチン</option>
+                    <option value={2}>お掃除</option>
                   </Select>
                 </FormControl>
                 <FormControl>
