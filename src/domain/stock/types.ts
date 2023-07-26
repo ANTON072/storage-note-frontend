@@ -1,5 +1,7 @@
 import * as yup from "yup";
 
+import type { AppUser } from "../users/types";
+
 export const stockSchema = yup.object({
   name: yup.string().required(),
   description: yup.string(),
@@ -13,3 +15,11 @@ export const stockSchema = yup.object({
 });
 
 export type StockFormValues = yup.InferType<typeof stockSchema>;
+
+export type StockResponse = StockFormValues & {
+  id: string;
+  isFavorite: boolean;
+  updatedBy: AppUser;
+  createdAt: string;
+  updatedAt: string;
+};
