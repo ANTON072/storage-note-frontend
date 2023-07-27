@@ -1,7 +1,11 @@
 import { Box, Button, Center, Container } from "@chakra-ui/react";
 import { MdAddCircle } from "react-icons/md";
 
-export const FooterNav = () => {
+type Props = {
+  onClick: () => void;
+};
+
+export const FooterNav = ({ onClick }: Props) => {
   return (
     <Box position={`sticky`} left={0} bottom={0}>
       <Container maxW="container.md"></Container>
@@ -21,6 +25,7 @@ export const FooterNav = () => {
             w={`100%`}
             maxW={`500px`}
             size={`md`}
+            onClick={onClick}
           >
             ストック追加
           </Button>

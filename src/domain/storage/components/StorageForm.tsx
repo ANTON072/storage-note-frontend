@@ -1,3 +1,4 @@
+import type { ElementRef } from "react";
 import { useEffect, useMemo, useRef } from "react";
 
 import {
@@ -22,13 +23,13 @@ import { Controller, type UseFormReturn } from "react-hook-form";
 import { useFileUpload } from "@/domain/application";
 import { useSuggestUsers } from "@/domain/users";
 
-import type { Storage } from "../types";
+import type { StorageFormValues } from "../types";
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  form: UseFormReturn<Storage>;
-  onSubmit: (values: Storage) => void;
+  form: UseFormReturn<StorageFormValues>;
+  onSubmit: (values: StorageFormValues) => void;
   isLoading: boolean;
   isEdit: boolean;
   onDeleteStorage: () => void;
@@ -48,7 +49,7 @@ export const StorageForm = ({
   isEdit,
   onDeleteStorage,
 }: Props) => {
-  const firstField = useRef<HTMLInputElement>(null);
+  const firstField = useRef<ElementRef<"input">>(null);
 
   const {
     SuggestUsers,

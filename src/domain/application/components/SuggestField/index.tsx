@@ -1,3 +1,4 @@
+import type { ElementRef } from "react";
 import { useEffect, useRef, useState } from "react";
 
 import { Box, Input } from "@chakra-ui/react";
@@ -24,7 +25,7 @@ export const SuggestField = ({
 }: Props) => {
   const [isFocus, setFocus] = useState(false);
 
-  const suggestRef = useRef<HTMLDivElement | null>(null);
+  const suggestRef = useRef<ElementRef<"div">>(null);
 
   useEffect(() => {
     const suggestEl = suggestRef?.current;

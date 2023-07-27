@@ -15,11 +15,13 @@ export const storageSchema = yup.object({
   imageUrl: yup.string(),
 });
 
-export type Storage = yup.InferType<typeof storageSchema>;
+export type StorageFormValues = yup.InferType<typeof storageSchema>;
 
-export type StorageRequest = Omit<Storage, "members"> & { members: string[] };
+export type StorageRequest = Omit<StorageFormValues, "members"> & {
+  members: string[];
+};
 
-export type StorageResponse = Omit<Storage, "members"> & {
+export type StorageResponse = Omit<StorageFormValues, "members"> & {
   id: string;
   members: StorageMemberResponse[];
 };

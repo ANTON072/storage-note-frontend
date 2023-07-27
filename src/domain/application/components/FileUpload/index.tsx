@@ -30,7 +30,6 @@ export const FileUpload = ({ imageValue, setImageValue }: Props) => {
           w={`100%`}
           src={imageValue}
           onClose={() => {
-            console.log("close");
             setImageValue("");
           }}
         />

@@ -13,7 +13,7 @@ import { useCreateAndUpdateStorageMutation } from "../hooks/useCreateAndUpdateSt
 import { useDeleteStorageMutation } from "../hooks/useDeleteStorageMutation";
 import { storageSchema } from "../types";
 
-import type { Storage, StorageResponse } from "../types";
+import type { StorageFormValues, StorageResponse } from "../types";
 
 type Props = {
   isOpen: boolean;
@@ -44,7 +44,7 @@ export const StorageFormContainer = ({
 
   const queryClient = useQueryClient();
 
-  const form = useForm<Storage>({
+  const form = useForm<StorageFormValues>({
     defaultValues: {
       name,
       description,

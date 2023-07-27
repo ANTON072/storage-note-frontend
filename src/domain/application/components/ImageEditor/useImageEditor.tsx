@@ -1,3 +1,4 @@
+import type { ElementRef } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import {
@@ -29,7 +30,7 @@ export const useImageEditor = ({ maxSizePx }: ImageEditorArgs) => {
   // 画像選択中のローディング
   const [isLoading, setLoading] = useState(false);
 
-  const imageFileInputRef = useRef<HTMLInputElement>(null);
+  const imageFileInputRef = useRef<ElementRef<"input">>(null);
 
   const convertFileToDataURL = (file: File) => {
     return new Promise<string>((resolve, reject) => {

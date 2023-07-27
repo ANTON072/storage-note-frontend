@@ -12,11 +12,15 @@ import {
 } from "@chakra-ui/react";
 import { MdHome } from "react-icons/md";
 
+import type { StorageResponse } from "../types";
+
 type Props = {
-  children: string;
+  storage: StorageResponse;
+  isOwner: boolean;
+  onOpenDrawer: () => void;
 };
 
-export const StorageHeading = ({ children }: Props) => {
+export const StorageHeading = ({ storage, isOwner, onOpenDrawer }: Props) => {
   return (
     <Box>
       <Flex justifyContent={`space-between`}>
@@ -29,28 +33,35 @@ export const StorageHeading = ({ children }: Props) => {
         >
           Home
         </Button>
-        <IconButton
-          rounded={`full`}
-          size={`xs`}
-          color={`gray.500`}
-          aria-label="ストレージの設定"
-          icon={<SettingsIcon />}
-        />
+        {isOwner && (
+          <IconButton
+            rounded={`full`}
+            size={`xs`}
+            color={`gray.500`}
+            aria-label="ストレージの設定"
+            onClick={onOpenDrawer}
+            icon={<SettingsIcon />}
+          />
+        )}
       </Flex>
-      <Flex mt={2} gap={3} alignItems={`center`}>
+      <Flex mt={3} gap={3} alignItems={`center`}>
         <Box flex={1}>
-          <Heading fontSize={20}>{children}</Heading>
-          <Text fontSize={14} mt={1} color={`blackAlpha.600`}>
-            おうちの在庫品の一覧です
-          </Text>
+          <Heading fontSize={22}>{storage.name}</Heading>
+          {storage.description && (
+            <Text fontSize={14} mt={1} color={`blackAlpha.600`}>
+              {storage.description}
+            </Text>
+          )}
         </Box>
-        <Image
-          boxSize="60px"
-          rounded={10}
-          objectFit="cover"
-          src="https://bit.ly/dan-abramov"
-          alt="Dan Abramov"
-        />
+        {storage.imageUrl && (
+          <Image
+            boxSize="60px"
+            rounded={10}
+            objectFit="cover"
+            src={storage.imageUrl}
+            alt=""
+          />
+        )}
       </Flex>
     </Box>
   );
