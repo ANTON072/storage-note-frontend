@@ -10,6 +10,7 @@ import { Loading } from "../components/Loading";
 import { QueryPanel } from "../components/QueryPanel";
 import { StorageHeading } from "../components/StorageHeading";
 import { StorageMembers } from "../components/StorageMembers";
+import { StorageHeadingContainer } from "../containers/StorageHeadingContainer";
 import { useStorageQuery } from "../hooks/useStorageQuery";
 
 export const StorageDetailRoute = () => {
@@ -36,7 +37,7 @@ export const StorageDetailRoute = () => {
             <>
               <Stack spacing={3}>
                 <Box>
-                  <StorageHeading storage={storage} />
+                  <StorageHeadingContainer storage={storage} />
                 </Box>
                 <Box>
                   <StorageMembers />

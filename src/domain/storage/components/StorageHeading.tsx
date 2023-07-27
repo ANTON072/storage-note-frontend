@@ -16,9 +16,11 @@ import type { StorageResponse } from "../types";
 
 type Props = {
   storage: StorageResponse;
+  isOwner: boolean;
+  onOpenDrawer: () => void;
 };
 
-export const StorageHeading = ({ storage }: Props) => {
+export const StorageHeading = ({ storage, isOwner, onOpenDrawer }: Props) => {
   return (
     <Box>
       <Flex justifyContent={`space-between`}>
@@ -31,13 +33,16 @@ export const StorageHeading = ({ storage }: Props) => {
         >
           Home
         </Button>
-        <IconButton
-          rounded={`full`}
-          size={`xs`}
-          color={`gray.500`}
-          aria-label="ストレージの設定"
-          icon={<SettingsIcon />}
-        />
+        {isOwner && (
+          <IconButton
+            rounded={`full`}
+            size={`xs`}
+            color={`gray.500`}
+            aria-label="ストレージの設定"
+            onClick={onOpenDrawer}
+            icon={<SettingsIcon />}
+          />
+        )}
       </Flex>
       <Flex mt={3} gap={3} alignItems={`center`}>
         <Box flex={1}>

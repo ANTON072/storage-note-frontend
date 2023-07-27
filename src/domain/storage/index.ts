@@ -10,3 +10,6 @@ export { StorageListContainer } from "./containers/StorageListContainer";
 
 /** Routes */
 export { StorageDetailRoute } from "./routes/StorageDetailRoute";
+
+/** Types */
+export type { StorageResponse } from "./types";

@@ -1,13 +1,4 @@
-import { useCallback } from "react";
-
-import {
-  Box,
-  SimpleGrid,
-  CircularProgress,
-  Wrap,
-  WrapItem,
-  Stack,
-} from "@chakra-ui/react";
+import { Box, CircularProgress, Stack } from "@chakra-ui/react";
 import { useQuery } from "react-query";
 
 import { API_BASE_URL, appApi } from "@/domain/application";
@@ -23,7 +14,7 @@ type Props = {
 };
 
 export const StorageListContainer = ({ noStorageAlert, onOpenForm }: Props) => {
-  const { appUser } = useUser();
+  const { appUser, isOwner } = useUser();
 
   const query = useQuery({
     queryKey: ["storages", appUser?.name],
@@ -35,17 +26,6 @@ export const StorageListContainer = ({ noStorageAlert, onOpenForm }: Props) => {
       return data;
     },
   });
-
-  const isOwner = useCallback(
-    (members: StorageResponse["members"]) => {
-      if (!appUser) return false;
-
-      return !!members
-        .filter((member) => member.isOwner)
-        .find((member) => member.name === appUser.name);
-    },
-    [appUser]
-  );
 
   const storages = query.data || [];
 
@@ -68,7 +48,6 @@ export const StorageListContainer = ({ noStorageAlert, onOpenForm }: Props) => {
           isOwner={isOwner(storage.members)}
           key={storage.id}
           onClickSettings={() => {
-            console.log("storage", storage);
             onOpenForm(storage);
           }}
           {...storage}
