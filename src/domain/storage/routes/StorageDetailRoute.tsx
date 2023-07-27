@@ -4,13 +4,14 @@ import { Box, Container, Flex, Stack } from "@chakra-ui/react";
 
 import { PageHead, PageNotFound } from "@/domain/application";
 import { StockListItem, useStockForm } from "@/domain/stock";
+import { useUser } from "@/domain/users";
 
 import { FooterNav } from "../components/FooterNav";
 import { Loading } from "../components/Loading";
 import { QueryPanel } from "../components/QueryPanel";
 import { StorageHeading } from "../components/StorageHeading";
 import { StorageMembers } from "../components/StorageMembers";
-import { StorageHeadingContainer } from "../containers/StorageHeadingContainer";
+import { useStorageForm } from "../hooks/useStorageForm";
 import { useStorageQuery } from "../hooks/useStorageQuery";
 
 export const StorageDetailRoute = () => {
@@ -19,6 +20,11 @@ export const StorageDetailRoute = () => {
   const { storageQuery } = useStorageQuery(storageId);
 
   const { StockFormDrawer, onDrawerOpen } = useStockForm();
+
+  const { StorageFormDrawer, onDrawerOpen: onStorageDrawerOpen } =
+    useStorageForm();
+
+  const { isOwner } = useUser();
 
   const storage = storageQuery.data;
 
@@ -37,10 +43,22 @@ export const StorageDetailRoute = () => {
             <>
               <Stack spacing={3}>
                 <Box>
-                  <StorageHeadingContainer storage={storage} />
+                  <StorageHeading
+                    storage={storage}
+                    isOwner={isOwner(storage.members)}
+                    onOpenDrawer={() => {
+                      onStorageDrawerOpen(storage);
+                    }}
+                  />
                 </Box>
                 <Box>
-                  <StorageMembers />
+                  <StorageMembers
+                    storage={storage}
+                    isOwner={isOwner(storage.members)}
+                    onOpenDrawer={() => {
+                      onStorageDrawerOpen(storage);
+                    }}
+                  />
                 </Box>
                 <Box>
                   <QueryPanel />
@@ -60,6 +78,7 @@ export const StorageDetailRoute = () => {
         <FooterNav onClick={onDrawerOpen} />
       </Flex>
       <StockFormDrawer storageId={storageId} />
+      <StorageFormDrawer />
     </>
   );
 };

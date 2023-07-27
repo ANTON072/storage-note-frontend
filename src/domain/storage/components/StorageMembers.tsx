@@ -1,35 +1,35 @@
 import { AddIcon } from "@chakra-ui/icons";
 import { Avatar, IconButton, Wrap, WrapItem, Tooltip } from "@chakra-ui/react";
 
-export const StorageMembers = () => {
+import type { StorageResponse } from "..";
+
+type Props = {
+  storage: StorageResponse;
+  isOwner: boolean;
+  onOpenDrawer: () => void;
+};
+
+export const StorageMembers = ({ storage, isOwner, onOpenDrawer }: Props) => {
   return (
     <Wrap flex={1}>
-      <WrapItem>
-        <Tooltip label="Dan Abrahmov">
-          <Avatar
+      {storage.members.map((member) => (
+        <WrapItem key={member.name}>
+          <Tooltip label={member.name}>
+            <Avatar size={`sm`} src={member.photoUrl} />
+          </Tooltip>
+        </WrapItem>
+      ))}
+      {isOwner && (
+        <WrapItem>
+          <IconButton
+            aria-label="メンバーの追加"
+            icon={<AddIcon />}
+            rounded={`full`}
             size={`sm`}
-            name="Dan Abrahmov"
-            src="https://bit.ly/dan-abramov"
-          />
-        </Tooltip>
-      </WrapItem>
-      <WrapItem>
-        <Tooltip label="Kola Tioluwani">
-          <Avatar
-            size={`sm`}
-            name="Kola Tioluwani"
-            src="https://bit.ly/tioluwani-kolawole"
-          />
-        </Tooltip>
-      </WrapItem>
-      <WrapItem>
-        <IconButton
-          aria-label="メンバーの追加"
-          icon={<AddIcon />}
-          rounded={`full`}
-          size={`sm`}
-        ></IconButton>
-      </WrapItem>
+            onClick={onOpenDrawer}
+          ></IconButton>
+        </WrapItem>
+      )}
     </Wrap>
   );
 };
