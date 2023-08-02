@@ -40,6 +40,7 @@ export const CounterContainer = ({ stock, storageId }: Props) => {
 
   useDebounce(
     () => {
+      // XXX: 1upして通信、1downした場合
       if (stock.itemCount !== localItemCount) {
         mutation.mutate(localItemCount);
       }

@@ -30,7 +30,9 @@ export const FavoriteContainer = ({ stock, storageId }: Props) => {
 
   useDebounce(
     () => {
-      mutation.mutate(localIsFavorite);
+      if (stock.isFavorite !== localIsFavorite) {
+        mutation.mutate(localIsFavorite);
+      }
     },
     500,
     [localIsFavorite]
