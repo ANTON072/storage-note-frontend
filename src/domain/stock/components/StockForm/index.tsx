@@ -33,6 +33,7 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
   categories: CategoryResponse[];
+  isLoading: boolean;
 };
 
 export const StockForm = ({
@@ -41,6 +42,7 @@ export const StockForm = ({
   isOpen,
   onClose,
   categories,
+  isLoading,
 }: Props) => {
   const firstField = useRef<ElementRef<"input">>(null);
 
@@ -85,7 +87,7 @@ export const StockForm = ({
                 <FormControl>
                   <FormLabel>カテゴリー</FormLabel>
                   <Controller
-                    name="category"
+                    name="categoryId"
                     control={form.control}
                     render={({ field }) => (
                       <Select {...field}>
@@ -159,7 +161,12 @@ export const StockForm = ({
                 </FormControl>
               </Stack>
               <Divider my={3} />
-              <Button w={`100%`} colorScheme="blue" type="submit">
+              <Button
+                w={`100%`}
+                colorScheme="blue"
+                type="submit"
+                isLoading={isLoading}
+              >
                 新規追加
               </Button>
             </form>
