@@ -1,8 +1,6 @@
-import { useCallback, useMemo } from "react";
-
 import { Stack } from "@chakra-ui/react";
 
-import { useCategoriesQuery, useCategory } from "@/domain/category";
+import { useCategory } from "@/domain/category";
 import type { StorageResponse } from "@/domain/storage";
 
 import { NoResult, StockListItem, useStockListQuery } from "..";
@@ -33,7 +31,9 @@ export const StockListContainer = ({ storage }: Props) => {
           storage={storage}
           stock={stock}
           category={findCategory(stock.categoryId)}
-          favoriteComponent={<FavoriteContainer stock={stock} />}
+          favoriteComponent={
+            <FavoriteContainer storageId={storage.id} stock={stock} />
+          }
           counterComponent={
             <CounterContainer storageId={storage.id} stock={stock} />
           }
