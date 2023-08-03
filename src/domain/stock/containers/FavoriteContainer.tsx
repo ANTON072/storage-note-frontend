@@ -17,6 +17,8 @@ type Props = {
 export const FavoriteContainer = ({ stock, storageId }: Props) => {
   const [localIsFavorite, setLocalFavorite] = useState(stock.isFavorite);
 
+  const [isMounted, setMounted] = useState(false);
+
   const mutation = useMutation({
     mutationFn: async (isFavorite: boolean) => {
       return appApi.patch(
@@ -30,9 +32,11 @@ export const FavoriteContainer = ({ stock, storageId }: Props) => {
 
   useDebounce(
     () => {
-      if (stock.isFavorite !== localIsFavorite) {
-        mutation.mutate(localIsFavorite);
+      if (!isMounted) {
+        setMounted(true);
+        return;
       }
+      mutation.mutate(localIsFavorite);
     },
     500,
     [localIsFavorite]

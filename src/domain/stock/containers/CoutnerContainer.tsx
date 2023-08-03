@@ -18,14 +18,16 @@ type Props = {
 export const CounterContainer = ({ stock, storageId }: Props) => {
   const [localItemCount, setLocalItemCount] = useState(stock.itemCount);
 
+  const [isMounted, setMounted] = useState(false);
+
   const toast = useToast();
 
   const mutation = useMutation({
-    mutationFn: async (count: number) => {
+    mutationFn: async (itemCount: number) => {
       return appApi.patch(
         `${API_BASE_URL}/v1/storages/${storageId}/stocks/${stock.id}/item_count`,
         {
-          itemCount: count,
+          itemCount,
         }
       );
     },
@@ -40,10 +42,11 @@ export const CounterContainer = ({ stock, storageId }: Props) => {
 
   useDebounce(
     () => {
-      // XXX: 1upして通信、1downした場合
-      if (stock.itemCount !== localItemCount) {
-        mutation.mutate(localItemCount);
+      if (!isMounted) {
+        setMounted(true);
+        return;
       }
+      mutation.mutate(localItemCount);
     },
     500,
     [localItemCount]
