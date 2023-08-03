@@ -35,6 +35,7 @@ type Props = {
   categories: CategoryResponse[];
   isLoading: boolean;
   isEdit: boolean;
+  onDeleteStock?: () => void;
 };
 
 type TextValues = {
@@ -50,6 +51,7 @@ export const StockForm = ({
   categories,
   isLoading,
   isEdit,
+  onDeleteStock,
 }: Props) => {
   const firstField = useRef<ElementRef<"input">>(null);
 
@@ -194,6 +196,18 @@ export const StockForm = ({
               >
                 {textValues.submitButton}
               </Button>
+              {onDeleteStock && (
+                <Box mt={10} textAlign={`right`}>
+                  <Button
+                    onClick={onDeleteStock}
+                    variant={`ghost`}
+                    size={`sm`}
+                    color={`gray.500`}
+                  >
+                    ストックを削除する
+                  </Button>
+                </Box>
+              )}
             </form>
           </DrawerBody>
         </DrawerContent>

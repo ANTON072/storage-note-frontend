@@ -73,7 +73,7 @@ export const StorageDetailRoute = () => {
         </Container>
         <FooterNav onClick={onDrawerOpen} />
       </Flex>
-      <StockFormDrawer storageId={storageId} />
+      <StockFormDrawer storage={storage} />
       <StorageFormDrawer />
     </>
   );
