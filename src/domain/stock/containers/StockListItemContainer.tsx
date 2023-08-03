@@ -39,7 +39,11 @@ export const StockListItemContainer = ({
       category={findCategory(stock.categoryId)}
       isFetching={isFetching || stockQuery.isFetching}
       favoriteComponent={
-        <FavoriteContainer storageId={storage.id} stock={stock} />
+        <FavoriteContainer
+          storageId={storage.id}
+          stock={stock}
+          setFetching={setFetching}
+        />
       }
       counterComponent={
         <CounterContainer
