@@ -3,9 +3,12 @@ import { useCallback, useMemo } from "react";
 import { useToast } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 
+import { API_BASE_URL, appApi, useConfirm } from "@/domain/application";
 import { useCategoriesQuery } from "@/domain/category";
+import type { StorageResponse } from "@/domain/storage";
+import { useUser } from "@/domain/users";
 
 import { StockForm } from "../components/StockForm";
 import { useCreateAndUpdateStockMutation } from "../hooks/useCreateAndUpdateStockMutation";
@@ -17,7 +20,7 @@ type Props = {
   isEdit?: boolean;
   isOpen: boolean;
   onClose: () => void;
-  storageId: string;
+  storage: StorageResponse;
   defaultValues?: StockResponse;
 };
 
@@ -29,10 +32,10 @@ type TextValues = {
 export const StockFormContainer = ({
   isOpen,
   onClose,
-  storageId,
+  storage,
   defaultValues,
 }: Props) => {
-  const { categoriesQuery } = useCategoriesQuery(storageId);
+  const { categoriesQuery } = useCategoriesQuery(storage.id);
 
   const toast = useToast();
 
@@ -41,6 +44,10 @@ export const StockFormContainer = ({
   const categories = categoriesQuery.data || [];
 
   const isEdit = !!defaultValues;
+
+  const { appUser, isOwner } = useUser();
+
+  const { confirm, ConfirmDialog } = useConfirm();
 
   const textValues: TextValues = useMemo(() => {
     return {
@@ -57,25 +64,55 @@ export const StockFormContainer = ({
     (category) => category.name === "未分類"
   );
 
+  const isStorageOwnerOrStorageCreator = useMemo(() => {
+    if (!defaultValues || !defaultValues.name || !appUser) return false;
+    const creator = defaultValues.createdBy;
+    if (creator.name === appUser.name) return true;
+    return isOwner(storage.members);
+  }, [defaultValues, appUser, isOwner, storage.members]);
+
   const refetchStock = useCallback(() => {
-    return queryClient.refetchQueries(["stock", storageId]);
+    return queryClient.refetchQueries(["stock", storage.id]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { mutation } = useCreateAndUpdateStockMutation({
-    isEdit,
-    stockId: defaultValues?.id,
-    storageId,
+  const { mutation: createAndUpdateMutation } = useCreateAndUpdateStockMutation(
+    {
+      isEdit,
+      stockId: defaultValues?.id,
+      storageId: storage.id,
+      onSuccess: async () => {
+        await refetchStock();
+        onClose();
+        toast({
+          title: textValues.successMessage,
+        });
+      },
+      onError: () => {
+        toast({
+          title: textValues.errorMessage,
+          status: "error",
+        });
+      },
+    }
+  );
+
+  const deleteMutation = useMutation({
+    mutationFn: () => {
+      return appApi.delete(
+        `${API_BASE_URL}/v1/storages/${storage.id}/stocks/${defaultValues?.id}`
+      );
+    },
     onSuccess: async () => {
       await refetchStock();
       onClose();
       toast({
-        title: textValues.successMessage,
+        title: "ストックを削除しました",
       });
     },
     onError: () => {
       toast({
-        title: textValues.errorMessage,
+        title: "ストックの削除に失敗しました",
         status: "error",
       });
     },
@@ -108,6 +145,16 @@ export const StockFormContainer = ({
     resolver: yupResolver(stockSchema),
   });
 
+  const handleDeleteStock = useCallback(async () => {
+    await confirm({
+      title: "ストックの削除",
+      body: "本当に削除しますか？ストックを削除すると復元できません。",
+      confirmColor: "red",
+    });
+    deleteMutation.mutate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <StockForm
@@ -117,10 +164,16 @@ export const StockFormContainer = ({
         onClose={onClose}
         categories={categories}
         onSubmit={(values: StockFormValues) => {
-          mutation.mutate(values);
+          createAndUpdateMutation.mutate(values);
         }}
-        isLoading={mutation.isLoading}
+        isLoading={
+          createAndUpdateMutation.isLoading || deleteMutation.isLoading
+        }
+        onDeleteStock={
+          isStorageOwnerOrStorageCreator ? handleDeleteStock : undefined
+        }
       />
+      <ConfirmDialog />
     </>
   );
 };

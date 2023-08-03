@@ -19,6 +19,7 @@ export type StockFormValues = yup.InferType<typeof stockSchema>;
 export type StockResponse = StockFormValues & {
   id: number;
   isFavorite: boolean;
+  createdBy: AppUser;
   updatedBy: AppUser;
   createdAt: string;
   updatedAt: string;

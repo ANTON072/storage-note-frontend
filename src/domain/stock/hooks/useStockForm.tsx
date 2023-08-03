@@ -2,6 +2,8 @@ import { useCallback, useState } from "react";
 
 import { useDisclosure } from "@chakra-ui/react";
 
+import type { StorageResponse } from "@/domain/storage";
+
 import { StockFormContainer } from "../containers/StockFormContainer";
 
 import type { StockResponse } from "../types";
@@ -11,12 +13,12 @@ export const useStockForm = () => {
 
   const [defaultValues, setDefaultValues] = useState<StockResponse>();
 
-  const StockFormDrawer = ({ storageId }: { storageId: string }) => {
+  const StockFormDrawer = ({ storage }: { storage: StorageResponse }) => {
     return (
       <StockFormContainer
         isOpen={isOpen}
         onClose={onClose}
-        storageId={storageId}
+        storage={storage}
         defaultValues={defaultValues}
       />
     );
