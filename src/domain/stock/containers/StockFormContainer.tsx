@@ -1,23 +1,34 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 
 import { useToast } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "react-query";
+import { useQueryClient } from "react-query";
 
-import { API_BASE_URL, appApi } from "@/domain/application";
 import { useCategoriesQuery } from "@/domain/category";
 
 import { StockForm } from "../components/StockForm";
+import { useCreateAndUpdateStockMutation } from "../hooks/useCreateAndUpdateStockMutation";
 import { stockSchema, type StockFormValues } from "../types";
 
 type Props = {
+  isEdit?: boolean;
   isOpen: boolean;
   onClose: () => void;
   storageId: string;
 };
 
-export const StockFormContainer = ({ isOpen, onClose, storageId }: Props) => {
+type TextValues = {
+  successMessage: string;
+  errorMessage: string;
+};
+
+export const StockFormContainer = ({
+  isEdit = false,
+  isOpen,
+  onClose,
+  storageId,
+}: Props) => {
   const { categoriesQuery } = useCategoriesQuery(storageId);
 
   const toast = useToast();
@@ -25,6 +36,17 @@ export const StockFormContainer = ({ isOpen, onClose, storageId }: Props) => {
   const queryClient = useQueryClient();
 
   const categories = categoriesQuery.data || [];
+
+  const textValues: TextValues = useMemo(() => {
+    return {
+      successMessage: isEdit
+        ? "ストックを編集しました"
+        : "ストックを作成しました",
+      errorMessage: isEdit
+        ? "ストックの編集に失敗しました"
+        : "ストックの作成に失敗しました",
+    };
+  }, [isEdit]);
 
   const defaultCategory = categories.find(
     (category) => category.name === "未分類"
@@ -35,22 +57,19 @@ export const StockFormContainer = ({ isOpen, onClose, storageId }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const mutate = useMutation({
-    mutationFn: async (stock: StockFormValues) => {
-      return appApi.post(`${API_BASE_URL}/v1/storages/${storageId}/stocks`, {
-        stock,
-      });
-    },
+  const { mutation } = useCreateAndUpdateStockMutation({
+    isEdit,
+    storageId,
     onSuccess: async () => {
       await refetchStock();
       onClose();
       toast({
-        title: "ストックを追加しました",
+        title: textValues.successMessage,
       });
     },
     onError: () => {
       toast({
-        title: "ストックの追加に失敗しました",
+        title: textValues.errorMessage,
         status: "error",
       });
     },
@@ -79,9 +98,9 @@ export const StockFormContainer = ({ isOpen, onClose, storageId }: Props) => {
         onClose={onClose}
         categories={categories}
         onSubmit={(values: StockFormValues) => {
-          mutate.mutate(values);
+          mutation.mutate(values);
         }}
-        isLoading={mutate.isLoading}
+        isLoading={mutation.isLoading}
       />
     </>
   );
