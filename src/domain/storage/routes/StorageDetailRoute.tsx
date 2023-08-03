@@ -63,7 +63,10 @@ export const StorageDetailRoute = () => {
                 <Box>
                   <QueryPanel />
                 </Box>
-                <StockListContainer storage={storage} />
+                <StockListContainer
+                  storage={storage}
+                  onOpenForm={(stock) => onDrawerOpen(stock)}
+                />
               </Stack>
             </>
           )}

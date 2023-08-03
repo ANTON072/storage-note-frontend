@@ -27,6 +27,7 @@ type Props = {
   category?: CategoryResponse;
   counterComponent: React.ReactNode;
   favoriteComponent: React.ReactNode;
+  onEdit: () => void;
 };
 
 export const StockListItem = ({
@@ -35,6 +36,7 @@ export const StockListItem = ({
   category,
   counterComponent,
   favoriteComponent,
+  onEdit,
 }: Props) => {
   const detailLink = `/storage/${storage.id}/stocks/${stock.id}`;
 
@@ -83,6 +85,7 @@ export const StockListItem = ({
                 aria-label="編集"
                 color={`gray.500`}
                 icon={<BiEdit />}
+                onClick={onEdit}
               />
             </HStack>
           </GridItem>

@@ -17,7 +17,7 @@ export const stockSchema = yup.object({
 export type StockFormValues = yup.InferType<typeof stockSchema>;
 
 export type StockResponse = StockFormValues & {
-  id: string;
+  id: number;
   isFavorite: boolean;
   updatedBy: AppUser;
   createdAt: string;

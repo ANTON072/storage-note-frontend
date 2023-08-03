@@ -5,14 +5,17 @@ import type { StorageResponse } from "@/domain/storage";
 
 import { NoResult, StockListItem, useStockListQuery } from "..";
 
-import { CounterContainer } from "./CoutnerContainer";
+import { CounterContainer } from "./CountnerContainer";
 import { FavoriteContainer } from "./FavoriteContainer";
+
+import type { StockResponse } from "../types";
 
 type Props = {
   storage: StorageResponse;
+  onOpenForm: (values: StockResponse) => void;
 };
 
-export const StockListContainer = ({ storage }: Props) => {
+export const StockListContainer = ({ storage, onOpenForm }: Props) => {
   const { stockListQuery } = useStockListQuery(storage.id);
 
   const { findCategory } = useCategory(storage.id);
@@ -37,6 +40,9 @@ export const StockListContainer = ({ storage }: Props) => {
           counterComponent={
             <CounterContainer storageId={storage.id} stock={stock} />
           }
+          onEdit={() => {
+            onOpenForm(stock);
+          }}
         />
       ))}
     </Stack>

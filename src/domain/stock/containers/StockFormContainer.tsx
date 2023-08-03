@@ -9,13 +9,16 @@ import { useCategoriesQuery } from "@/domain/category";
 
 import { StockForm } from "../components/StockForm";
 import { useCreateAndUpdateStockMutation } from "../hooks/useCreateAndUpdateStockMutation";
-import { stockSchema, type StockFormValues } from "../types";
+import { stockSchema } from "../types";
+
+import type { StockResponse, StockFormValues } from "../types";
 
 type Props = {
   isEdit?: boolean;
   isOpen: boolean;
   onClose: () => void;
   storageId: string;
+  defaultValues?: StockResponse;
 };
 
 type TextValues = {
@@ -24,10 +27,10 @@ type TextValues = {
 };
 
 export const StockFormContainer = ({
-  isEdit = false,
   isOpen,
   onClose,
   storageId,
+  defaultValues,
 }: Props) => {
   const { categoriesQuery } = useCategoriesQuery(storageId);
 
@@ -36,6 +39,8 @@ export const StockFormContainer = ({
   const queryClient = useQueryClient();
 
   const categories = categoriesQuery.data || [];
+
+  const isEdit = !!defaultValues;
 
   const textValues: TextValues = useMemo(() => {
     return {
@@ -59,6 +64,7 @@ export const StockFormContainer = ({
 
   const { mutation } = useCreateAndUpdateStockMutation({
     isEdit,
+    stockId: defaultValues?.id,
     storageId,
     onSuccess: async () => {
       await refetchStock();
@@ -75,17 +81,29 @@ export const StockFormContainer = ({
     },
   });
 
+  const {
+    name = "",
+    description = "",
+    purchaseLocation = "",
+    imageUrl = "",
+    price = "",
+    itemCount = 0,
+    unitName = "個",
+    alertThreshold = 1,
+    categoryId = defaultCategory?.id,
+  } = defaultValues || {};
+
   const form = useForm<StockFormValues>({
     defaultValues: {
-      name: "",
-      description: "",
-      purchaseLocation: "",
-      imageUrl: "",
-      price: "",
-      itemCount: 0,
-      unitName: "個",
-      alertThreshold: 1,
-      categoryId: defaultCategory?.id,
+      name,
+      description,
+      purchaseLocation,
+      imageUrl,
+      price,
+      itemCount,
+      unitName,
+      alertThreshold,
+      categoryId,
     },
     resolver: yupResolver(stockSchema),
   });
@@ -95,6 +113,7 @@ export const StockFormContainer = ({
       <StockForm
         form={form}
         isOpen={isOpen}
+        isEdit={isEdit}
         onClose={onClose}
         categories={categories}
         onSubmit={(values: StockFormValues) => {

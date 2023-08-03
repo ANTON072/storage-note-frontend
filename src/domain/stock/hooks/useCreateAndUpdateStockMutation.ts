@@ -9,6 +9,7 @@ type Args = {
   onSuccess?: (values: StockResponse) => void;
   onError?: (error: unknown) => void;
   storageId: string;
+  stockId?: number;
 };
 
 export const useCreateAndUpdateStockMutation = ({
@@ -16,6 +17,7 @@ export const useCreateAndUpdateStockMutation = ({
   onError,
   onSuccess,
   storageId,
+  stockId,
 }: Args) => {
   const { uploadImage } = useFirebaseStorage();
 
@@ -26,13 +28,16 @@ export const useCreateAndUpdateStockMutation = ({
         directory: `/images/storage/${storageId}`,
       });
 
-      if (isEdit) {
-        return appApi.patch(`${API_BASE_URL}/v1/storages/${storageId}/stocks`, {
-          stock: {
-            ...values,
-            imageUrl,
-          },
-        });
+      if (isEdit && stockId) {
+        return appApi.patch(
+          `${API_BASE_URL}/v1/storages/${storageId}/stocks/${stockId}`,
+          {
+            stock: {
+              ...values,
+              imageUrl,
+            },
+          }
+        );
       }
 
       return appApi.post(`${API_BASE_URL}/v1/storages/${storageId}/stocks`, {

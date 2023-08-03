@@ -1,7 +1,6 @@
 import { Box, Container, Stack } from "@chakra-ui/react";
 
 import { PageHead } from "@/domain/application";
-import { StockListItem } from "@/domain/stock";
 import {
   StorageListContainer,
   useStorageForm,
