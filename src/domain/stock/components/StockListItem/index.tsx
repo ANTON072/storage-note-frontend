@@ -28,6 +28,7 @@ type Props = {
   counterComponent: React.ReactNode;
   favoriteComponent: React.ReactNode;
   onEdit: () => void;
+  isFetching: boolean;
 };
 
 export const StockListItem = ({
@@ -37,6 +38,7 @@ export const StockListItem = ({
   counterComponent,
   favoriteComponent,
   onEdit,
+  isFetching,
 }: Props) => {
   const detailLink = `/storage/${storage.id}/stocks/${stock.id}`;
 
@@ -86,6 +88,7 @@ export const StockListItem = ({
                 color={`gray.500`}
                 icon={<BiEdit />}
                 onClick={onEdit}
+                isLoading={isFetching}
               />
             </HStack>
           </GridItem>

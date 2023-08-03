@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 
+import { useToast } from "@chakra-ui/react";
 import { useMutation } from "react-query";
 import { useDebounce } from "react-use";
 
@@ -12,12 +13,15 @@ import type { StockResponse } from "../types";
 type Props = {
   stock: StockResponse;
   storageId: string;
+  setFetching: (isFetching: boolean) => void;
 };
 
-export const FavoriteContainer = ({ stock, storageId }: Props) => {
+export const FavoriteContainer = ({ stock, storageId, setFetching }: Props) => {
   const [localIsFavorite, setLocalFavorite] = useState(stock.isFavorite);
 
   const [isMounted, setMounted] = useState(false);
+
+  const toast = useToast();
 
   const mutation = useMutation({
     mutationFn: async (isFavorite: boolean) => {
@@ -27,6 +31,16 @@ export const FavoriteContainer = ({ stock, storageId }: Props) => {
           isFavorite,
         }
       );
+    },
+    onError: () => {
+      setLocalFavorite(stock.isFavorite);
+      toast({
+        title: "お気に入りの登録に失敗しました",
+        status: "error",
+      });
+    },
+    onSettled: () => {
+      setFetching(false);
     },
   });
 
@@ -43,7 +57,9 @@ export const FavoriteContainer = ({ stock, storageId }: Props) => {
   );
 
   const handleToggle = useCallback(() => {
+    setFetching(true);
     setLocalFavorite((isFavorite) => !isFavorite);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -13,9 +13,10 @@ import type { StockResponse } from "../types";
 type Props = {
   stock: StockResponse;
   storageId: string;
+  setFetching: (isFetching: boolean) => void;
 };
 
-export const CounterContainer = ({ stock, storageId }: Props) => {
+export const CounterContainer = ({ stock, storageId, setFetching }: Props) => {
   const [localItemCount, setLocalItemCount] = useState(stock.itemCount);
 
   const [isMounted, setMounted] = useState(false);
@@ -38,6 +39,9 @@ export const CounterContainer = ({ stock, storageId }: Props) => {
         status: "error",
       });
     },
+    onSettled: () => {
+      setFetching(false);
+    },
   });
 
   useDebounce(
@@ -55,12 +59,14 @@ export const CounterContainer = ({ stock, storageId }: Props) => {
   const displayCount = `${localItemCount}${stock.unitName}`;
 
   const handleCountChange = useCallback((upOrDown: "up" | "down") => {
+    setFetching(true);
     setLocalItemCount((count) => {
       if (upOrDown === "up") {
         return count + 1;
       }
       return Math.max(count - 1, 0);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
