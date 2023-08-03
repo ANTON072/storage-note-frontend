@@ -14,9 +14,15 @@ type Props = {
   stock: StockResponse;
   storageId: string;
   setFetching: (isFetching: boolean) => void;
+  refetchStockList: () => void;
 };
 
-export const FavoriteContainer = ({ stock, storageId, setFetching }: Props) => {
+export const FavoriteContainer = ({
+  stock,
+  storageId,
+  setFetching,
+  refetchStockList,
+}: Props) => {
   const [localIsFavorite, setLocalFavorite] = useState(stock.isFavorite);
 
   const [isMounted, setMounted] = useState(false);
@@ -31,6 +37,9 @@ export const FavoriteContainer = ({ stock, storageId, setFetching }: Props) => {
           isFavorite,
         }
       );
+    },
+    onSuccess: () => {
+      refetchStockList();
     },
     onError: () => {
       setLocalFavorite(stock.isFavorite);
