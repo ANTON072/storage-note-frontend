@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { Box, Container, Flex, Stack } from "@chakra-ui/react";
 
 import { PageHead, PageNotFound } from "@/domain/application";
-import { StockListItem, useStockForm } from "@/domain/stock";
+import { StockListContainer, useStockForm } from "@/domain/stock";
 import { useUser } from "@/domain/users";
 
 import { FooterNav } from "../components/FooterNav";
@@ -63,14 +63,10 @@ export const StorageDetailRoute = () => {
                 <Box>
                   <QueryPanel />
                 </Box>
-                <Stack spacing={3}>
-                  <StockListItem />
-                  <StockListItem />
-                  <StockListItem />
-                  <StockListItem />
-                  <StockListItem />
-                  <StockListItem />
-                </Stack>
+                <StockListContainer
+                  storage={storage}
+                  onOpenForm={(stock) => onDrawerOpen(stock)}
+                />
               </Stack>
             </>
           )}

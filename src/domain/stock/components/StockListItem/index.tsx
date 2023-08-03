@@ -3,23 +3,48 @@ import { Link } from "react-router-dom";
 import {
   Card,
   CardBody,
-  Image,
   Heading,
   Box,
-  Badge,
   IconButton,
   HStack,
   Grid,
   GridItem,
 } from "@chakra-ui/react";
-import { BiStar, BiEdit } from "react-icons/bi";
+import { BiEdit } from "react-icons/bi";
 
-import { Counter } from "./Counter";
+import type { CategoryResponse } from "@/domain/category";
+import type { StorageResponse } from "@/domain/storage";
 
-export const StockListItem = () => {
+import { CategoryBadge } from "../CategoryBadge";
+
+import { Thumbnail } from "./Thumbnail";
+
+import type { StockResponse } from "../../types";
+
+type Props = {
+  storage: StorageResponse;
+  stock: StockResponse;
+  category?: CategoryResponse;
+  counterComponent: React.ReactNode;
+  favoriteComponent: React.ReactNode;
+  onEdit: () => void;
+};
+
+export const StockListItem = ({
+  stock,
+  storage,
+  category,
+  counterComponent,
+  favoriteComponent,
+  onEdit,
+}: Props) => {
+  const detailLink = `/storage/${storage.id}/stocks/${stock.id}`;
+
+  const isAlert = stock.itemCount <= stock.alertThreshold;
+
   return (
     <Card variant={`outline`}>
-      <CardBody p={2}>
+      <CardBody p={2} bg={isAlert ? `red.100` : `white`}>
         <Grid
           templateAreas={`
                   "img main"
@@ -30,46 +55,37 @@ export const StockListItem = () => {
           gap={2}
         >
           <GridItem area={`img`}>
-            <Image
-              src="https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
-              objectFit="cover"
-              w={`100px`}
-              h={`100px`}
-              rounded={`md`}
-            />
+            <Link to={detailLink}>
+              <Thumbnail imageUrl={stock.imageUrl} />
+            </Link>
           </GridItem>
           <GridItem area={`main`}>
             <HStack>
               <Heading
                 as={Link}
-                to={`/`}
+                to={detailLink}
                 textDecoration={`underline`}
                 fontSize={14}
                 flex={1}
               >
-                ワイドハイター詰め替え
+                {stock.name}
               </Heading>
-              <IconButton
-                size={`xs`}
-                color="gray.500"
-                aria-label="お気に入りに追加"
-                rounded={`full`}
-                icon={<BiStar />}
-              />
+              {favoriteComponent}
             </HStack>
             <Box>
-              <Badge>キッチン</Badge>
+              <CategoryBadge category={category} />
             </Box>
           </GridItem>
           <GridItem area={`footer`}>
             <HStack justifyContent={`flex-end`}>
-              <Counter />
+              {counterComponent}
               <IconButton
                 size={`xs`}
                 rounded={`100%`}
                 aria-label="編集"
                 color={`gray.500`}
                 icon={<BiEdit />}
+                onClick={onEdit}
               />
             </HStack>
           </GridItem>

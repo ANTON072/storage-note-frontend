@@ -1,5 +1,5 @@
 import type { ElementRef } from "react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useMemo } from "react";
 
 import {
   Drawer,
@@ -33,6 +33,13 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
   categories: CategoryResponse[];
+  isLoading: boolean;
+  isEdit: boolean;
+};
+
+type TextValues = {
+  title: string;
+  submitButton: string;
 };
 
 export const StockForm = ({
@@ -41,15 +48,33 @@ export const StockForm = ({
   isOpen,
   onClose,
   categories,
+  isLoading,
+  isEdit,
 }: Props) => {
   const firstField = useRef<ElementRef<"input">>(null);
 
   const { FileUpload, imageValue, setImageValue } = useFileUpload();
 
+  const defaultImageValue = form.getValues("imageUrl");
+
+  const textValues: TextValues = useMemo(() => {
+    return {
+      title: isEdit ? "ストック編集" : "ストック新規作成",
+      submitButton: isEdit ? "編集完了" : "新規作成",
+    };
+  }, [isEdit]);
+
   useEffect(() => {
     form.setValue("imageUrl", imageValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imageValue]);
+
+  useEffect(() => {
+    if (defaultImageValue) {
+      setImageValue(defaultImageValue);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -62,7 +87,9 @@ export const StockForm = ({
       >
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader borderBottomWidth="1px">ストック新規追加</DrawerHeader>
+          <DrawerHeader borderBottomWidth="1px">
+            {textValues.title}
+          </DrawerHeader>
           <DrawerBody>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <Stack py={2} spacing={2}>
@@ -85,7 +112,7 @@ export const StockForm = ({
                 <FormControl>
                   <FormLabel>カテゴリー</FormLabel>
                   <Controller
-                    name="category"
+                    name="categoryId"
                     control={form.control}
                     render={({ field }) => (
                       <Select {...field}>
@@ -159,8 +186,13 @@ export const StockForm = ({
                 </FormControl>
               </Stack>
               <Divider my={3} />
-              <Button w={`100%`} colorScheme="blue" type="submit">
-                新規追加
+              <Button
+                w={`100%`}
+                colorScheme="blue"
+                type="submit"
+                isLoading={isLoading}
+              >
+                {textValues.submitButton}
               </Button>
             </form>
           </DrawerBody>

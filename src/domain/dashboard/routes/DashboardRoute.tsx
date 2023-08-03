@@ -1,7 +1,6 @@
 import { Box, Container, Stack } from "@chakra-ui/react";
 
 import { PageHead } from "@/domain/application";
-import { StockListItem } from "@/domain/stock";
 import {
   StorageListContainer,
   useStorageForm,
@@ -34,12 +33,7 @@ export const DashboardRoute = () => {
           </Box>
           <Box>
             <DashboardHeading>在庫が少ないストック</DashboardHeading>
-            <Stack spacing={3}>
-              <StockListItem />
-              <StockListItem />
-              <StockListItem />
-              <StockListItem />
-            </Stack>
+            <Stack spacing={3}></Stack>
           </Box>
         </Stack>
       </Container>
