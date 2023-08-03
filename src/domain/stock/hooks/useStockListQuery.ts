@@ -16,6 +16,8 @@ export const useStockListQuery = (storageId?: string) => {
     },
     {
       enabled: !!storageId,
+      // 1分に1回自動更新
+      refetchInterval: 10000 * 6,
     }
   );
 
