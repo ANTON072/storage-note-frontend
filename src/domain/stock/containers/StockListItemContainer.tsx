@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
+
+import { useQueryClient } from "react-query";
 
 import { useCategory } from "@/domain/category";
 import type { StorageResponse } from "@/domain/storage";
@@ -26,6 +28,13 @@ export const StockListItemContainer = ({
 
   const [isFetching, setFetching] = useState(false);
 
+  const queryClient = useQueryClient();
+
+  const refetchStockList = useCallback(() => {
+    queryClient.refetchQueries(["stock", storage.id]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storage.id]);
+
   const { query: stockQuery } = useStockQuery({
     storageId: storage.id,
     stockId: stock.id,
@@ -43,6 +52,7 @@ export const StockListItemContainer = ({
           storageId={storage.id}
           stock={stock}
           setFetching={setFetching}
+          refetchStockList={refetchStockList}
         />
       }
       counterComponent={
@@ -50,6 +60,7 @@ export const StockListItemContainer = ({
           storageId={storage.id}
           stock={stock}
           setFetching={setFetching}
+          refetchStockList={refetchStockList}
         />
       }
       onEdit={async () => {

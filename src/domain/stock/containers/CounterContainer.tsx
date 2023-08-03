@@ -14,9 +14,15 @@ type Props = {
   stock: StockResponse;
   storageId: string;
   setFetching: (isFetching: boolean) => void;
+  refetchStockList: () => void;
 };
 
-export const CounterContainer = ({ stock, storageId, setFetching }: Props) => {
+export const CounterContainer = ({
+  stock,
+  storageId,
+  setFetching,
+  refetchStockList,
+}: Props) => {
   const [localItemCount, setLocalItemCount] = useState(stock.itemCount);
 
   const [isMounted, setMounted] = useState(false);
@@ -31,6 +37,9 @@ export const CounterContainer = ({ stock, storageId, setFetching }: Props) => {
           itemCount,
         }
       );
+    },
+    onSuccess: () => {
+      refetchStockList();
     },
     onError: () => {
       setLocalItemCount(stock.itemCount);
